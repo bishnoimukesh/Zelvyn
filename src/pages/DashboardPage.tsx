@@ -1,93 +1,126 @@
-import { Flame, Footprints, Clock, Dumbbell, ArrowRight } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
-import { ROUTES } from "@/constants/routes";
-import { useAppSelector } from "@/app/hooks";
+import {
+  Flame,
+  Footprints,
+  Clock,
+  HeartPulse,
+  Bot,
+  ArrowRight,
+  Dumbbell,
+  Sparkles,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { MetricCard } from "@/components/dashboard/MetricCard";
+import { WeeklyActivityChart } from "@/components/dashboard/WeeklyActivityChart";
+import { TodayWorkoutCard } from "@/components/dashboard/TodayWorkoutCard";
+import { HydrationTracker } from "@/components/dashboard/HydrationTracker";
+import { GoalProgressWidget } from "@/components/dashboard/GoalProgressWidget";
+import { useAppSelector } from "@/app/hooks";
+import { ROUTES } from "@/constants/routes";
 
 export function DashboardPage() {
   const user = useAppSelector((state) => state.user.profile);
+  const metrics = useAppSelector((state) => state.dashboard.metrics);
 
   return (
     <PageContainer
-      title={`Welcome, ${user?.name || "Athlete"}`}
-      description="Track today's targets, athletic metrics, and AI recommendations."
-      badge="Phase 2: Shell Ready"
+      title={`Welcome back, ${user?.name || "Athlete"}`}
+      description="Here is your athletic readiness, today's targets, and scheduled routine."
+      badge="Active Day"
       action={
-        <Link to={ROUTES.WORKOUTS}>
-          <Button size="sm" className="gap-1 font-bold">
-            <Dumbbell className="h-4 w-4" /> Start Workout
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link to={ROUTES.WORKOUTS}>
+            <Button size="sm" className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]">
+              <Dumbbell className="h-4 w-4" /> Start Workout
+            </Button>
+          </Link>
+        </div>
       }
     >
-      {/* Metrics Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Card className="hover:border-[#C8FF47]/40 transition-colors">
-          <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-            <span className="text-xs font-semibold text-[#71717A]">Calories</span>
-            <Flame className="h-4 w-4 text-[#C8FF47]" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <span className="font-display text-2xl font-black text-white">520</span>
-            <span className="text-xs text-[#71717A] ml-1 font-mono">kcal</span>
-            <Progress value={65} className="mt-3" />
-          </CardContent>
-        </Card>
+      {/* 4 Primary Daily Activity Metric Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <MetricCard
+          title="Active Burn"
+          value={metrics.calories.current}
+          unit={metrics.calories.unit}
+          target={metrics.calories.target}
+          icon={Flame}
+          subtext="+14% vs 7-day average"
+        />
 
-        <Card className="hover:border-[#C8FF47]/40 transition-colors">
-          <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-            <span className="text-xs font-semibold text-[#71717A]">Steps</span>
-            <Footprints className="h-4 w-4 text-[#C8FF47]" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <span className="font-display text-2xl font-black text-white">8,420</span>
-            <span className="text-xs text-[#71717A] ml-1 font-mono">/ 10k</span>
-            <Progress value={84} className="mt-3" />
-          </CardContent>
-        </Card>
+        <MetricCard
+          title="Daily Steps"
+          value={metrics.steps.current}
+          unit={metrics.steps.unit}
+          target={metrics.steps.target}
+          icon={Footprints}
+          subtext="~6.2 km walked today"
+        />
 
-        <Card className="hover:border-[#C8FF47]/40 transition-colors">
-          <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-            <span className="text-xs font-semibold text-[#71717A]">Active Time</span>
-            <Clock className="h-4 w-4 text-[#C8FF47]" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <span className="font-display text-2xl font-black text-white">45</span>
-            <span className="text-xs text-[#71717A] ml-1 font-mono">mins</span>
-            <Progress value={75} className="mt-3" />
-          </CardContent>
-        </Card>
+        <MetricCard
+          title="Active Duration"
+          value={metrics.activeTime.current}
+          unit={metrics.activeTime.unit}
+          target={metrics.activeTime.target}
+          icon={Clock}
+          subtext="48 of 60 mins target"
+        />
 
-        <Card className="hover:border-[#C8FF47]/40 transition-colors">
-          <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-            <span className="text-xs font-semibold text-[#71717A]">Streak</span>
-            <Flame className="h-4 w-4 text-[#C8FF47] fill-current" />
-          </CardHeader>
-          <CardContent className="p-4 pt-1">
-            <span className="font-display text-2xl font-black text-white">5</span>
-            <span className="text-xs text-[#71717A] ml-1 font-mono">Days</span>
-            <Progress value={100} className="mt-3" />
-          </CardContent>
-        </Card>
+        <MetricCard
+          title="Recovery Score"
+          value={metrics.recovery.score}
+          unit="%"
+          percentage={metrics.recovery.score}
+          icon={HeartPulse}
+          subtext="Optimal • Ready for intensity"
+        />
       </div>
 
-      {/* Feature preview card */}
-      <Card className="p-6 border-dashed border-[#222228] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <CardTitle>AI Training Recommendations</CardTitle>
-          <p className="text-xs text-[#71717A] mt-1">
-            Application shell & mobile-first navigation active. Next milestone: Phase 3 Dashboard.
-          </p>
+      {/* Main Two-Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Scheduled Routine & Weekly Volume Chart */}
+        <div className="lg:col-span-7 space-y-6">
+          <TodayWorkoutCard />
+          <WeeklyActivityChart />
         </div>
-        <Link to={ROUTES.COACH}>
-          <Button variant="outline" size="sm" className="gap-1.5">
-            Ask AI Coach <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
-        </Link>
-      </Card>
+
+        {/* Right Column: Hydration, Milestones, and AI Coach Tip */}
+        <div className="lg:col-span-5 space-y-6">
+          <HydrationTracker />
+          <GoalProgressWidget />
+
+          {/* AI Coach Quick Tip Card */}
+          <Card className="border border-[#222228] bg-gradient-to-br from-[#111115] to-[#14141A] p-5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C8FF47]/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#C8FF47]/10 text-[#C8FF47] shadow-[0_0_10px_rgba(200,255,71,0.2)]">
+                <Bot className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#C8FF47]">
+                  <Sparkles className="h-3 w-3" />
+                  <span>AI Coach Recommendation</span>
+                </div>
+                <h4 className="text-sm font-bold text-white">
+                  Post-Workout Glycogen Replenishment
+                </h4>
+                <p className="text-xs text-[#A1A1AA] leading-relaxed pt-1">
+                  Based on today's chest & back volume, aim for 35g protein within 45 minutes to maximize myofibrillar protein synthesis.
+                </p>
+                <div className="pt-2">
+                  <Link to={ROUTES.COACH}>
+                    <Button variant="ghost" size="sm" className="h-7 px-2 text-xs font-bold text-[#C8FF47] hover:text-white hover:bg-[#C8FF47]/10 gap-1 p-0">
+                      Ask Coach Follow-up <ArrowRight className="h-3 w-3" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
     </PageContainer>
   );
 }
