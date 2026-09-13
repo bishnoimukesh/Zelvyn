@@ -28,6 +28,28 @@ export interface Workout {
   thumbnail: string;
   videoUrl?: string;
   description?: string;
+  exercises?: Exercise[];
+}
+
+export interface Exercise {
+  id: string;
+  name: string;
+  targetMuscle: string;
+  equipment: string;
+  sets: number;
+  reps: string;
+  restSeconds: number;
+  instructions: string[];
+  formCues: string[];
+  thumbnail: string;
+}
+
+export interface SetLog {
+  setNumber: number;
+  targetReps: string;
+  actualReps: number;
+  weightKg: number;
+  completed: boolean;
 }
 
 export interface FitnessGoal {

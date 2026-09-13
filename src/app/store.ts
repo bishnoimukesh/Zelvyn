@@ -3,6 +3,7 @@ import authReducer from "@/features/auth/authSlice";
 import userReducer from "@/features/dashboard/userSlice";
 import dashboardReducer from "@/features/dashboard/dashboardSlice";
 import workoutsReducer from "@/features/workouts/workoutsSlice";
+import workoutSessionReducer from "@/features/workouts/workoutSessionSlice";
 import plannerReducer from "@/features/planner/plannerSlice";
 import progressReducer from "@/features/progress/progressSlice";
 import uiReducer from "@/features/ui/uiSlice";
@@ -13,6 +14,7 @@ export const store = configureStore({
     user: userReducer,
     dashboard: dashboardReducer,
     workouts: workoutsReducer,
+    workoutSession: workoutSessionReducer,
     planner: plannerReducer,
     progress: progressReducer,
     ui: uiReducer,
