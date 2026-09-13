@@ -303,6 +303,12 @@ export const workoutsSlice = createSlice({
     setDurationFilter: (state, action: PayloadAction<string>) => {
       state.filters.duration = action.payload;
     },
+    addWorkout: (state, action: PayloadAction<Workout>) => {
+      const exists = state.items.some((w) => w.id === action.payload.id);
+      if (!exists) {
+        state.items.unshift(action.payload);
+      }
+    },
     resetFilters: (state) => {
       state.filters = initialFilters;
     },
@@ -310,6 +316,7 @@ export const workoutsSlice = createSlice({
 });
 
 export const {
+  addWorkout,
   setSearchQuery,
   setCategoryFilter,
   setGoalFilter,

@@ -7,6 +7,7 @@ import workoutSessionReducer from "@/features/workouts/workoutSessionSlice";
 import plannerReducer from "@/features/planner/plannerSlice";
 import progressReducer from "@/features/progress/progressSlice";
 import videosReducer from "@/features/videos/videosSlice";
+import coachReducer from "@/features/coach/coachSlice";
 import uiReducer from "@/features/ui/uiSlice";
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     planner: plannerReducer,
     progress: progressReducer,
     videos: videosReducer,
+    coach: coachReducer,
     ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>

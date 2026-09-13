@@ -127,3 +127,13 @@ export interface WorkoutVideo {
   isFeatured?: boolean;
   chapters: VideoExerciseChapter[];
 }
+
+export interface CoachChatMessage {
+  id: string;
+  sender: "user" | "assistant";
+  text: string;
+  timestamp: string;
+  category?: "general" | "workout" | "recovery" | "nutrition";
+  generatedWorkout?: Workout;
+  suggestedPrompts?: string[];
+}
