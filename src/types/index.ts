@@ -96,3 +96,34 @@ export interface ActivityHeatmapDay {
   workoutTitle?: string;
   caloriesBurned?: number;
 }
+
+export interface VideoExerciseChapter {
+  id: string;
+  name: string;
+  timeFormatted: string;
+  timestampSeconds: number;
+  durationSeconds: number;
+  targetReps?: number;
+  formCue: string;
+}
+
+export interface WorkoutVideo {
+  id: string;
+  title: string;
+  trainer: {
+    name: string;
+    role: string;
+    avatar: string;
+  };
+  category: "hiit" | "strength" | "mobility" | "yoga" | "cardio" | "core";
+  difficulty: "beginner" | "intermediate" | "advanced";
+  duration: number; // in minutes
+  calories: number;
+  thumbnail: string;
+  videoUrl: string;
+  equipment: string;
+  viewsCount: string;
+  rating: number;
+  isFeatured?: boolean;
+  chapters: VideoExerciseChapter[];
+}
