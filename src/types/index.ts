@@ -7,6 +7,7 @@ export interface User {
   height?: number;
   weight?: number;
   targetWeight?: number;
+  goal?: string;
 }
 
 export interface Workout {

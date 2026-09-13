@@ -2,26 +2,19 @@ import { LineChart, ResponsiveContainer, Line, XAxis, YAxis, Tooltip, CartesianG
 import { Card, CardTitle } from "@/components/ui/card";
 import { Scale, Flame, Footprints } from "lucide-react";
 import { useAppSelector } from "@/app/hooks";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 export function ProgressPage() {
   const entries = useAppSelector((state) => state.progress.entries);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <span className="text-xs font-bold uppercase tracking-wider text-[#71717A]">
-          Analytics
-        </span>
-        <h1 className="font-display text-3xl font-black uppercase text-white">
-          Progress Tracking
-        </h1>
-        <p className="text-xs text-[#71717A] mt-1">
-          Biometrics, weekly trends, and volume evolution.
-        </p>
-      </div>
-
+    <PageContainer
+      title="Progress Analytics"
+      description="Biometrics, weekly trends, bodyweight evolution, and metabolic expenditure."
+      badge="Analytics"
+    >
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <Card className="p-4 flex items-center justify-between">
+        <Card className="p-4 flex items-center justify-between hover:border-[#C8FF47]/40 transition-colors">
           <div>
             <span className="text-xs font-semibold text-[#71717A]">Weight Trend</span>
             <p className="font-display text-2xl font-black text-white mt-1">69.9 kg</p>
@@ -32,7 +25,7 @@ export function ProgressPage() {
           </div>
         </Card>
 
-        <Card className="p-4 flex items-center justify-between">
+        <Card className="p-4 flex items-center justify-between hover:border-[#C8FF47]/40 transition-colors">
           <div>
             <span className="text-xs font-semibold text-[#71717A]">Total Burned</span>
             <p className="font-display text-2xl font-black text-white mt-1">2,440 kcal</p>
@@ -43,7 +36,7 @@ export function ProgressPage() {
           </div>
         </Card>
 
-        <Card className="p-4 flex items-center justify-between">
+        <Card className="p-4 flex items-center justify-between hover:border-[#C8FF47]/40 transition-colors">
           <div>
             <span className="text-xs font-semibold text-[#71717A]">Weekly Steps</span>
             <p className="font-display text-2xl font-black text-white mt-1">53,800</p>
@@ -83,6 +76,6 @@ export function ProgressPage() {
           </ResponsiveContainer>
         </div>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

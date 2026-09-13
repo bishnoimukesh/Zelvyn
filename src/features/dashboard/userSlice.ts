@@ -15,6 +15,7 @@ const initialState: UserState = {
     height: 175,
     weight: 70,
     targetWeight: 67,
+    goal: "Hypertrophy",
   },
   loading: false,
 };
