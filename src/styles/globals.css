@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #08080a;
+  --foreground: #f2f2f5;
+  --card: #111115;
+  --card-foreground: #f2f2f5;
+  --primary: #c8ff47;
+  --primary-foreground: #08080a;
+  --secondary: #1a1a1f;
+  --secondary-foreground: #f2f2f5;
+  --muted: #1a1a1f;
+  --muted-foreground: #71717a;
+  --accent: #c8ff47;
+  --accent-foreground: #08080a;
+  --border: #222228;
+  --ring: #c8ff47;
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --radius: 0.625rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbars matching reference */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  color: var(--foreground);
+  background: rgba(200, 255, 71, 0.2);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #c8ff47 0%, #eeff99 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card-hover {
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.card-hover:hover {
+  border-color: rgba(200, 255, 71, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.accent-glow {
+  box-shadow: 0 0 20px rgba(200, 255, 71, 0.3);
+}
