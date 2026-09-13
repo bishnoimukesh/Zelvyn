@@ -4,10 +4,14 @@ export interface User {
   email: string;
   avatarUrl?: string;
   fitnessLevel?: "beginner" | "intermediate" | "advanced";
-  height?: number;
-  weight?: number;
-  targetWeight?: number;
+  height?: number; // in cm
+  weight?: number; // in kg
+  targetWeight?: number; // in kg
+  age?: number;
+  gender?: "male" | "female" | "other";
+  activityLevel?: "sedentary" | "light" | "moderate" | "very_active";
   goal?: string;
+  isOnboarded?: boolean;
 }
 
 export interface Workout {
