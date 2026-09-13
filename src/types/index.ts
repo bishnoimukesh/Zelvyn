@@ -137,3 +137,40 @@ export interface CoachChatMessage {
   generatedWorkout?: Workout;
   suggestedPrompts?: string[];
 }
+
+export interface CalendarDayEntry {
+  dateString: string; // e.g. "2026-09-13"
+  dayNumber: number;
+  dayName: string;
+  isCurrentMonth: boolean;
+  isToday: boolean;
+  workoutId: string | null;
+  completed?: boolean;
+  isRestDay?: boolean;
+  notes?: string;
+}
+
+export interface ReminderConfig {
+  enabled: boolean;
+  time: string; // e.g. "07:30"
+  leadTimeMinutes: number; // 15, 30, 60
+  notifyRestDays: boolean;
+  pushPermission: "default" | "granted" | "denied";
+}
+
+export interface SplitTemplate {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  daysCount: number;
+  scheduleMap: {
+    Monday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Tuesday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Wednesday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Thursday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Friday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Saturday: { workoutId: string | null; isRestDay: boolean; notes: string };
+    Sunday: { workoutId: string | null; isRestDay: boolean; notes: string };
+  };
+}

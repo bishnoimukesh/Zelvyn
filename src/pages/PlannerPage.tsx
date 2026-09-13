@@ -4,15 +4,20 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { openAssignModal } from "@/features/planner/plannerSlice";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { ScheduleHeaderControls } from "@/components/planner/ScheduleHeaderControls";
 import { WeeklyScheduleStrip } from "@/components/planner/WeeklyScheduleStrip";
+import { MonthCalendarView } from "@/components/planner/MonthCalendarView";
 import { WorkoutFilters } from "@/components/planner/WorkoutFilters";
 import { WorkoutCard } from "@/components/planner/WorkoutCard";
 import { AssignWorkoutModal } from "@/components/planner/AssignWorkoutModal";
+import { ReminderSettingsModal } from "@/components/planner/ReminderSettingsModal";
+import { SplitTemplatesModal } from "@/components/planner/SplitTemplatesModal";
 
 export function PlannerPage() {
   const dispatch = useAppDispatch();
   const workouts = useAppSelector((state) => state.workouts.items);
   const filters = useAppSelector((state) => state.workouts.filters);
+  const activeView = useAppSelector((state) => state.planner.activeView);
 
   // Multi-dimensional filtering logic
   const filteredWorkouts = useMemo(() => {
@@ -68,8 +73,8 @@ export function PlannerPage() {
 
   return (
     <PageContainer
-      title="Workout Planner & Catalog"
-      description="Plan your 7-day training microcycle, customize exercise splits, and explore targeted routines."
+      title="Workout Planner & Calendar"
+      description="Plan your 7-day microcycle, explore full month calendar periodization, apply split presets, and configure workout alerts."
       badge="Planner Active"
       action={
         <Button
@@ -81,11 +86,18 @@ export function PlannerPage() {
         </Button>
       }
     >
-      {/* 7-Day Interactive Weekly Schedule Strip */}
-      <WeeklyScheduleStrip />
+      {/* Schedule Header: View Toggle (Week/Month) + Split Presets + Reminders */}
+      <ScheduleHeaderControls />
+
+      {/* Dynamic Schedule View: 7-Day Microcycle Strip or 35-Day Month Calendar */}
+      {activeView === "week" ? (
+        <WeeklyScheduleStrip />
+      ) : (
+        <MonthCalendarView />
+      )}
 
       {/* Filter Toolbar */}
-      <div className="pt-4">
+      <div className="pt-4 border-t border-[#222228]">
         <div className="mb-3 flex items-center justify-between">
           <div>
             <h3 className="font-display text-xl sm:text-2xl font-black uppercase text-white">
@@ -122,6 +134,8 @@ export function PlannerPage() {
 
       {/* Modals */}
       <AssignWorkoutModal />
+      <ReminderSettingsModal />
+      <SplitTemplatesModal />
     </PageContainer>
   );
 }
