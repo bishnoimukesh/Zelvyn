@@ -17,12 +17,17 @@ export interface User {
 export interface Workout {
   id: string;
   title: string;
-  category: "strength" | "hiit" | "cardio" | "mobility";
+  category: "strength" | "hiit" | "cardio" | "mobility" | "power";
+  targetGoal?: "hypertrophy" | "fat_loss" | "endurance" | "strength";
   duration: number; // in minutes
   calories: number;
   difficulty: "beginner" | "intermediate" | "advanced";
+  equipment?: "bodyweight" | "dumbbell" | "barbell" | "cables" | "kettlebell";
+  bodyPart?: "full_body" | "chest" | "back" | "legs" | "core" | "arms";
+  exercisesCount?: number;
   thumbnail: string;
   videoUrl?: string;
+  description?: string;
 }
 
 export interface FitnessGoal {
