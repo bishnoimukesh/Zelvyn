@@ -67,3 +67,32 @@ export interface ProgressEntry {
   steps: number;
   activeMinutes: number;
 }
+
+export interface WeightLogEntry {
+  id: string;
+  date: string;
+  weight: number;
+  bodyFatPercent?: number;
+  notes?: string;
+}
+
+export interface CompletedWorkoutLog {
+  id: string;
+  workoutId: string;
+  workoutTitle: string;
+  category: "strength" | "hiit" | "cardio" | "mobility" | "power";
+  date: string;
+  durationMinutes: number;
+  totalVolumeKg: number;
+  caloriesBurned: number;
+  setsCompleted: number;
+  totalSets: number;
+}
+
+export interface ActivityHeatmapDay {
+  date: string;
+  dayOfWeek: string;
+  intensity: "none" | "light" | "moderate" | "intense";
+  workoutTitle?: string;
+  caloriesBurned?: number;
+}
