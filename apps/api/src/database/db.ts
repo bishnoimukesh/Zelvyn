@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import { config } from "../config/env.js";
 
 export const connectDB = async (): Promise<void> => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   try {
     const conn = await mongoose.connect(config.mongoUri, {
       serverSelectionTimeoutMS: 5000,
