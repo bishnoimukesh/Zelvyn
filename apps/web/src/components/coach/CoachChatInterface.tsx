@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
-  addUserMessage,
-  addAssistantMessage,
-  clearChatHistory,
+  sendCoachMessageAsync,
+  clearCoachHistoryAsync,
 } from "@/features/coach/coachSlice";
-import { aiService, AIChatMessage } from "@/services/ai/openai";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,39 +35,15 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
     if (!query || isTyping) return;
 
     setInput("");
-    dispatch(addUserMessage(query));
-
-    // Convert Redux messages to history
-    const history: AIChatMessage[] = messages.map((m) => ({
-      role: m.sender,
-      content: m.text,
-    }));
-
-    try {
-      const response = await aiService.sendMessage(query, history);
-      dispatch(
-        addAssistantMessage({
-          text: response.text,
-          category: response.category,
-          generatedWorkout: response.generatedWorkout,
-          suggestedPrompts: response.suggestedPrompts,
-        })
-      );
-    } catch {
-      dispatch(
-        addAssistantMessage({
-          text: "I experienced an error analyzing your request. Please try asking again.",
-          category: "general",
-        })
-      );
-    }
+    dispatch(sendCoachMessageAsync({ userId: "demo-user-1", message: query }));
   };
 
   const handlePromptClick = (prompt: string) => {
     if (onSelectPrompt) {
       onSelectPrompt(prompt);
+    } else {
+      handleSendMessage(prompt);
     }
-    handleSendMessage(prompt);
   };
 
   return (
@@ -105,7 +79,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => dispatch(clearChatHistory())}
+          onClick={() => dispatch(clearCoachHistoryAsync("demo-user-1"))}
           className="h-8 px-2.5 text-[#71717A] hover:text-red-400 hover:bg-red-500/10 text-xs font-mono"
           title="Reset conversation"
         >

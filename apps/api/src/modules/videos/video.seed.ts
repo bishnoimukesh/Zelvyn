@@ -1,33 +1,39 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { WorkoutVideo } from "@/types";
-import { videoService, VideoFilterParams } from "@/services/api/videoService";
+export interface SeedVideoChapter {
+  id: string;
+  name: string;
+  timeFormatted: string;
+  timestampSeconds: number;
+  durationSeconds: number;
+  targetReps?: number;
+  formCue: string;
+}
 
-interface PlayerState {
-  isPlaying: boolean;
-  currentTime: number;
+export interface SeedWorkoutVideo {
+  id: string;
+  customId?: string;
+  title: string;
+  trainer: {
+    name: string;
+    role: string;
+    avatar: string;
+  };
+  category: "hiit" | "strength" | "mobility" | "yoga" | "cardio" | "core";
+  difficulty: "beginner" | "intermediate" | "advanced";
   duration: number;
-  currentChapterIndex: number;
-  intervalRemainingSeconds: number;
-  repCount: number;
-  isMuted: boolean;
-  playbackSpeed: number;
+  calories: number;
+  thumbnail: string;
+  videoUrl: string;
+  equipment: string;
+  viewsCount: string;
+  rating: number;
+  isFeatured?: boolean;
+  chapters: SeedVideoChapter[];
 }
 
-interface VideosState {
-  items: WorkoutVideo[];
-  selectedCategory: "all" | "hiit" | "strength" | "mobility" | "yoga" | "cardio" | "core";
-  searchQuery: string;
-  bookmarkedIds: string[];
-  activeVideo: WorkoutVideo | null;
-  playerState: PlayerState;
-  loading: boolean;
-  isLiveSynced: boolean;
-  error: string | null;
-}
-
-const initialVideos: WorkoutVideo[] = [
+export const initialSeedVideos: SeedWorkoutVideo[] = [
   {
     id: "vid-1",
+    customId: "vid-1",
     title: "30-Min Full Body Metabolic Burn",
     trainer: {
       name: "Marcus Cole",
@@ -94,6 +100,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-2",
+    customId: "vid-2",
     title: "Hypertrophy Upper Body Push & Pull",
     trainer: {
       name: "Elena Rostova",
@@ -150,6 +157,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-3",
+    customId: "vid-3",
     title: "Deep Hip Mobility & Lower Back Relief",
     trainer: {
       name: "Dr. David Vance",
@@ -197,6 +205,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-4",
+    customId: "vid-4",
     title: "Tabata Sprint & Calisthenics Burnout",
     trainer: {
       name: "Jordan Hayes",
@@ -244,6 +253,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-5",
+    customId: "vid-5",
     title: "Vinyasa Flow For Athletic Recovery",
     trainer: {
       name: "Maya Lin",
@@ -291,6 +301,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-6",
+    customId: "vid-6",
     title: "Zone 2 Steady State Aerobic Engine",
     trainer: {
       name: "Chris Bailey",
@@ -329,6 +340,7 @@ const initialVideos: WorkoutVideo[] = [
   },
   {
     id: "vid-7",
+    customId: "vid-7",
     title: "Iron Core & Oblique Shredder",
     trainer: {
       name: "Samantha Reed",
@@ -352,261 +364,17 @@ const initialVideos: WorkoutVideo[] = [
         timestampSeconds: 0,
         durationSeconds: 180,
         targetReps: 12,
-        formCue: "Press lower back firmly into mat; avoid any arching.",
+        formCue: "Flatten lumbar spine firmly against the floor on each reach.",
       },
       {
         id: "c-7-2",
-        name: "Rotational Russian Twists",
+        name: "Hanging Leg Raises & Hollow Body",
         timeFormatted: "03:00",
         timestampSeconds: 180,
-        durationSeconds: 240,
-        targetReps: 20,
-        formCue: "Rotate from thoracic spine rather than just swinging arms.",
-      },
-      {
-        id: "c-7-3",
-        name: "Hollow Body Rockers & Hold",
-        timeFormatted: "07:00",
-        timestampSeconds: 420,
-        durationSeconds: 240,
-        targetReps: 10,
-        formCue: "Banana posture with quads locked and toes pointed.",
-      },
-    ],
-  },
-  {
-    id: "vid-8",
-    title: "Kettlebell Ballistic Power & Cleans",
-    trainer: {
-      name: "Marcus Cole",
-      role: "Elite Strength Coach",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
-    },
-    category: "strength",
-    difficulty: "advanced",
-    duration: 30,
-    calories: 350,
-    thumbnail: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&q=80&w=800",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4",
-    equipment: "Kettlebell (16-24kg)",
-    viewsCount: "19.4k",
-    rating: 4.96,
-    chapters: [
-      {
-        id: "c-8-1",
-        name: "Pendulum Hip Hinge Primer",
-        timeFormatted: "00:00",
-        timestampSeconds: 0,
-        durationSeconds: 180,
-        targetReps: 15,
-        formCue: "Snap glutes aggressively to propel bell to eye level.",
-      },
-      {
-        id: "c-8-2",
-        name: "Single-Arm Clean to Rack",
-        timeFormatted: "03:00",
-        timestampSeconds: 180,
-        durationSeconds: 360,
-        targetReps: 10,
-        formCue: "Keep bell close to body; tame the arc into soft rack position.",
-      },
-      {
-        id: "c-8-3",
-        name: "Heavy Goblet Squats with Pause",
-        timeFormatted: "09:00",
-        timestampSeconds: 540,
         durationSeconds: 300,
-        targetReps: 12,
-        formCue: "Pause for 2 seconds in deep hip hinge; keep chest upright.",
+        targetReps: 10,
+        formCue: "Avoid swinging; flex pelvis toward chest under strict control.",
       },
     ],
   },
 ];
-
-const initialPlayerState: PlayerState = {
-  isPlaying: false,
-  currentTime: 0,
-  duration: 0,
-  currentChapterIndex: 0,
-  intervalRemainingSeconds: 180,
-  repCount: 0,
-  isMuted: false,
-  playbackSpeed: 1.0,
-};
-
-const initialState: VideosState = {
-  items: initialVideos,
-  selectedCategory: "all",
-  searchQuery: "",
-  bookmarkedIds: ["vid-1", "vid-3"],
-  activeVideo: null,
-  playerState: initialPlayerState,
-  loading: false,
-  isLiveSynced: false,
-  error: null,
-};
-
-export const fetchVideos = createAsyncThunk(
-  "videos/fetchVideos",
-  async (params: VideoFilterParams = { userId: "demo-user-1" }) => {
-    return await videoService.getVideos(params);
-  }
-);
-
-export const toggleBookmarkAsync = createAsyncThunk(
-  "videos/toggleBookmarkAsync",
-  async ({ videoId, userId = "demo-user-1" }: { videoId: string; userId?: string }) => {
-    return await videoService.toggleBookmark(videoId, userId);
-  }
-);
-
-export const videosSlice = createSlice({
-  name: "videos",
-  initialState,
-  reducers: {
-    setSelectedCategory: (
-      state,
-      action: PayloadAction<
-        "all" | "hiit" | "strength" | "mobility" | "yoga" | "cardio" | "core"
-      >
-    ) => {
-      state.selectedCategory = action.payload;
-    },
-    setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload;
-    },
-    toggleBookmark: (state, action: PayloadAction<string>) => {
-      const id = action.payload;
-      if (state.bookmarkedIds.includes(id)) {
-        state.bookmarkedIds = state.bookmarkedIds.filter((item) => item !== id);
-      } else {
-        state.bookmarkedIds.push(id);
-      }
-    },
-    openVideoPlayer: (state, action: PayloadAction<WorkoutVideo>) => {
-      state.activeVideo = action.payload;
-      state.playerState.isPlaying = true;
-      state.playerState.currentTime = 0;
-      state.playerState.currentChapterIndex = 0;
-      state.playerState.repCount = 0;
-      state.playerState.intervalRemainingSeconds =
-        action.payload.chapters[0]?.durationSeconds || 180;
-    },
-    closeVideoPlayer: (state) => {
-      state.activeVideo = null;
-      state.playerState.isPlaying = false;
-      state.playerState.currentTime = 0;
-      state.playerState.currentChapterIndex = 0;
-      state.playerState.repCount = 0;
-    },
-    togglePlayPause: (state) => {
-      state.playerState.isPlaying = !state.playerState.isPlaying;
-    },
-    updatePlayerTime: (
-      state,
-      action: PayloadAction<{ currentTime: number; duration?: number }>
-    ) => {
-      state.playerState.currentTime = action.payload.currentTime;
-      if (action.payload.duration) {
-        state.playerState.duration = action.payload.duration;
-      }
-      // Update chapter based on timestamp
-      if (state.activeVideo && state.activeVideo.chapters) {
-        const chapters = state.activeVideo.chapters;
-        for (let i = chapters.length - 1; i >= 0; i--) {
-          if (action.payload.currentTime >= chapters[i].timestampSeconds) {
-            if (state.playerState.currentChapterIndex !== i) {
-              state.playerState.currentChapterIndex = i;
-              state.playerState.repCount = 0;
-            }
-            const elapsedInChapter =
-              action.payload.currentTime - chapters[i].timestampSeconds;
-            state.playerState.intervalRemainingSeconds = Math.max(
-              0,
-              chapters[i].durationSeconds - Math.floor(elapsedInChapter)
-            );
-            break;
-          }
-        }
-      }
-    },
-    setChapterIndex: (state, action: PayloadAction<number>) => {
-      const idx = action.payload;
-      if (state.activeVideo && state.activeVideo.chapters[idx]) {
-        state.playerState.currentChapterIndex = idx;
-        state.playerState.currentTime =
-          state.activeVideo.chapters[idx].timestampSeconds;
-        state.playerState.intervalRemainingSeconds =
-          state.activeVideo.chapters[idx].durationSeconds;
-        state.playerState.repCount = 0;
-      }
-    },
-    incrementRepCounter: (state) => {
-      state.playerState.repCount += 1;
-    },
-    decrementRepCounter: (state) => {
-      state.playerState.repCount = Math.max(0, state.playerState.repCount - 1);
-    },
-    resetRepCounter: (state) => {
-      state.playerState.repCount = 0;
-    },
-    setPlaybackSpeed: (state, action: PayloadAction<number>) => {
-      state.playerState.playbackSpeed = action.payload;
-    },
-    toggleMute: (state) => {
-      state.playerState.isMuted = !state.playerState.isMuted;
-    },
-  },
-  extraReducers: (builder) => {
-    // fetchVideos
-    builder.addCase(fetchVideos.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchVideos.fulfilled, (state, action) => {
-      state.loading = false;
-      state.isLiveSynced = true;
-      if (action.payload) {
-        if (action.payload.items && action.payload.items.length > 0) {
-          state.items = action.payload.items;
-        }
-        if (action.payload.bookmarkedIds) {
-          state.bookmarkedIds = action.payload.bookmarkedIds;
-        }
-      }
-    });
-    builder.addCase(fetchVideos.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to load videos";
-    });
-
-    // toggleBookmarkAsync
-    builder.addCase(toggleBookmarkAsync.fulfilled, (state, action) => {
-      if (action.payload) {
-        const { videoId, isBookmarked } = action.payload;
-        if (isBookmarked && !state.bookmarkedIds.includes(videoId)) {
-          state.bookmarkedIds.push(videoId);
-        } else if (!isBookmarked) {
-          state.bookmarkedIds = state.bookmarkedIds.filter((id) => id !== videoId);
-        }
-      }
-    });
-  },
-});
-
-export const {
-  setSelectedCategory,
-  setSearchQuery,
-  toggleBookmark,
-  openVideoPlayer,
-  closeVideoPlayer,
-  togglePlayPause,
-  updatePlayerTime,
-  setChapterIndex,
-  incrementRepCounter,
-  decrementRepCounter,
-  resetRepCounter,
-  setPlaybackSpeed,
-  toggleMute,
-} = videosSlice.actions;
-
-export default videosSlice.reducer;

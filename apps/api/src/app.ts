@@ -12,6 +12,8 @@ import userRoutes from "./modules/users/user.routes.js";
 import workoutRoutes from "./modules/workouts/workout.routes.js";
 import logRoutes from "./modules/logs/log.routes.js";
 import plannerRoutes from "./modules/planner/planner.routes.js";
+import videoRoutes from "./modules/videos/video.routes.js";
+import coachRoutes from "./modules/coach/coach.routes.js";
 
 const app: Application = express();
 
@@ -58,6 +60,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/planner", plannerRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/coach", coachRoutes);
 
 // 404 Catch-all
 app.use(notFoundHandler);
