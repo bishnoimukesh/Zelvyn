@@ -1,11 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { userService } from "@/services/api/userService";
 import { User } from "@/types";
 
 interface UserState {
   profile: User;
   loading: boolean;
+  isLiveSynced: boolean;
   isOnboardingModalOpen: boolean;
   isEditProfileModalOpen: boolean;
+  error: string | null;
 }
 
 const defaultUser: User = {
@@ -37,11 +40,34 @@ const getInitialProfile = (): User => {
   return defaultUser;
 };
 
+export const fetchUserProfile = createAsyncThunk(
+  "user/fetchUserProfile",
+  async (userId: string) => {
+    return await userService.getUserProfile(userId);
+  }
+);
+
+export const updateUserProfileAsync = createAsyncThunk(
+  "user/updateUserProfileAsync",
+  async ({ userId, updates }: { userId: string; updates: Partial<User> }) => {
+    return await userService.updateUserProfile(userId, updates);
+  }
+);
+
+export const completeOnboardingAsync = createAsyncThunk(
+  "user/completeOnboardingAsync",
+  async ({ userId, data }: { userId: string; data: Partial<User> }) => {
+    return await userService.completeOnboarding(userId, data);
+  }
+);
+
 const initialState: UserState = {
   profile: getInitialProfile(),
   loading: false,
+  isLiveSynced: false,
   isOnboardingModalOpen: false,
   isEditProfileModalOpen: false,
+  error: null,
 };
 
 export const userSlice = createSlice({
@@ -80,6 +106,50 @@ export const userSlice = createSlice({
     closeEditProfileModal: (state) => {
       state.isEditProfileModalOpen = false;
     },
+  },
+  extraReducers: (builder) => {
+    // fetchUserProfile
+    builder.addCase(fetchUserProfile.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload) {
+        state.profile = action.payload;
+        state.isLiveSynced = true;
+        if (typeof window !== "undefined") {
+          localStorage.setItem("fitsync-user-profile", JSON.stringify(action.payload));
+        }
+      }
+    });
+    builder.addCase(fetchUserProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to load user profile";
+    });
+
+    // updateUserProfileAsync
+    builder.addCase(updateUserProfileAsync.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.profile = action.payload;
+        state.isLiveSynced = true;
+        state.isEditProfileModalOpen = false;
+        if (typeof window !== "undefined") {
+          localStorage.setItem("fitsync-user-profile", JSON.stringify(action.payload));
+        }
+      }
+    });
+
+    // completeOnboardingAsync
+    builder.addCase(completeOnboardingAsync.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.profile = action.payload;
+        state.isLiveSynced = true;
+        state.isOnboardingModalOpen = false;
+        if (typeof window !== "undefined") {
+          localStorage.setItem("fitsync-user-profile", JSON.stringify(action.payload));
+        }
+      }
+    });
   },
 });
 

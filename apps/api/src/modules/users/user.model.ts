@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
+  customId?: string;
   name: string;
   email: string;
   avatarUrl?: string;
@@ -19,6 +20,11 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema<IUser>(
   {
+    customId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -33,32 +39,37 @@ const UserSchema = new Schema<IUser>(
     },
     avatarUrl: {
       type: String,
-      default: "",
+      default: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400",
     },
     fitnessLevel: {
       type: String,
       enum: ["beginner", "intermediate", "advanced"],
-      default: "beginner",
+      default: "intermediate",
     },
     height: {
       type: Number,
+      default: 175,
       min: 0,
     },
     weight: {
       type: Number,
+      default: 70,
       min: 0,
     },
     targetWeight: {
       type: Number,
+      default: 67,
       min: 0,
     },
     age: {
       type: Number,
+      default: 26,
       min: 0,
     },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
+      default: "male",
     },
     activityLevel: {
       type: String,
@@ -67,15 +78,31 @@ const UserSchema = new Schema<IUser>(
     },
     goal: {
       type: String,
-      default: "Build Muscle & Strength",
+      default: "Hypertrophy & Muscle Gain",
     },
     isOnboarded: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 

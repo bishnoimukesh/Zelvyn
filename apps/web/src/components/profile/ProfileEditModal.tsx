@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   closeEditProfileModal,
-  updateUserProfile,
+  updateUserProfileAsync,
 } from "@/features/dashboard/userSlice";
 
 const FITNESS_LEVELS = [
@@ -67,7 +67,12 @@ export const ProfileEditModal: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateUserProfile(formData));
+    dispatch(
+      updateUserProfileAsync({
+        userId: profile.id || "demo-user-1",
+        updates: formData,
+      })
+    );
     setSavedSuccess(true);
     setTimeout(() => {
       setSavedSuccess(false);

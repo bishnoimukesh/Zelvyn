@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   User as UserIcon,
   ShieldCheck,
@@ -7,6 +8,8 @@ import {
   Compass,
   Target,
   Smartphone,
+  RefreshCw,
+  Database,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   openEditProfileModal,
   openOnboardingModal,
+  fetchUserProfile,
 } from "@/features/dashboard/userSlice";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { BiometricsCard } from "@/components/profile/BiometricsCard";
@@ -24,7 +28,11 @@ import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 export function ProfilePage() {
   const dispatch = useAppDispatch();
-  const profile = useAppSelector((state) => state.user.profile);
+  const { profile, loading, isLiveSynced } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchUserProfile(profile?.id || "demo-user-1"));
+  }, [dispatch, profile?.id]);
 
   return (
     <PageContainer
@@ -33,6 +41,22 @@ export function ProfilePage() {
       badge="Account"
       action={
         <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => dispatch(fetchUserProfile(profile?.id || "demo-user-1"))}
+            disabled={loading}
+            className="gap-1.5 text-xs font-semibold border-[#222228] hover:bg-[#18181D]"
+            title="Refresh profile from MongoDB Atlas"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${
+                loading ? "animate-spin text-[#C8FF47]" : "text-[#71717A]"
+              }`}
+            />
+            {loading ? "Syncing..." : "Sync Profile"}
+          </Button>
+
           <Button
             size="sm"
             variant="outline"
@@ -51,6 +75,35 @@ export function ProfilePage() {
         </div>
       }
     >
+      {/* Live Data Connectivity Status Banner */}
+      <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111116] border border-[#222228] mb-4">
+        <div className="flex items-center gap-2">
+          <div className="relative flex h-2 w-2">
+            <span
+              className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                isLiveSynced ? "bg-[#10B981]" : "bg-amber-400"
+              }`}
+            />
+            <span
+              className={`relative inline-flex rounded-full h-2 w-2 ${
+                isLiveSynced ? "bg-[#10B981]" : "bg-amber-500"
+              }`}
+            />
+          </div>
+          <span className="text-xs font-medium text-[#A1A1AA]">
+            {isLiveSynced
+              ? "Live Athlete Biometrics • MongoDB Atlas Synchronized"
+              : "Connecting to Profile Database..."}
+          </span>
+        </div>
+        <Badge
+          variant="outline"
+          className="text-[10px] font-mono border-[#27272A] text-[#10B981] bg-[#10B981]/10 gap-1 py-0.5"
+        >
+          <Database className="h-3 w-3" />
+          {isLiveSynced ? "MongoDB Atlas" : "Buffering"}
+        </Badge>
+      </div>
       {/* Athlete Hero Header Card */}
       <Card className="border border-[#222228] bg-[#111115] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
