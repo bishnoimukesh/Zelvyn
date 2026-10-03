@@ -1,8 +1,8 @@
-import { useMemo } from "react";
-import { Plus } from "lucide-react";
+import { useMemo, useEffect } from "react";
+import { Plus, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { openAssignModal } from "@/features/planner/plannerSlice";
+import { openAssignModal, fetchPlanner } from "@/features/planner/plannerSlice";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ScheduleHeaderControls } from "@/components/planner/ScheduleHeaderControls";
 import { WeeklyScheduleStrip } from "@/components/planner/WeeklyScheduleStrip";
@@ -18,6 +18,12 @@ export function PlannerPage() {
   const workouts = useAppSelector((state) => state.workouts.items);
   const filters = useAppSelector((state) => state.workouts.filters);
   const activeView = useAppSelector((state) => state.planner.activeView);
+  const isLiveSynced = useAppSelector((state) => state.planner.isLiveSynced);
+  const loading = useAppSelector((state) => state.planner.loading);
+
+  useEffect(() => {
+    dispatch(fetchPlanner("demo-user-1"));
+  }, [dispatch]);
 
   // Multi-dimensional filtering logic
   const filteredWorkouts = useMemo(() => {
@@ -75,15 +81,27 @@ export function PlannerPage() {
     <PageContainer
       title="Workout Planner & Calendar"
       description="Plan your 7-day microcycle, explore full month calendar periodization, apply split presets, and configure workout alerts."
-      badge="Planner Active"
+      badge={isLiveSynced ? "MongoDB Atlas Synced" : "Planner Active"}
       action={
-        <Button
-          size="sm"
-          onClick={() => dispatch(openAssignModal("Monday"))}
-          className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]"
-        >
-          <Plus className="h-4 w-4" /> Schedule Routine
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => dispatch(fetchPlanner("demo-user-1"))}
+            disabled={loading}
+            className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+            Sync
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => dispatch(openAssignModal("Monday"))}
+            className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]"
+          >
+            <Plus className="h-4 w-4" /> Schedule Routine
+          </Button>
+        </div>
       }
     >
       {/* Schedule Header: View Toggle (Week/Month) + Split Presets + Reminders */}

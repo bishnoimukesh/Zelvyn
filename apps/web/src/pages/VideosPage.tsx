@@ -1,17 +1,24 @@
+import { useEffect } from "react";
+import { RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { FeaturedVideoHero } from "@/components/videos/FeaturedVideoHero";
 import { VideoCategoryFilters } from "@/components/videos/VideoCategoryFilters";
 import { VideoCard } from "@/components/videos/VideoCard";
 import { VideoPlayerModal } from "@/components/videos/VideoPlayerModal";
-import { openVideoPlayer } from "@/features/videos/videosSlice";
+import { openVideoPlayer, fetchVideos } from "@/features/videos/videosSlice";
 import { WorkoutVideo } from "@/types";
 
 export function VideosPage() {
   const dispatch = useAppDispatch();
-  const { items, selectedCategory, searchQuery, activeVideo } = useAppSelector(
+  const { items, selectedCategory, searchQuery, activeVideo, isLiveSynced, loading } = useAppSelector(
     (state) => state.videos
   );
+
+  useEffect(() => {
+    dispatch(fetchVideos({ userId: "demo-user-1" }));
+  }, [dispatch]);
 
   // Featured video is the first featured video or first video in list
   const featuredVideo = items.find((v) => v.isFeatured) || items[0];
@@ -40,7 +47,19 @@ export function VideosPage() {
     <PageContainer
       title="Coach-Led Video Workouts"
       description="Follow guided studio sessions with elite trainers, live interval countdowns, rep counters, and real-time form cues."
-      badge="Studio Sessions"
+      badge={isLiveSynced ? "MongoDB Atlas Synced" : "Studio Sessions"}
+      action={
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => dispatch(fetchVideos({ userId: "demo-user-1" }))}
+          disabled={loading}
+          className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+          Sync Videos
+        </Button>
+      }
     >
       <div className="space-y-6" id="video-library-container">
         {/* Featured Video Spotlight Hero */}

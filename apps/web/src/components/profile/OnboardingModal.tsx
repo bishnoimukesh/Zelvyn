@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   closeOnboardingModal,
-  completeOnboarding,
+  completeOnboardingAsync,
 } from "@/features/dashboard/userSlice";
 import { getFullMetabolicProfile } from "@/lib/fitnessCalculations";
 
@@ -95,7 +95,12 @@ export const OnboardingModal: React.FC = () => {
   );
 
   const handleComplete = () => {
-    dispatch(completeOnboarding(formData));
+    dispatch(
+      completeOnboardingAsync({
+        userId: profile.id || "demo-user-1",
+        data: formData,
+      })
+    );
     setStep(1);
   };
 

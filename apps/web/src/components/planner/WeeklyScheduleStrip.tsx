@@ -15,6 +15,7 @@ import {
   openAssignModal,
   toggleRestDay,
   toggleDayCompletion,
+  saveScheduleAsync,
 } from "@/features/planner/plannerSlice";
 
 export const WeeklyScheduleStrip: React.FC = () => {
@@ -35,6 +36,30 @@ export const WeeklyScheduleStrip: React.FC = () => {
   }, 0);
 
   const activeDaysCount = schedule.filter((d) => !d.isRestDay && d.workoutId).length;
+
+  const handleToggleDayCompletion = (dayName: string) => {
+    dispatch(toggleDayCompletion(dayName));
+    const updated = schedule.map((d) =>
+      d.day === dayName ? { ...d, completed: !d.completed } : d
+    );
+    dispatch(saveScheduleAsync({ schedule: updated }));
+  };
+
+  const handleToggleRestDay = (dayName: string) => {
+    dispatch(toggleRestDay(dayName));
+    const updated = schedule.map((d) => {
+      if (d.day === dayName) {
+        const nextRest = !d.isRestDay;
+        return {
+          ...d,
+          isRestDay: nextRest,
+          workoutId: nextRest ? null : d.workoutId,
+        };
+      }
+      return d;
+    });
+    dispatch(saveScheduleAsync({ schedule: updated }));
+  };
 
   return (
     <div className="space-y-4">
@@ -87,7 +112,7 @@ export const WeeklyScheduleStrip: React.FC = () => {
                   </span>
                   <button
                     type="button"
-                    onClick={() => dispatch(toggleDayCompletion(day.day))}
+                    onClick={() => handleToggleDayCompletion(day.day)}
                     aria-label={`Toggle completion for ${day.day}`}
                     className={`h-5 w-5 rounded flex items-center justify-center transition-colors ${
                       day.completed
@@ -159,7 +184,7 @@ export const WeeklyScheduleStrip: React.FC = () => {
                 <Button
                   size="sm"
                   variant="ghost"
-                  onClick={() => dispatch(toggleRestDay(day.day))}
+                  onClick={() => handleToggleRestDay(day.day)}
                   className="h-6 px-1.5 text-[10px] font-mono text-[#71717A] hover:text-white"
                 >
                   {day.isRestDay ? "Train" : "Rest"}

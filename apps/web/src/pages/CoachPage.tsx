@@ -1,41 +1,28 @@
+import { useEffect } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { CoachChatInterface } from "@/components/coach/CoachChatInterface";
 import { CoachQuickPrompts } from "@/components/coach/CoachQuickPrompts";
 import { CoachRecoveryWidget } from "@/components/coach/CoachRecoveryWidget";
-import { useAppDispatch } from "@/app/hooks";
-import { addUserMessage, addAssistantMessage } from "@/features/coach/coachSlice";
-import { aiService } from "@/services/ai/openai";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { fetchCoachHistory, sendCoachMessageAsync } from "@/features/coach/coachSlice";
 
 export function CoachPage() {
   const dispatch = useAppDispatch();
+  const isLiveSynced = useAppSelector((state) => state.coach.isLiveSynced);
+
+  useEffect(() => {
+    dispatch(fetchCoachHistory("demo-user-1"));
+  }, [dispatch]);
 
   const handleSelectQuickPrompt = async (promptText: string) => {
-    dispatch(addUserMessage(promptText));
-    try {
-      const response = await aiService.sendMessage(promptText, []);
-      dispatch(
-        addAssistantMessage({
-          text: response.text,
-          category: response.category,
-          generatedWorkout: response.generatedWorkout,
-          suggestedPrompts: response.suggestedPrompts,
-        })
-      );
-    } catch {
-      dispatch(
-        addAssistantMessage({
-          text: "I experienced an error analyzing your request. Please try asking again.",
-          category: "general",
-        })
-      );
-    }
+    dispatch(sendCoachMessageAsync({ userId: "demo-user-1", message: promptText }));
   };
 
   return (
     <PageContainer
       title="FitSync AI Athletic Coach"
       description="Adaptive sports science intelligence continuously analyzing your training volume, CNS readiness, and progressive overload trajectory."
-      badge="AI Intelligence Active"
+      badge={isLiveSynced ? "MongoDB Atlas Synced" : "AI Intelligence Active"}
     >
       <div className="space-y-4" id="coach-page-container">
         {/* Quick Categorized Prompts Strip */}

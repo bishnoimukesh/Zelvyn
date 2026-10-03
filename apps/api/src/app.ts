@@ -11,6 +11,13 @@ import authRoutes from "./modules/auth/auth.routes.js";
 import userRoutes from "./modules/users/user.routes.js";
 import workoutRoutes from "./modules/workouts/workout.routes.js";
 import logRoutes from "./modules/logs/log.routes.js";
+import plannerRoutes from "./modules/planner/planner.routes.js";
+import videoRoutes from "./modules/videos/video.routes.js";
+import coachRoutes from "./modules/coach/coach.routes.js";
+import progressRoutes from "./modules/progress/progress.routes.js";
+import nutritionRoutes from "./modules/nutrition/nutrition.routes.js";
+import habitsRoutes from "./modules/habits/habits.routes.js";
+import achievementsRoutes from "./modules/achievements/achievements.routes.js";
 
 const app: Application = express();
 
@@ -56,6 +63,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/logs", logRoutes);
+app.use("/api/planner", plannerRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/coach", coachRoutes);
+app.use("/api/progress", progressRoutes);
+app.use("/api/nutrition", nutritionRoutes);
+app.use("/api/habits", habitsRoutes);
+app.use("/api/achievements", achievementsRoutes);
 
 // 404 Catch-all
 app.use(notFoundHandler);

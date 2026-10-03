@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Card } from "@/components/ui/card";
-import { Scale, Flame, Dumbbell, Trophy } from "lucide-react";
-import { useAppSelector } from "@/app/hooks";
+import { Button } from "@/components/ui/button";
+import { Scale, Flame, Dumbbell, Trophy, RefreshCw } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { fetchProgress } from "@/features/progress/progressSlice";
 import { WeightChartCard } from "@/components/progress/WeightChartCard";
 import { LogWeightModal } from "@/components/progress/LogWeightModal";
 import { WorkoutHistoryList } from "@/components/progress/WorkoutHistoryList";
@@ -11,10 +13,23 @@ import { CalorieExpenditureCard } from "@/components/progress/CalorieExpenditure
 import { StepGoalCard } from "@/components/progress/StepGoalCard";
 
 export function ProgressPage() {
+  const dispatch = useAppDispatch();
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
 
-  const { weightHistory, weightTarget, weightStarting, streak, workoutHistory, calorieTracker } =
-    useAppSelector((state) => state.progress);
+  const {
+    weightHistory,
+    weightTarget,
+    weightStarting,
+    streak,
+    workoutHistory,
+    calorieTracker,
+    isLiveSynced,
+    loading,
+  } = useAppSelector((state) => state.progress);
+
+  useEffect(() => {
+    dispatch(fetchProgress("demo-user-1"));
+  }, [dispatch]);
 
   const latestWeight = weightHistory[weightHistory.length - 1]?.weight || 69.9;
   const totalWeightLoss = (weightStarting - latestWeight).toFixed(1);
@@ -33,7 +48,28 @@ export function ProgressPage() {
     <PageContainer
       title="Progress & Athletic Biometrics"
       description="Holistic tracking of progressive overload, body composition evolution, metabolic burn, and streak consistency."
-      badge="Analytics Engine"
+      badge={isLiveSynced ? "MongoDB Atlas Synced" : "Analytics Engine"}
+      action={
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => dispatch(fetchProgress("demo-user-1"))}
+            disabled={loading}
+            className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+            Sync
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => setIsLogModalOpen(true)}
+            className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]"
+          >
+            <Scale className="h-4 w-4" /> Log Weigh-In
+          </Button>
+        </div>
+      }
     >
       {/* Top Quick Metric Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6" id="progress-stats-summary">

@@ -49,8 +49,18 @@ const BOTTOM_NAV_ITEMS: NavItem[] = [
   { label: "Settings", href: ROUTES.SETTINGS, icon: Settings },
 ];
 
+import { useAppSelector } from "@/app/hooks";
+
 export const DesktopSidebar: React.FC = () => {
   const location = useLocation();
+  const user = useAppSelector((state) => state.user.profile);
+  const { level, currentXp, nextLevelXp } = useAppSelector((state) => state.achievements);
+  const streakCount = useAppSelector((state) => state.progress.streak?.current) ?? 12;
+
+  const prevLevelBase = Math.max(0, (level - 1) * 200);
+  const xpInLevel = Math.max(0, currentXp - prevLevelBase);
+  const xpNeeded = Math.max(1, nextLevelXp - prevLevelBase);
+  const xpPercent = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
 
   return (
     <aside
@@ -83,19 +93,19 @@ export const DesktopSidebar: React.FC = () => {
             className="flex items-center gap-2.5 group"
           >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-              alt="Alex Rivera"
+              src={user?.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"}
+              alt={user?.name || "Athlete"}
               className="h-9 w-9 rounded-full object-cover ring-2 ring-[#C8FF47]/40 group-hover:ring-[#C8FF47] transition-all"
             />
             <div className="min-w-0 flex-1">
               <div className="text-xs font-bold text-white truncate group-hover:text-[#C8FF47] transition-colors">
-                Alex Rivera
+                {user?.name || "Alex Rivera"}
               </div>
               <div className="text-[11px] text-[#A1A1AA] flex items-center gap-1 mt-0.5">
-                <span>Lv.12</span>
+                <span>Lv.{level || 12}</span>
                 <span>·</span>
                 <span className="text-[#FF8438] font-semibold flex items-center gap-0.5">
-                  12 🔥
+                  {streakCount} 🔥
                 </span>
               </div>
             </div>
@@ -104,13 +114,13 @@ export const DesktopSidebar: React.FC = () => {
           {/* XP Progress Bar */}
           <div className="mt-2">
             <div className="flex justify-between text-[10px] text-[#71717A] font-mono mb-1">
-              <span>230 XP</span>
-              <span>250 XP</span>
+              <span>{currentXp || 230} XP</span>
+              <span>{nextLevelXp || 250} XP</span>
             </div>
             <div className="h-1.5 w-full bg-[#18181E] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#C8FF47] rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(200,255,71,0.5)]"
-                style={{ width: "92%" }}
+                style={{ width: `${xpPercent}%` }}
               />
             </div>
           </div>

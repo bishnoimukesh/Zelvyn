@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { CalendarDayEntry, ReminderConfig, SplitTemplate } from "@/types";
+import { plannerService } from "@/services/api/plannerService";
 
 export interface DaySchedule {
   day: string;
@@ -23,6 +24,9 @@ interface PlannerState {
   isReminderModalOpen: boolean;
   isTemplateModalOpen: boolean;
   templates: SplitTemplate[];
+  loading: boolean;
+  isLiveSynced: boolean;
+  error: string | null;
 }
 
 const initialSchedule: DaySchedule[] = [
@@ -30,7 +34,7 @@ const initialSchedule: DaySchedule[] = [
     day: "Monday",
     shortDay: "MON",
     isRestDay: false,
-    workoutId: "w-2", // Hypertrophy Chest & Back
+    workoutId: "w-2",
     completed: true,
     notes: "Upper body push & pull compound focus",
   },
@@ -38,7 +42,7 @@ const initialSchedule: DaySchedule[] = [
     day: "Tuesday",
     shortDay: "TUE",
     isRestDay: false,
-    workoutId: "w-4", // Quads & Hamstrings
+    workoutId: "w-4",
     completed: true,
     notes: "Heavy squat compounds & posterior chain",
   },
@@ -54,7 +58,7 @@ const initialSchedule: DaySchedule[] = [
     day: "Thursday",
     shortDay: "THU",
     isRestDay: false,
-    workoutId: "w-6", // Shoulder Boulders & Arms
+    workoutId: "w-6",
     completed: true,
     notes: "Overhead press and arm supersets",
   },
@@ -62,7 +66,7 @@ const initialSchedule: DaySchedule[] = [
     day: "Friday",
     shortDay: "FRI",
     isRestDay: false,
-    workoutId: "w-1", // Full Body HIIT
+    workoutId: "w-1",
     completed: false,
     notes: "Metabolic conditioning circuit",
   },
@@ -70,7 +74,7 @@ const initialSchedule: DaySchedule[] = [
     day: "Saturday",
     shortDay: "SAT",
     isRestDay: false,
-    workoutId: "w-7", // Kettlebell Power
+    workoutId: "w-7",
     completed: false,
     notes: "Explosive triple extension & core power",
   },
@@ -151,7 +155,6 @@ export const SPLIT_TEMPLATES: SplitTemplate[] = [
   },
 ];
 
-// September 2026 month calendar days (5 weeks x 7 days = 35 days)
 const generateSeptemberDays = (): CalendarDayEntry[] => {
   const days: CalendarDayEntry[] = [];
   const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -168,7 +171,7 @@ const generateSeptemberDays = (): CalendarDayEntry[] => {
   });
 
   for (let i = 1; i <= 30; i++) {
-    const dayOfWeekIdx = (i - 1 + 1) % 7; // Sep 1 is Tuesday
+    const dayOfWeekIdx = (i - 1 + 1) % 7;
     const dateStr = `2026-09-${String(i).padStart(2, "0")}`;
     const isToday = i === 13;
     const isPast = i < 13;
@@ -177,7 +180,6 @@ const generateSeptemberDays = (): CalendarDayEntry[] => {
     let isRestDay = false;
     let completed = false;
 
-    // Pattern for demo
     if (i === 1) { workoutId = "w-1"; completed = true; }
     else if (i === 2) { workoutId = "w-4"; completed = true; }
     else if (i === 3) { isRestDay = true; completed = true; }
@@ -212,7 +214,7 @@ const generateSeptemberDays = (): CalendarDayEntry[] => {
     });
   }
 
-  // Week 5 overflow into October (Oct 1 to Oct 4)
+  // Week 5 overflow into October
   for (let o = 1; o <= 4; o++) {
     days.push({
       dateString: `2026-10-0${o}`,
@@ -250,7 +252,70 @@ const initialState: PlannerState = {
   isReminderModalOpen: false,
   isTemplateModalOpen: false,
   templates: SPLIT_TEMPLATES,
+  loading: false,
+  isLiveSynced: false,
+  error: null,
 };
+
+// Async Thunks
+export const fetchPlanner = createAsyncThunk(
+  "planner/fetchPlanner",
+  async (userId: string = "demo-user-1") => {
+    return await plannerService.getPlanner(userId);
+  }
+);
+
+export const saveScheduleAsync = createAsyncThunk(
+  "planner/saveScheduleAsync",
+  async ({
+    userId = "demo-user-1",
+    schedule,
+  }: {
+    userId?: string;
+    schedule: DaySchedule[];
+  }) => {
+    return await plannerService.updateSchedule(userId, schedule);
+  }
+);
+
+export const updateMonthDayAsync = createAsyncThunk(
+  "planner/updateMonthDayAsync",
+  async ({
+    userId = "demo-user-1",
+    dayData,
+  }: {
+    userId?: string;
+    dayData: Partial<CalendarDayEntry> & { dateString: string };
+  }) => {
+    return await plannerService.updateMonthDay(userId, dayData);
+  }
+);
+
+export const saveReminderSettingsAsync = createAsyncThunk(
+  "planner/saveReminderSettingsAsync",
+  async ({
+    userId = "demo-user-1",
+    settings,
+  }: {
+    userId?: string;
+    settings: Partial<ReminderConfig>;
+  }) => {
+    return await plannerService.updateReminderSettings(userId, settings);
+  }
+);
+
+export const applySplitTemplateAsync = createAsyncThunk(
+  "planner/applySplitTemplateAsync",
+  async ({
+    userId = "demo-user-1",
+    template,
+  }: {
+    userId?: string;
+    template: SplitTemplate;
+  }) => {
+    return await plannerService.applySplitTemplate(userId, template);
+  }
+);
 
 export const plannerSlice = createSlice({
   name: "planner",
@@ -348,6 +413,64 @@ export const plannerSlice = createSlice({
       state.assignModal.isOpen = false;
       state.assignModal.targetDay = null;
     },
+  },
+  extraReducers: (builder) => {
+    // fetchPlanner
+    builder.addCase(fetchPlanner.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchPlanner.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isLiveSynced = true;
+      if (action.payload) {
+        if (action.payload.schedule && action.payload.schedule.length > 0) {
+          state.schedule = action.payload.schedule;
+        }
+        if (action.payload.monthDays && action.payload.monthDays.length > 0) {
+          state.monthDays = action.payload.monthDays;
+        }
+        if (action.payload.reminderSettings) {
+          state.reminderSettings = action.payload.reminderSettings;
+        }
+      }
+    });
+    builder.addCase(fetchPlanner.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to fetch planner";
+    });
+
+    // saveScheduleAsync
+    builder.addCase(saveScheduleAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      if (action.payload?.schedule) {
+        state.schedule = action.payload.schedule;
+      }
+    });
+
+    // updateMonthDayAsync
+    builder.addCase(updateMonthDayAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      if (action.payload?.monthDays) {
+        state.monthDays = action.payload.monthDays;
+      }
+    });
+
+    // saveReminderSettingsAsync
+    builder.addCase(saveReminderSettingsAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      if (action.payload) {
+        state.reminderSettings = action.payload;
+      }
+    });
+
+    // applySplitTemplateAsync
+    builder.addCase(applySplitTemplateAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      state.isTemplateModalOpen = false;
+      if (action.payload?.schedule) {
+        state.schedule = action.payload.schedule;
+      }
+    });
   },
 });
 

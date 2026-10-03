@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   toggleTemplateModal,
   applySplitTemplate,
+  applySplitTemplateAsync,
 } from "@/features/planner/plannerSlice";
 
 const DAY_KEYS = [
@@ -49,7 +50,11 @@ export function SplitTemplatesModal() {
   };
 
   const handleApply = (templateId: string) => {
+    const template = templates.find((t) => t.id === templateId);
     dispatch(applySplitTemplate(templateId));
+    if (template) {
+      dispatch(applySplitTemplateAsync({ template }));
+    }
     setAppliedId(templateId);
     setTimeout(() => {
       dispatch(toggleTemplateModal(false));

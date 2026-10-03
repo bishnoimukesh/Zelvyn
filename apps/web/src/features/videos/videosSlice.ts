@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { WorkoutVideo } from "@/types";
+import { videoService, VideoFilterParams } from "@/services/api/videoService";
 
 interface PlayerState {
   isPlaying: boolean;
@@ -19,6 +20,9 @@ interface VideosState {
   bookmarkedIds: string[];
   activeVideo: WorkoutVideo | null;
   playerState: PlayerState;
+  loading: boolean;
+  isLiveSynced: boolean;
+  error: string | null;
 }
 
 const initialVideos: WorkoutVideo[] = [
@@ -437,7 +441,24 @@ const initialState: VideosState = {
   bookmarkedIds: ["vid-1", "vid-3"],
   activeVideo: null,
   playerState: initialPlayerState,
+  loading: false,
+  isLiveSynced: false,
+  error: null,
 };
+
+export const fetchVideos = createAsyncThunk(
+  "videos/fetchVideos",
+  async (params: VideoFilterParams = { userId: "demo-user-1" }) => {
+    return await videoService.getVideos(params);
+  }
+);
+
+export const toggleBookmarkAsync = createAsyncThunk(
+  "videos/toggleBookmarkAsync",
+  async ({ videoId, userId = "demo-user-1" }: { videoId: string; userId?: string }) => {
+    return await videoService.toggleBookmark(videoId, userId);
+  }
+);
 
 export const videosSlice = createSlice({
   name: "videos",
@@ -535,6 +556,40 @@ export const videosSlice = createSlice({
     toggleMute: (state) => {
       state.playerState.isMuted = !state.playerState.isMuted;
     },
+  },
+  extraReducers: (builder) => {
+    // fetchVideos
+    builder.addCase(fetchVideos.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchVideos.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isLiveSynced = true;
+      if (action.payload) {
+        if (action.payload.items && action.payload.items.length > 0) {
+          state.items = action.payload.items;
+        }
+        if (action.payload.bookmarkedIds) {
+          state.bookmarkedIds = action.payload.bookmarkedIds;
+        }
+      }
+    });
+    builder.addCase(fetchVideos.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to load videos";
+    });
+
+    // toggleBookmarkAsync
+    builder.addCase(toggleBookmarkAsync.fulfilled, (state, action) => {
+      if (action.payload) {
+        const { videoId, isBookmarked } = action.payload;
+        if (isBookmarked && !state.bookmarkedIds.includes(videoId)) {
+          state.bookmarkedIds.push(videoId);
+        } else if (!isBookmarked) {
+          state.bookmarkedIds = state.bookmarkedIds.filter((id) => id !== videoId);
+        }
+      }
+    });
   },
 });
 

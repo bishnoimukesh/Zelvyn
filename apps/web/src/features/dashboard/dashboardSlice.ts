@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { logService, type WorkoutStatsSummary } from "@/services/api/logService";
+import type { CompletedWorkoutLog } from "@/types";
 
 export interface MetricItem {
   current: number;
@@ -45,7 +47,18 @@ interface DashboardState {
   weeklyActivity: DayActivity[];
   todayWorkout: DashboardWorkout;
   goals: GoalItem[];
+  recentLogs: CompletedWorkoutLog[];
+  loading: boolean;
+  isLiveSynced: boolean;
+  error: string | null;
 }
+
+export const fetchDashboardStats = createAsyncThunk(
+  "dashboard/fetchDashboardStats",
+  async (userId: string) => {
+    return await logService.getUserStatsSummary(userId);
+  }
+);
 
 const initialState: DashboardState = {
   metrics: {
@@ -56,29 +69,33 @@ const initialState: DashboardState = {
     recovery: { score: 94, status: "Optimal" },
   },
   weeklyActivity: [
-    { day: "Mon", calories: 640, duration: 50, completed: true },
-    { day: "Tue", calories: 710, duration: 60, completed: true },
-    { day: "Wed", calories: 480, duration: 40, completed: true },
-    { day: "Thu", calories: 690, duration: 55, completed: true },
-    { day: "Fri", calories: 540, duration: 48, completed: true, isToday: true },
-    { day: "Sat", calories: 0, duration: 0, completed: false },
+    { day: "Mon", calories: 0, duration: 0, completed: false },
+    { day: "Tue", calories: 410, duration: 45, completed: true },
+    { day: "Wed", calories: 340, duration: 25, completed: true },
+    { day: "Thu", calories: 480, duration: 50, completed: true },
+    { day: "Fri", calories: 310, duration: 35, completed: true },
+    { day: "Sat", calories: 0, duration: 0, completed: false, isToday: true },
     { day: "Sun", calories: 0, duration: 0, completed: false },
   ],
   todayWorkout: {
-    id: "workout-1",
+    id: "w-2",
     title: "Hypertrophy Chest & Back",
     category: "Strength",
     duration: 45,
-    calories: 410,
-    exercisesCount: 6,
+    calories: 420,
+    exercisesCount: 4,
     difficulty: "Advanced",
-    thumbnail: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=1200&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
   },
   goals: [
     { id: "g1", title: "Target Weight", current: 70, target: 67, unit: "kg", progress: 67 },
-    { id: "g2", title: "Weekly Workouts", current: 5, target: 6, unit: "sessions", progress: 83 },
+    { id: "g2", title: "Weekly Workouts", current: 4, target: 6, unit: "sessions", progress: 67 },
     { id: "g3", title: "Monthly Steps", current: 242000, target: 300000, unit: "steps", progress: 81 },
   ],
+  recentLogs: [],
+  loading: false,
+  isLiveSynced: false,
+  error: null,
 };
 
 export const dashboardSlice = createSlice({
@@ -101,6 +118,44 @@ export const dashboardSlice = createSlice({
     ) => {
       state.metrics = { ...state.metrics, ...action.payload };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchDashboardStats.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchDashboardStats.fulfilled, (state, action) => {
+      state.loading = false;
+      const data: WorkoutStatsSummary = action.payload;
+      if (data) {
+        state.isLiveSynced = true;
+        if (data.weeklyActivity && data.weeklyActivity.length > 0) {
+          state.weeklyActivity = data.weeklyActivity;
+        }
+        if (data.recentLogs) {
+          state.recentLogs = data.recentLogs;
+        }
+        // Update today's burn / duration from the today item in weeklyActivity
+        const todayItem = data.weeklyActivity?.find((d) => d.isToday);
+        if (todayItem && todayItem.calories > 0) {
+          state.metrics.calories.current = todayItem.calories;
+          state.metrics.activeTime.current = todayItem.duration;
+        }
+        // Update goals workouts count
+        const weeklyWorkoutsGoal = state.goals.find((g) => g.id === "g2");
+        if (weeklyWorkoutsGoal) {
+          weeklyWorkoutsGoal.current = data.totalWorkouts;
+          weeklyWorkoutsGoal.progress = Math.min(
+            100,
+            Math.round((data.totalWorkouts / weeklyWorkoutsGoal.target) * 100)
+          );
+        }
+      }
+    });
+    builder.addCase(fetchDashboardStats.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to load dashboard metrics";
+    });
   },
 });
 

@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   toggleReminderModal,
   updateReminderSettings,
+  saveReminderSettingsAsync,
 } from "@/features/planner/plannerSlice";
 
 export function ReminderSettingsModal() {
@@ -40,18 +41,22 @@ export function ReminderSettingsModal() {
 
   const handleToggleEnabled = (enabled: boolean) => {
     dispatch(updateReminderSettings({ enabled }));
+    dispatch(saveReminderSettingsAsync({ settings: { enabled } }));
   };
 
   const handleTimeChange = (time: string) => {
     dispatch(updateReminderSettings({ time }));
+    dispatch(saveReminderSettingsAsync({ settings: { time } }));
   };
 
   const handleLeadTimeChange = (leadTimeMinutes: number) => {
     dispatch(updateReminderSettings({ leadTimeMinutes }));
+    dispatch(saveReminderSettingsAsync({ settings: { leadTimeMinutes } }));
   };
 
   const handleToggleRestDayAlert = (notifyRestDays: boolean) => {
     dispatch(updateReminderSettings({ notifyRestDays }));
+    dispatch(saveReminderSettingsAsync({ settings: { notifyRestDays } }));
   };
 
   const handleRequestPushPermission = async () => {

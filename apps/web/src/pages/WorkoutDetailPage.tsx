@@ -33,6 +33,7 @@ import {
   resetSession,
 } from "@/features/workouts/workoutSessionSlice";
 import { Exercise, Workout } from "@/types";
+import { fetchWorkoutById } from "@/features/workouts/workoutsSlice";
 
 function getFallbackExercises(workout: Workout): Exercise[] {
   return [
@@ -92,6 +93,12 @@ export function WorkoutDetailPage() {
   const dispatch = useAppDispatch();
   const workouts = useAppSelector((state) => state.workouts.items);
   const workout = workouts.find((w) => w.id === id) || workouts[0];
+
+  useEffect(() => {
+    if (id && !workouts.some((w) => w.id === id)) {
+      dispatch(fetchWorkoutById(id));
+    }
+  }, [id, workouts, dispatch]);
 
   const session = useAppSelector((state) => state.workoutSession);
   const [showRoster, setShowRoster] = useState(false);

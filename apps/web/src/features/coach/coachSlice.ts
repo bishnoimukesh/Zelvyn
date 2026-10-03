@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { CoachChatMessage, Workout } from "@/types";
+import { coachService } from "@/services/api/coachService";
 
 interface CoachState {
   messages: CoachChatMessage[];
@@ -7,6 +8,9 @@ interface CoachState {
   readinessScore: number;
   fatigueLevel: "fresh" | "optimal" | "fatigued" | "overtrained";
   activeFilter: "all" | "workout" | "recovery" | "nutrition";
+  loading: boolean;
+  isLiveSynced: boolean;
+  error: string | null;
 }
 
 const initialMessages: CoachChatMessage[] = [
@@ -31,7 +35,38 @@ const initialState: CoachState = {
   readinessScore: 88,
   fatigueLevel: "optimal",
   activeFilter: "all",
+  loading: false,
+  isLiveSynced: false,
+  error: null,
 };
+
+// Async Thunks
+export const fetchCoachHistory = createAsyncThunk(
+  "coach/fetchCoachHistory",
+  async (userId: string = "demo-user-1") => {
+    return await coachService.getCoachHistory(userId);
+  }
+);
+
+export const sendCoachMessageAsync = createAsyncThunk(
+  "coach/sendCoachMessageAsync",
+  async ({
+    userId = "demo-user-1",
+    message,
+  }: {
+    userId?: string;
+    message: string;
+  }) => {
+    return await coachService.sendMessage(userId, message);
+  }
+);
+
+export const clearCoachHistoryAsync = createAsyncThunk(
+  "coach/clearCoachHistoryAsync",
+  async (userId: string = "demo-user-1") => {
+    return await coachService.clearHistory(userId);
+  }
+);
 
 export const coachSlice = createSlice({
   name: "coach",
@@ -83,6 +118,57 @@ export const coachSlice = createSlice({
       state.messages = [initialMessages[0]];
       state.isTyping = false;
     },
+  },
+  extraReducers: (builder) => {
+    // fetchCoachHistory
+    builder.addCase(fetchCoachHistory.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchCoachHistory.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isLiveSynced = true;
+      if (action.payload) {
+        if (action.payload.messages && action.payload.messages.length > 0) {
+          state.messages = action.payload.messages;
+        }
+        if (action.payload.readinessScore) {
+          state.readinessScore = action.payload.readinessScore;
+        }
+        if (action.payload.fatigueLevel) {
+          state.fatigueLevel = action.payload.fatigueLevel;
+        }
+      }
+    });
+    builder.addCase(fetchCoachHistory.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to load coach history";
+    });
+
+    // sendCoachMessageAsync
+    builder.addCase(sendCoachMessageAsync.pending, (state) => {
+      state.isTyping = true;
+    });
+    builder.addCase(sendCoachMessageAsync.fulfilled, (state, action) => {
+      state.isTyping = false;
+      state.isLiveSynced = true;
+      if (action.payload?.messages) {
+        state.messages = action.payload.messages;
+      }
+    });
+    builder.addCase(sendCoachMessageAsync.rejected, (state, action) => {
+      state.isTyping = false;
+      state.error = action.error.message || "Failed to send message";
+    });
+
+    // clearCoachHistoryAsync
+    builder.addCase(clearCoachHistoryAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      if (action.payload?.messages) {
+        state.messages = action.payload.messages;
+      } else {
+        state.messages = [initialMessages[0]];
+      }
+    });
   },
 });
 

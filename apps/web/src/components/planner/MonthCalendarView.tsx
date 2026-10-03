@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   toggleMonthDayCompletion,
   assignWorkoutToMonthDay,
+  updateMonthDayAsync,
 } from "@/features/planner/plannerSlice";
 import { CalendarDayEntry } from "@/types";
 
@@ -53,11 +54,20 @@ export function MonthCalendarView() {
   };
 
   const handleToggleCompleted = (dateString: string) => {
+    const targetDay = monthDays.find((d) => d.dateString === dateString);
+    const nextCompleted = targetDay ? !targetDay.completed : true;
+
     dispatch(toggleMonthDayCompletion(dateString));
+    dispatch(
+      updateMonthDayAsync({
+        dayData: { dateString, completed: nextCompleted },
+      })
+    );
+
     if (selectedDay && selectedDay.dateString === dateString) {
       setSelectedDay({
         ...selectedDay,
-        completed: !selectedDay.completed,
+        completed: nextCompleted,
       });
     }
   };
@@ -68,6 +78,15 @@ export function MonthCalendarView() {
         assignWorkoutToMonthDay({
           dateString: selectedDay.dateString,
           workoutId,
+        })
+      );
+      dispatch(
+        updateMonthDayAsync({
+          dayData: {
+            dateString: selectedDay.dateString,
+            workoutId,
+            isRestDay: false,
+          },
         })
       );
       setSelectedDay({
