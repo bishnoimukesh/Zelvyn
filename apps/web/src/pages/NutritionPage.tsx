@@ -1,146 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Sparkles,
   Check,
   ChevronRight,
+  RefreshCw,
+  Plus,
 } from "lucide-react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
-
-interface MealItem {
-  id: string;
-  title: string;
-  category: "Breakfast" | "Lunch" | "Dinner" | "Snack";
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  ingredients: string[];
-}
-
-const INITIAL_MEALS: MealItem[] = [
-  {
-    id: "m-1",
-    title: "High-Protein Breakfast Bowl",
-    category: "Breakfast",
-    calories: 520,
-    protein: 42,
-    carbs: 45,
-    fat: 14,
-    ingredients: [
-      "4 egg whites",
-      "2 whole eggs",
-      "1 cup oats",
-      "1 banana",
-      "Greek yogurt",
-    ],
-  },
-  {
-    id: "m-2",
-    title: "Grilled Chicken & Rice",
-    category: "Lunch",
-    calories: 620,
-    protein: 52,
-    carbs: 65,
-    fat: 12,
-    ingredients: [
-      "200g chicken breast",
-      "1 cup brown rice",
-      "Broccoli",
-      "Olive oil",
-      "Lemon",
-    ],
-  },
-  {
-    id: "m-3",
-    title: "Salmon & Sweet Potato",
-    category: "Dinner",
-    calories: 580,
-    protein: 44,
-    carbs: 48,
-    fat: 18,
-    ingredients: [
-      "200g wild salmon",
-      "1 large sweet potato",
-      "Asparagus",
-      "Garlic butter",
-    ],
-  },
-  {
-    id: "m-4",
-    title: "Pre-Workout Smoothie",
-    category: "Snack",
-    calories: 280,
-    protein: 26,
-    carbs: 38,
-    fat: 4,
-    ingredients: [
-      "1 scoop whey isolate",
-      "Almond milk",
-      "Blueberries",
-      "Chia seeds",
-      "Honey",
-    ],
-  },
-  {
-    id: "m-5",
-    title: "Steak & Roasted Medley",
-    category: "Dinner",
-    calories: 640,
-    protein: 54,
-    carbs: 32,
-    fat: 22,
-    ingredients: [
-      "220g flank steak",
-      "Bell peppers",
-      "Zucchini",
-      "Rosemary potatoes",
-    ],
-  },
-  {
-    id: "m-6",
-    title: "Cottage Cheese Berry Parfait",
-    category: "Snack",
-    calories: 240,
-    protein: 28,
-    carbs: 22,
-    fat: 3,
-    ingredients: [
-      "Low-fat cottage cheese",
-      "Raspberries",
-      "Crushed walnuts",
-      "Cinnamon",
-    ],
-  },
-];
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import {
+  fetchNutrition,
+  logMealAsync,
+  unlogMealAsync,
+  addCustomMealAsync,
+} from "@/features/nutrition/nutritionSlice";
+import { MealItem } from "@/services/api/nutritionService";
 
 export function NutritionPage() {
+  const dispatch = useAppDispatch();
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [addedMeals, setAddedMeals] = useState<Record<string, boolean>>({});
-  const [caloriesConsumed, setCaloriesConsumed] = useState(1180);
-  const [proteinConsumed, setProteinConsumed] = useState(112);
-  const [carbsConsumed, setCarbsConsumed] = useState(130);
-  const [fatConsumed, setFatConsumed] = useState(34);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [customMeals, setCustomMeals] = useState<MealItem[]>([]);
 
-  const targetCalories = 1771;
-  const remainingCalories = Math.max(0, targetCalories - caloriesConsumed);
+  const {
+    meals,
+    loggedMealIds,
+    targetCalories,
+    targetProtein,
+    targetCarbs,
+    targetFat,
+    consumedCalories,
+    consumedProtein,
+    consumedCarbs,
+    consumedFat,
+    isLiveSynced,
+    loading,
+  } = useAppSelector((state) => state.nutrition);
+
+  useEffect(() => {
+    dispatch(fetchNutrition("demo-user-1"));
+  }, [dispatch]);
+
+  const remainingCalories = Math.max(0, targetCalories - consumedCalories);
   const caloriePercent = Math.min(
     100,
-    Math.round((caloriesConsumed / targetCalories) * 100)
+    Math.round((consumedCalories / targetCalories) * 100)
   );
 
-  const targetProtein = 164;
-  const targetCarbs = 177;
-  const targetFat = 49;
-
-  const handleAddMeal = (meal: MealItem) => {
-    setAddedMeals((prev) => ({ ...prev, [meal.id]: true }));
-    setCaloriesConsumed((prev) => prev + meal.calories);
-    setProteinConsumed((prev) => prev + meal.protein);
-    setCarbsConsumed((prev) => prev + meal.carbs);
-    setFatConsumed((prev) => prev + meal.fat);
+  const handleToggleMeal = (meal: MealItem) => {
+    const isAdded = loggedMealIds.includes(meal.id);
+    if (isAdded) {
+      dispatch(unlogMealAsync({ mealId: meal.id }));
+    } else {
+      dispatch(logMealAsync({ mealId: meal.id }));
+    }
   };
 
   const handleGenerateMeal = () => {
@@ -162,16 +75,15 @@ export function NutritionPage() {
           "Lime tahini",
         ],
       };
-      setCustomMeals((prev) => [generated, ...prev]);
+      dispatch(addCustomMealAsync({ meal: generated }));
       setIsGenerating(false);
-    }, 800);
+    }, 600);
   };
 
-  const allMeals = [...customMeals, ...INITIAL_MEALS];
   const filteredMeals =
     selectedFilter === "All"
-      ? allMeals
-      : allMeals.filter((m) => m.category === selectedFilter);
+      ? meals
+      : meals.filter((m) => m.category === selectedFilter);
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -192,7 +104,29 @@ export function NutritionPage() {
     <PageContainer
       title="Nutrition"
       description="Track macros · Plan meals · Optimize performance"
-      badge="Macros Active"
+      badge={isLiveSynced ? "MongoDB Atlas Synced" : "Macros Active"}
+      action={
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => dispatch(fetchNutrition("demo-user-1"))}
+            disabled={loading}
+            className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+            Sync
+          </Button>
+          <Button
+            size="sm"
+            onClick={handleGenerateMeal}
+            disabled={isGenerating}
+            className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]"
+          >
+            <Sparkles className="h-4 w-4" /> AI Smart Meal
+          </Button>
+        </div>
+      }
     >
       {/* Top Section: Calories Donut & Macros Bars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -223,7 +157,7 @@ export function NutritionPage() {
             </svg>
             <div className="absolute flex flex-col items-center justify-center text-center">
               <span className="font-display text-2xl font-black text-white leading-none">
-                {caloriesConsumed}
+                {consumedCalories}
               </span>
               <span className="text-[10px] uppercase font-bold text-[#71717A] mt-0.5">
                 kcal
@@ -236,7 +170,7 @@ export function NutritionPage() {
               Calories Today
             </span>
             <div className="font-display text-3xl font-black text-white mt-0.5">
-              {caloriesConsumed}
+              {consumedCalories}
             </div>
             <div className="text-xs text-[#A1A1AA] mt-0.5">
               of {targetCalories} target
@@ -259,14 +193,14 @@ export function NutritionPage() {
             <div className="flex items-center justify-between text-xs">
               <span className="text-white font-medium">Protein</span>
               <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{proteinConsumed}g</strong> / {targetProtein}g
+                <strong className="text-white">{consumedProtein}g</strong> / {targetProtein}g
               </span>
             </div>
             <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#C8FF47] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(200,255,71,0.5)]"
                 style={{
-                  width: `${Math.min(100, (proteinConsumed / targetProtein) * 100)}%`,
+                  width: `${Math.min(100, (consumedProtein / targetProtein) * 100)}%`,
                 }}
               />
             </div>
@@ -277,14 +211,14 @@ export function NutritionPage() {
             <div className="flex items-center justify-between text-xs">
               <span className="text-white font-medium">Carbs</span>
               <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{carbsConsumed}g</strong> / {targetCarbs}g
+                <strong className="text-white">{consumedCarbs}g</strong> / {targetCarbs}g
               </span>
             </div>
             <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#FF8438] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(255,132,56,0.5)]"
                 style={{
-                  width: `${Math.min(100, (carbsConsumed / targetCarbs) * 100)}%`,
+                  width: `${Math.min(100, (consumedCarbs / targetCarbs) * 100)}%`,
                 }}
               />
             </div>
@@ -295,14 +229,14 @@ export function NutritionPage() {
             <div className="flex items-center justify-between text-xs">
               <span className="text-white font-medium">Fat</span>
               <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{fatConsumed}g</strong> / {targetFat}g
+                <strong className="text-white">{consumedFat}g</strong> / {targetFat}g
               </span>
             </div>
             <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#A78BFA] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(167,139,250,0.5)]"
                 style={{
-                  width: `${Math.min(100, (fatConsumed / targetFat) * 100)}%`,
+                  width: `${Math.min(100, (consumedFat / targetFat) * 100)}%`,
                 }}
               />
             </div>
@@ -318,12 +252,10 @@ export function NutritionPage() {
           </div>
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#C8FF47]">
-              AI Recommendation
+              AI Sports Science Recommendation
             </h4>
             <p className="text-xs text-[#D4D4D8] mt-0.5 leading-relaxed">
-              You&apos;re 52g short on protein. Consider a post-workout shake or add
-              chicken to your next meal. Your carbs are on track for today&apos;s
-              training.
+              You&apos;re currently tracking toward {targetProtein}g daily protein. Hitting this leucine threshold optimizes Muscle Protein Synthesis (MPS) and spares muscle tissue during high-volume sessions.
             </p>
           </div>
         </div>
@@ -365,7 +297,7 @@ export function NutritionPage() {
       {/* Meal Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredMeals.map((meal) => {
-          const isAdded = addedMeals[meal.id];
+          const isAdded = loggedMealIds.includes(meal.id);
 
           return (
             <div
@@ -426,8 +358,7 @@ export function NutritionPage() {
               {/* Action Button */}
               <button
                 type="button"
-                onClick={() => handleAddMeal(meal)}
-                disabled={isAdded}
+                onClick={() => handleToggleMeal(meal)}
                 className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold border transition-all ${
                   isAdded
                     ? "bg-[#C8FF47]/10 text-[#C8FF47] border-[#C8FF47]/30"
@@ -436,12 +367,13 @@ export function NutritionPage() {
               >
                 {isAdded ? (
                   <>
-                    <Check className="h-3.5 w-3.5" /> Added to Today
+                    <Check className="h-3.5 w-3.5" /> Logged Today (Click to Remove)
                   </>
                 ) : (
                   <>
+                    <Plus className="h-3.5 w-3.5" />
                     <span>Add to Today</span>
-                    <ChevronRight className="h-3.5 w-3.5" />
+                    <ChevronRight className="h-3.5 w-3.5 ml-auto" />
                   </>
                 )}
               </button>
