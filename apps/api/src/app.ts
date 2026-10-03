@@ -16,6 +16,7 @@ import videoRoutes from "./modules/videos/video.routes.js";
 import coachRoutes from "./modules/coach/coach.routes.js";
 import progressRoutes from "./modules/progress/progress.routes.js";
 import nutritionRoutes from "./modules/nutrition/nutrition.routes.js";
+import habitsRoutes from "./modules/habits/habits.routes.js";
 
 const app: Application = express();
 
@@ -66,6 +67,7 @@ app.use("/api/videos", videoRoutes);
 app.use("/api/coach", coachRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/nutrition", nutritionRoutes);
+app.use("/api/habits", habitsRoutes);
 
 // 404 Catch-all
 app.use(notFoundHandler);

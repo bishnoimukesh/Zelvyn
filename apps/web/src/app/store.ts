@@ -9,6 +9,7 @@ import progressReducer from "@/features/progress/progressSlice";
 import videosReducer from "@/features/videos/videosSlice";
 import coachReducer from "@/features/coach/coachSlice";
 import nutritionReducer from "@/features/nutrition/nutritionSlice";
+import { habitsReducer } from "@/features/habits/habitsSlice";
 import uiReducer from "@/features/ui/uiSlice";
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
     videos: videosReducer,
     coach: coachReducer,
     nutrition: nutritionReducer,
+    habits: habitsReducer,
     ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
