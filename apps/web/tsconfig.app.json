@@ -26,7 +26,8 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@fitsync/types": ["../../packages/types/src/index.ts"]
     }
   },
   "include": ["src", "src/vite-env.d.ts"]

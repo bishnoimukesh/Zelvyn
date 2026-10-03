@@ -1,0 +1,9 @@
+{
+  "name": "@fitsync/eslint-config",
+  "version": "1.0.0",
+  "description": "Shared ESLint presets for FitSync",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  }
+}

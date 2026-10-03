@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Zap, Menu, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { useAppDispatch } from "@/app/hooks";
 import { toggleMobileDrawer } from "@/features/ui/uiSlice";
 import { ROUTES } from "@/constants/routes";
@@ -30,7 +30,7 @@ export const TopHeader: React.FC<TopHeaderProps> = () => {
         </button>
 
         {/* Brand Logo */}
-        <Link to={ROUTES.DASHBOARD} className="flex items-center gap-2 group">
+        {/* <Link to={ROUTES.DASHBOARD} className="flex items-center gap-2 group">
           <div className="h-8 w-8 rounded-lg bg-[#C8FF47] flex items-center justify-center text-[#08080A] font-black shadow-[0_0_12px_rgba(200,255,71,0.3)] transition-transform group-hover:scale-105">
             <Zap className="h-5 w-5 fill-current" />
           </div>
@@ -42,7 +42,7 @@ export const TopHeader: React.FC<TopHeaderProps> = () => {
               Athletic OS
             </span>
           </div>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Right Actions: Streak, Notifications, Theme, Profile */}

@@ -1,31 +1,68 @@
-# FitSync — AI-Powered Smart Fitness Tracker
+# Zelvyn / FitSync Monorepo
 
-FitSync is a mobile-first, AI-powered fitness tracking and workout planning application built with **React**, **TypeScript**, **Vite**, **Tailwind CSS**, **ShadCN UI**, **Redux Toolkit**, **React Router**, **Firebase**, and **Vite PWA**.
+FitSync is an AI-powered fitness tracking and workout planning platform built as a modular monorepo.
 
-The design system and layout patterns are inspired by the [FitSync Design Reference](https://spring-object-54897598.figma.site/?utm_source=chatgpt.com), featuring an athletic obsidian and electric volt neon visual language (`#08080A`, `#111115`, `#C8FF47`, `Barlow Condensed`, `Inter`, `JetBrains Mono`).
+## Project Structure
+
+```
+Zelvyn/
+├── apps/
+│   ├── web/                    # Frontend (React 18 + Vite + Tailwind + Redux Toolkit)
+│   │   ├── src/
+│   │   │   ├── components/     # UI & Feature components
+│   │   │   ├── pages/          # Application views & routes
+│   │   │   ├── layouts/        # AppLayout, TopHeader, BottomNav, etc.
+│   │   │   ├── hooks/          # Custom & Redux hooks (useAppDispatch, useAppSelector)
+│   │   │   ├── services/       # Firebase, OpenAI, and API services
+│   │   │   ├── store/          # Redux Toolkit store & slices
+│   │   │   ├── types/          # Frontend types
+│   │   │   └── utils/          # Tailwind cn utility & helpers
+│   │   ├── public/             # Static assets & PWA manifest icons
+│   │   ├── index.html          # HTML Entry
+│   │   ├── package.json        # @fitsync/web dependencies
+│   │   ├── vite.config.ts      # Vite configuration & path aliases
+│   │   └── tsconfig.json       # Web TypeScript configuration
+│   │
+│   └── api/                    # Backend (Node.js + Express + Mongoose + MongoDB)
+│       ├── src/
+│       │   ├── modules/
+│       │   │   ├── auth/       # Auth controller & routes
+│       │   │   ├── users/      # User model, controller & routes
+│       │   │   ├── workouts/   # Workout model, controller, seed & routes
+│       │   │   └── logs/       # Workout completion logs & analytics
+│       │   ├── middleware/     # Error handling & 404 catch-all
+│       │   ├── config/         # Environment variable loader
+│       │   ├── database/       # Mongoose connection & status
+│       │   ├── common/         # Standardized API response helpers
+│       │   ├── app.ts          # Express application setup
+│       │   └── server.ts       # Server boot & graceful shutdown
+│       ├── package.json        # @fitsync/api dependencies
+│       └── tsconfig.json       # API TypeScript configuration
+│
+├── packages/                   # Shared workspaces
+│   ├── types/                  # Shared TypeScript models (User, Workout, Logs, etc.)
+│   ├── eslint-config/          # Shared ESLint configuration presets
+│   └── tsconfig/               # Shared TypeScript base configuration
+│
+├── .env.example                # Unified environment variables template
+├── .env                        # Local environment variables
+├── .gitignore                  # Git ignore rules
+├── package.json                # Monorepo workspaces manifest & scripts
+├── pnpm-workspace.yaml         # pnpm workspace definition
+└── README.md
+```
 
 ---
 
-## Step 1: Initial Project Setup Foundation
-
-Completed foundational setup tasks:
-- **React + TypeScript + Vite**: Fast modern dev server and optimized production bundler.
-- **Tailwind CSS & Design Tokens**: Configured with FitSync color palette, typography (`Barlow Condensed`, `Inter`, `JetBrains Mono`), and custom card hover/glow utilities.
-- **ShadCN UI**: Initial foundational components (`Button`, `Card`, `Input`, `Badge`, `Progress`).
-- **React Router**: App layout with mobile bottom navigation bar and route placeholders (`/`, `/dashboard`, `/workouts`, `/workouts/:id`, `/planner`, `/progress`, `/videos`, `/coach`, `/profile`).
-- **Redux Toolkit**: Centralized store with scalable slices (`auth`, `user`, `workouts`, `planner`, `progress`, `ui`).
-- **Firebase SDK**: Initialized client (`src/services/firebase/config.ts`) with `.env.example`.
-- **AI Service Architecture**: Service module prepared in `src/services/ai/openai.ts`.
-- **Vite PWA Plugin**: Configured with web app manifest and offline caching readiness.
-- **Code Quality**: ESLint 9 flat config and Prettier formatting.
-
----
-
-## Getting Started
+## Quick Start
 
 ### 1. Install Dependencies
 ```bash
+# With npm (workspaces)
 npm install
+
+# Or with pnpm
+pnpm install
 ```
 
 ### 2. Configure Environment Variables
@@ -34,17 +71,27 @@ Copy `.env.example` to `.env`:
 cp .env.example .env
 ```
 
-### 3. Run Development Server
+### 3. Run Development Servers
 ```bash
-npm run dev
+# Start Frontend Web App (http://localhost:5173)
+npm run dev:web
+
+# Start Backend API Server (http://localhost:5000)
+npm run dev:api
 ```
 
-### 4. Build Production Bundle
+### 4. Build Production Bundles
 ```bash
+# Build both web and api
 npm run build
+
+# Or individually
+npm run build:web
+npm run build:api
 ```
 
-### 5. Run Linter
+### 5. Lint
 ```bash
-npm run lint
+npm run lint:web
+npm run lint:api
 ```

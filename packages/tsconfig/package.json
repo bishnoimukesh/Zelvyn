@@ -1,0 +1,10 @@
+{
+  "name": "@fitsync/tsconfig",
+  "version": "1.0.0",
+  "description": "Shared tsconfig presets for FitSync",
+  "files": [
+    "base.json",
+    "react-app.json",
+    "node.json"
+  ]
+}
