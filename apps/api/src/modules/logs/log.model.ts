@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IWorkoutLog extends Document {
-  userId: mongoose.Types.ObjectId;
-  workoutId?: mongoose.Types.ObjectId;
+  userId: string;
+  workoutId?: string;
   workoutTitle: string;
   category: "strength" | "hiit" | "cardio" | "mobility" | "power";
   date: Date;
@@ -18,14 +18,13 @@ export interface IWorkoutLog extends Document {
 const WorkoutLogSchema = new Schema<IWorkoutLog>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
       index: true,
     },
     workoutId: {
-      type: Schema.Types.ObjectId,
-      ref: "Workout",
+      type: String,
+      default: "",
     },
     workoutTitle: {
       type: String,
@@ -65,6 +64,22 @@ const WorkoutLogSchema = new Schema<IWorkoutLog>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 
