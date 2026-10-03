@@ -18,6 +18,7 @@
     "lint:web": "npm --workspace=@fitsync/web run lint",
     "lint:api": "npm --workspace=@fitsync/api run lint",
     "format": "prettier --write \"apps/**/*.{ts,tsx,css,json}\" \"packages/**/*.{ts,json}\"",
+    "seed": "npm --workspace=@fitsync/api run seed",
     "preview": "npm --workspace=@fitsync/web run preview"
   },
   "devDependencies": {

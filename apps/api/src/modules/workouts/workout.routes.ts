@@ -11,6 +11,7 @@ import {
 const router = Router();
 
 router.get("/seed", seedInitialWorkouts);
+router.post("/seed", seedInitialWorkouts);
 router.get("/", getWorkouts);
 router.get("/:id", getWorkoutById);
 router.post("/", createWorkout);

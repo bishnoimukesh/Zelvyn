@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Workout } from "@/types";
+import { workoutService, type WorkoutFilterQuery } from "@/services/api/workoutService";
 
 export interface WorkoutFilters {
   searchQuery: string;
@@ -15,7 +16,40 @@ interface WorkoutsState {
   items: Workout[];
   filters: WorkoutFilters;
   loading: boolean;
+  error: string | null;
+  isLiveSynced: boolean;
+  activeWorkout: Workout | null;
+  activeWorkoutLoading: boolean;
 }
+
+export const fetchWorkouts = createAsyncThunk(
+  "workouts/fetchWorkouts",
+  async (filters?: WorkoutFilterQuery) => {
+    return await workoutService.getWorkouts(filters);
+  }
+);
+
+export const fetchWorkoutById = createAsyncThunk(
+  "workouts/fetchWorkoutById",
+  async (id: string) => {
+    return await workoutService.getWorkoutById(id);
+  }
+);
+
+export const createWorkoutAsync = createAsyncThunk(
+  "workouts/createWorkout",
+  async (workout: Partial<Workout>) => {
+    return await workoutService.createWorkout(workout);
+  }
+);
+
+export const deleteWorkoutAsync = createAsyncThunk(
+  "workouts/deleteWorkout",
+  async (id: string) => {
+    await workoutService.deleteWorkout(id);
+    return id;
+  }
+);
 
 const initialWorkouts: Workout[] = [
   {
@@ -276,6 +310,10 @@ const initialState: WorkoutsState = {
   items: initialWorkouts,
   filters: initialFilters,
   loading: false,
+  error: null,
+  isLiveSynced: false,
+  activeWorkout: null,
+  activeWorkoutLoading: false,
 };
 
 export const workoutsSlice = createSlice({
@@ -312,6 +350,62 @@ export const workoutsSlice = createSlice({
     resetFilters: (state) => {
       state.filters = initialFilters;
     },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    // fetchWorkouts
+    builder.addCase(fetchWorkouts.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchWorkouts.fulfilled, (state, action) => {
+      state.loading = false;
+      if (Array.isArray(action.payload) && action.payload.length > 0) {
+        state.items = action.payload;
+        state.isLiveSynced = true;
+      }
+    });
+    builder.addCase(fetchWorkouts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to sync workouts from server";
+    });
+
+    // fetchWorkoutById
+    builder.addCase(fetchWorkoutById.pending, (state) => {
+      state.activeWorkoutLoading = true;
+    });
+    builder.addCase(fetchWorkoutById.fulfilled, (state, action) => {
+      state.activeWorkoutLoading = false;
+      if (action.payload) {
+        state.activeWorkout = action.payload;
+        const index = state.items.findIndex((w) => w.id === action.payload.id);
+        if (index >= 0) {
+          state.items[index] = action.payload;
+        } else {
+          state.items.push(action.payload);
+        }
+      }
+    });
+    builder.addCase(fetchWorkoutById.rejected, (state) => {
+      state.activeWorkoutLoading = false;
+    });
+
+    // createWorkoutAsync
+    builder.addCase(createWorkoutAsync.fulfilled, (state, action) => {
+      if (action.payload) {
+        const exists = state.items.some((w) => w.id === action.payload.id);
+        if (!exists) {
+          state.items.unshift(action.payload);
+        }
+      }
+    });
+
+    // deleteWorkoutAsync
+    builder.addCase(deleteWorkoutAsync.fulfilled, (state, action) => {
+      state.items = state.items.filter((w) => w.id !== action.payload);
+    });
   },
 });
 
@@ -325,6 +419,7 @@ export const {
   setDifficultyFilter,
   setDurationFilter,
   resetFilters,
+  clearError,
 } = workoutsSlice.actions;
 
 export default workoutsSlice.reducer;

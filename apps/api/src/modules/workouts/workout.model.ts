@@ -13,6 +13,7 @@ export interface IExercise {
 }
 
 export interface IWorkout extends Document {
+  customId?: string;
   title: string;
   category: "strength" | "hiit" | "cardio" | "mobility" | "power";
   targetGoal?: "hypertrophy" | "fat_loss" | "endurance" | "strength";
@@ -30,20 +31,37 @@ export interface IWorkout extends Document {
   updatedAt: Date;
 }
 
-const ExerciseSchema = new Schema<IExercise>({
-  name: { type: String, required: true },
-  targetMuscle: { type: String, required: true },
-  equipment: { type: String, default: "bodyweight" },
-  sets: { type: Number, required: true, min: 1 },
-  reps: { type: String, required: true },
-  restSeconds: { type: Number, default: 60 },
-  instructions: [{ type: String }],
-  formCues: [{ type: String }],
-  thumbnail: { type: String, default: "" },
-});
+const ExerciseSchema = new Schema<IExercise>(
+  {
+    name: { type: String, required: true },
+    targetMuscle: { type: String, required: true },
+    equipment: { type: String, default: "bodyweight" },
+    sets: { type: Number, required: true, min: 1 },
+    reps: { type: String, required: true },
+    restSeconds: { type: Number, default: 60 },
+    instructions: [{ type: String }],
+    formCues: [{ type: String }],
+    thumbnail: { type: String, default: "" },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  }
+);
 
 const WorkoutSchema = new Schema<IWorkout>(
   {
+    customId: {
+      type: String,
+      index: true,
+      sparse: true,
+    },
     title: {
       type: String,
       required: [true, "Workout title is required"],
@@ -101,6 +119,22 @@ const WorkoutSchema = new Schema<IWorkout>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform: (_doc, ret: Record<string, any>) => {
+        ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 
