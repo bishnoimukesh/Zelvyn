@@ -26,12 +26,11 @@ export const achievementsService = {
    * Fetch user gamification, level, XP, and achievements
    */
   async getGamification(userId: string = "demo-user-1"): Promise<{ data: GamificationData; source?: string }> {
-    const res = await apiClient.get<ApiResponse<GamificationData> & { source?: string }>(
-      `/achievements/${userId}`
-    );
+    const res = await apiClient.get<any>(`/achievements/${userId}`);
+    const data: GamificationData = res?.achievements ? res : (res?.data || res);
     return {
-      data: res.data,
-      source: res.source,
+      data,
+      source: res?.source || "mongodb",
     };
   },
 

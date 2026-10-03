@@ -77,14 +77,16 @@ const achievementsSlice = createSlice({
       })
       .addCase(fetchGamification.fulfilled, (state, action) => {
         state.loading = false;
-        const data = action.payload.data;
-        state.level = data.level;
-        state.title = data.title;
-        state.currentXp = data.currentXp;
-        state.nextLevelXp = data.nextLevelXp;
-        state.achievements = data.achievements;
-        if (action.payload.source) {
-          state.source = action.payload.source;
+        const data = (action.payload as any)?.data ?? action.payload;
+        if (data) {
+          state.level = data.level || 1;
+          state.title = data.title || "Fitness Novice";
+          state.currentXp = data.currentXp || 0;
+          state.nextLevelXp = data.nextLevelXp || 200;
+          state.achievements = Array.isArray(data.achievements) ? data.achievements : [];
+        }
+        if ((action.payload as any)?.source) {
+          state.source = (action.payload as any).source;
         }
       })
       .addCase(fetchGamification.rejected, (state, action) => {

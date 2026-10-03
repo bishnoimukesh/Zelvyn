@@ -108,9 +108,10 @@ const habitsSlice = createSlice({
       })
       .addCase(fetchHabits.fulfilled, (state, action) => {
         state.loading = false;
-        state.habits = action.payload.data;
-        if (action.payload.source) {
-          state.source = action.payload.source;
+        const incoming = (action.payload as any)?.data ?? action.payload;
+        state.habits = Array.isArray(incoming) ? incoming : [];
+        if ((action.payload as any)?.source) {
+          state.source = (action.payload as any).source;
         }
       })
       .addCase(fetchHabits.rejected, (state, action) => {

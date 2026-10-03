@@ -53,7 +53,27 @@ async function request<T>(
       );
     }
 
-    return json.data;
+    const payload = json.data !== undefined ? json.data : (json as unknown as T);
+    if (payload && typeof payload === "object") {
+      if (!("data" in payload)) {
+        Object.defineProperty(payload, "data", {
+          value: payload,
+          enumerable: false,
+          configurable: true,
+          writable: true,
+        });
+      }
+      if ("source" in json && !("source" in payload)) {
+        Object.defineProperty(payload, "source", {
+          value: (json as any).source,
+          enumerable: false,
+          configurable: true,
+          writable: true,
+        });
+      }
+    }
+
+    return payload as T;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;

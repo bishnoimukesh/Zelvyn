@@ -52,8 +52,9 @@ export function AchievementsPage() {
     dispatch(fetchGamification(userId));
   }, [dispatch, userId]);
 
-  const earned = achievements.filter((a) => a.unlocked);
-  const locked = achievements.filter((a) => !a.unlocked);
+  const achievementList = Array.isArray(achievements) ? achievements : [];
+  const earned = achievementList.filter((a) => a.unlocked);
+  const locked = achievementList.filter((a) => !a.unlocked);
 
   const prevLevelBase = (level - 1) * 200;
   const xpInCurrentLevel = Math.max(0, currentXp - prevLevelBase);
@@ -71,7 +72,7 @@ export function AchievementsPage() {
   return (
     <PageContainer
       title="Achievements"
-      description={`${earned.length} / ${achievements.length} unlocked`}
+      description={`${earned.length} / ${achievementList.length} unlocked`}
       badge="Gamification"
     >
       {/* Level XP Banner Card */}

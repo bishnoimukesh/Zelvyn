@@ -54,7 +54,7 @@ const COLOR_OPTIONS = [
 
 export function HabitsPage() {
   const dispatch = useAppDispatch();
-  const { habits, loading, source, isSaving } = useAppSelector((state) => state.habits);
+  const { habits = [], loading, source, isSaving } = useAppSelector((state) => state.habits);
   const authUserId = useAppSelector((state) => state.auth.userId);
   const userId = authUserId || "demo-user-1";
 
@@ -70,8 +70,9 @@ export function HabitsPage() {
     dispatch(fetchHabits(userId));
   }, [dispatch, userId]);
 
-  const completedCount = habits.filter((h) => h.current >= h.target).length;
-  const totalHabits = habits.length || 1;
+  const habitList = Array.isArray(habits) ? habits : [];
+  const completedCount = habitList.filter((h) => h.current >= h.target).length;
+  const totalHabits = habitList.length || 1;
   const completionPercent = Math.round((completedCount / totalHabits) * 100);
 
   const handleIncrement = (habitId: string, step: number) => {
@@ -170,7 +171,7 @@ export function HabitsPage() {
 
             {/* Dots Indicator */}
             <div className="flex items-center gap-1.5 mt-3">
-              {habits.map((h) => (
+              {habitList.map((h) => (
                 <span
                   key={h.habitId}
                   className="h-2 w-2 rounded-full transition-all"
@@ -200,7 +201,7 @@ export function HabitsPage() {
       </div>
 
       {/* Loading Skeleton */}
-      {loading && habits.length === 0 && (
+      {loading && habitList.length === 0 && (
         <div className="space-y-3">
           {[1, 2, 3, 4].map((i) => (
             <div
@@ -213,7 +214,7 @@ export function HabitsPage() {
 
       {/* Habits List Rows */}
       <div className="space-y-3">
-        {habits.map((h) => {
+        {habitList.map((h) => {
           const Icon = ICON_MAP[h.iconKey] || Sparkles;
           const isDone = h.current >= h.target;
           const progressPercent = Math.min(

@@ -26,10 +26,11 @@ export const habitsService = {
    * Fetch user's habits and streaks
    */
   async getHabits(userId: string = "default_user"): Promise<{ data: HabitItem[]; source?: string }> {
-    const res = await apiClient.get<ApiResponse<HabitItem[]> & { source?: string }>(`/habits?userId=${userId}`);
+    const res = await apiClient.get<any>(`/habits?userId=${userId}`);
+    const items: HabitItem[] = Array.isArray(res) ? res : Array.isArray(res?.data) ? res.data : [];
     return {
-      data: res.data,
-      source: res.source,
+      data: items,
+      source: res?.source || "mongodb",
     };
   },
 
