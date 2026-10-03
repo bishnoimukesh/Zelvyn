@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch } from "@/app/hooks";
-import { logWeightEntry } from "@/features/progress/progressSlice";
+import { logWeightEntry, logWeightAsync } from "@/features/progress/progressSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Scale, X, Check, Calendar, Activity } from "lucide-react";
@@ -26,13 +26,28 @@ export function LogWeightModal({ isOpen, onClose }: LogWeightModalProps) {
     if (isNaN(parsedWeight) || parsedWeight <= 0) return;
 
     const parsedBf = bodyFat ? parseFloat(bodyFat) : undefined;
+    const bodyFatPercent = isNaN(parsedBf as number) ? undefined : parsedBf;
+    const entryNotes = notes.trim() || undefined;
+    const entryDate = date.trim() || "Today";
 
     dispatch(
       logWeightEntry({
         weight: parsedWeight,
-        bodyFatPercent: isNaN(parsedBf as number) ? undefined : parsedBf,
-        notes: notes.trim() || undefined,
-        date: date.trim() || "Today",
+        bodyFatPercent,
+        notes: entryNotes,
+        date: entryDate,
+      })
+    );
+
+    dispatch(
+      logWeightAsync({
+        userId: "demo-user-1",
+        entry: {
+          weight: parsedWeight,
+          bodyFatPercent,
+          notes: entryNotes,
+          date: entryDate,
+        },
       })
     );
 

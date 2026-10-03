@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import {
   ProgressEntry,
   WeightLogEntry,
   CompletedWorkoutLog,
   ActivityHeatmapDay,
 } from "@/types";
+import { progressService } from "@/services/api/progressService";
 
 export interface StreakBadge {
   id: string;
@@ -51,6 +52,9 @@ interface ProgressState {
     dailyTarget: number;
     weeklyDistribution: DayCalorieRecord[];
   };
+  loading: boolean;
+  isLiveSynced: boolean;
+  error: string | null;
 }
 
 const initialWeightHistory: WeightLogEntry[] = [
@@ -268,7 +272,35 @@ const initialState: ProgressState = {
     dailyTarget: 500,
     weeklyDistribution: initialCalories,
   },
+  loading: false,
+  isLiveSynced: false,
+  error: null,
 };
+
+export const fetchProgress = createAsyncThunk(
+  "progress/fetchProgress",
+  async (userId: string = "demo-user-1") => {
+    return await progressService.getProgress(userId);
+  }
+);
+
+export const logWeightAsync = createAsyncThunk(
+  "progress/logWeightAsync",
+  async ({
+    userId = "demo-user-1",
+    entry,
+  }: {
+    userId?: string;
+    entry: {
+      weight: number;
+      bodyFatPercent?: number;
+      notes?: string;
+      date?: string;
+    };
+  }) => {
+    return await progressService.logWeight(userId, entry);
+  }
+);
 
 export const progressSlice = createSlice({
   name: "progress",
@@ -352,6 +384,52 @@ export const progressSlice = createSlice({
         rec.target = action.payload;
       });
     },
+  },
+  extraReducers: (builder) => {
+    // fetchProgress
+    builder.addCase(fetchProgress.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchProgress.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isLiveSynced = true;
+      if (action.payload) {
+        if (action.payload.weightHistory && action.payload.weightHistory.length > 0) {
+          state.weightHistory = action.payload.weightHistory;
+        }
+        if (action.payload.weightStarting) {
+          state.weightStarting = action.payload.weightStarting;
+        }
+        if (action.payload.weightTarget) {
+          state.weightTarget = action.payload.weightTarget;
+        }
+        if (action.payload.workoutHistory && action.payload.workoutHistory.length > 0) {
+          state.workoutHistory = action.payload.workoutHistory;
+        }
+        if (action.payload.streak) {
+          state.streak = action.payload.streak;
+          state.streakDays = action.payload.streak.current;
+        }
+        if (action.payload.stepTracker) {
+          state.stepTracker = action.payload.stepTracker;
+        }
+        if (action.payload.calorieTracker) {
+          state.calorieTracker = action.payload.calorieTracker;
+        }
+      }
+    });
+    builder.addCase(fetchProgress.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to load progress";
+    });
+
+    // logWeightAsync
+    builder.addCase(logWeightAsync.fulfilled, (state, action) => {
+      state.isLiveSynced = true;
+      if (action.payload?.weightHistory) {
+        state.weightHistory = action.payload.weightHistory;
+      }
+    });
   },
 });
 
