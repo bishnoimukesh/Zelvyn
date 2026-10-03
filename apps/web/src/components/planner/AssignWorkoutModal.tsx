@@ -7,12 +7,14 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import {
   closeAssignModal,
   assignWorkoutToDay,
+  saveScheduleAsync,
 } from "@/features/planner/plannerSlice";
 
 export const AssignWorkoutModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const assignModal = useAppSelector((state) => state.planner.assignModal);
   const workouts = useAppSelector((state) => state.workouts.items);
+  const schedule = useAppSelector((state) => state.planner.schedule);
 
   const [query, setQuery] = useState("");
 
@@ -70,14 +72,21 @@ export const AssignWorkoutModal: React.FC = () => {
           {filtered.map((workout) => (
             <div
               key={workout.id}
-              onClick={() =>
+              onClick={() => {
+                const targetDay = assignModal.targetDay!;
                 dispatch(
                   assignWorkoutToDay({
-                    day: assignModal.targetDay!,
+                    day: targetDay,
                     workoutId: workout.id,
                   })
-                )
-              }
+                );
+                const updated = schedule.map((d) =>
+                  d.day === targetDay
+                    ? { ...d, workoutId: workout.id, isRestDay: false }
+                    : d
+                );
+                dispatch(saveScheduleAsync({ schedule: updated }));
+              }}
               className="flex items-center gap-3 rounded-xl border border-[#222228] bg-[#14141A] p-3 transition-all hover:border-[#C8FF47]/50 hover:bg-[#1A1A1F] cursor-pointer group"
             >
               <img

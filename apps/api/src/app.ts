@@ -11,6 +11,7 @@ import authRoutes from "./modules/auth/auth.routes.js";
 import userRoutes from "./modules/users/user.routes.js";
 import workoutRoutes from "./modules/workouts/workout.routes.js";
 import logRoutes from "./modules/logs/log.routes.js";
+import plannerRoutes from "./modules/planner/planner.routes.js";
 
 const app: Application = express();
 
@@ -56,6 +57,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/logs", logRoutes);
+app.use("/api/planner", plannerRoutes);
 
 // 404 Catch-all
 app.use(notFoundHandler);
