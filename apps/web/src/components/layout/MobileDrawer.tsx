@@ -53,6 +53,14 @@ export const MobileDrawer: React.FC = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.ui.mobileDrawerOpen);
   const location = useLocation();
+  const user = useAppSelector((state) => state.user.profile);
+  const { level, currentXp, nextLevelXp } = useAppSelector((state) => state.achievements);
+  const streakCount = useAppSelector((state) => state.progress.streak?.current) ?? 12;
+
+  const prevLevelBase = Math.max(0, (level - 1) * 200);
+  const xpInLevel = Math.max(0, currentXp - prevLevelBase);
+  const xpNeeded = Math.max(1, nextLevelXp - prevLevelBase);
+  const xpPercent = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
 
   // Close drawer on route change
   useEffect(() => {
@@ -108,22 +116,24 @@ export const MobileDrawer: React.FC = () => {
           <div className="py-3 border-b border-[#1E1E24]">
             <div className="flex items-center gap-2.5">
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-                alt="Alex Rivera"
+                src={user?.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"}
+                alt={user?.name || "Athlete"}
                 className="h-9 w-9 rounded-full object-cover ring-2 ring-[#C8FF47]/40"
               />
               <div>
-                <div className="text-xs font-bold text-white">Alex Rivera</div>
-                <div className="text-[11px] text-[#A1A1AA]">Lv.12 · 12 🔥</div>
+                <div className="text-xs font-bold text-white">{user?.name || "Alex Rivera"}</div>
+                <div className="text-[11px] text-[#A1A1AA]">
+                  Lv.{level || 12} · {streakCount} 🔥
+                </div>
               </div>
             </div>
             <div className="mt-2">
               <div className="flex justify-between text-[10px] text-[#71717A] font-mono mb-1">
-                <span>230 XP</span>
-                <span>250 XP</span>
+                <span>{currentXp || 230} XP</span>
+                <span>{nextLevelXp || 250} XP</span>
               </div>
               <div className="h-1.5 w-full bg-[#18181E] rounded-full overflow-hidden">
-                <div className="h-full bg-[#C8FF47] rounded-full" style={{ width: "92%" }} />
+                <div className="h-full bg-[#C8FF47] rounded-full" style={{ width: `${xpPercent}%` }} />
               </div>
             </div>
           </div>

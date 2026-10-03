@@ -1,13 +1,24 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { useAppSelector } from "@/app/hooks";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { fetchUserProfile } from "@/features/dashboard/userSlice";
+import { fetchGamification } from "@/features/achievements/achievementsSlice";
 import { TopHeader } from "./TopHeader";
 import { BottomNav } from "./BottomNav";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { MobileDrawer } from "./MobileDrawer";
 
 export const AppLayout: React.FC = () => {
+  const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.ui.theme);
+  const authUserId = useAppSelector((state) => state.auth.userId);
+  const userId = authUserId || "demo-user-1";
+
+  // Globally sync user profile and level/gamification from MongoDB Atlas
+  useEffect(() => {
+    dispatch(fetchUserProfile(userId));
+    dispatch(fetchGamification(userId));
+  }, [dispatch, userId]);
 
   // Sync theme class on <html> element
   useEffect(() => {
