@@ -11,10 +11,13 @@ import {
 } from "lucide-react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { setTheme } from "@/features/ui/uiSlice";
 
 export function SettingsPage() {
+  const dispatch = useAppDispatch();
+  const theme = useAppSelector((state) => state.ui.theme);
   const [notificationStatus, setNotificationStatus] = useState<string>("default");
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [largerText, setLargerText] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -105,7 +108,7 @@ export function SettingsPage() {
             <div className="flex items-center gap-1 p-1 bg-[#111114] rounded-lg border border-[#222228]">
               <button
                 type="button"
-                onClick={() => setTheme("dark")}
+                onClick={() => dispatch(setTheme("dark"))}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
                   theme === "dark"
                     ? "bg-[#C8FF47] text-black"
@@ -117,7 +120,7 @@ export function SettingsPage() {
 
               <button
                 type="button"
-                onClick={() => setTheme("light")}
+                onClick={() => dispatch(setTheme("light"))}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all ${
                   theme === "light"
                     ? "bg-[#C8FF47] text-black"

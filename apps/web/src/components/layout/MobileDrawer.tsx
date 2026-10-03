@@ -116,21 +116,21 @@ export const MobileDrawer: React.FC = () => {
           <div className="py-3 border-b border-[#1E1E24]">
             <div className="flex items-center gap-2.5">
               <img
-                src={user?.avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"}
-                alt={user?.name || "Athlete"}
+                src={user?.avatarUrl}
+                alt={user?.name}
                 className="h-9 w-9 rounded-full object-cover ring-2 ring-[#C8FF47]/40"
               />
               <div>
                 <div className="text-xs font-bold text-white">{user?.name || "Alex Rivera"}</div>
                 <div className="text-[11px] text-[#A1A1AA]">
-                  Lv.{level || 12} · {streakCount} 🔥
+                  Lv.{level} · {streakCount} 🔥
                 </div>
               </div>
             </div>
             <div className="mt-2">
               <div className="flex justify-between text-[10px] text-[#71717A] font-mono mb-1">
-                <span>{currentXp || 230} XP</span>
-                <span>{nextLevelXp || 250} XP</span>
+                <span>{currentXp} XP</span>
+                <span>{nextLevelXp} XP</span>
               </div>
               <div className="h-1.5 w-full bg-[#18181E] rounded-full overflow-hidden">
                 <div className="h-full bg-[#C8FF47] rounded-full" style={{ width: `${xpPercent}%` }} />

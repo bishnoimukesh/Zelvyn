@@ -3,6 +3,38 @@
 @tailwind utilities;
 
 :root {
+  /* Light mode palette: modern athletic, clean, accessible */
+  --background: #f8fafc;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --primary: #84cc16;
+  --primary-foreground: #09090b;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #84cc16;
+  --accent-foreground: #09090b;
+  --border: #e4e4e7;
+  --ring: #84cc16;
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --radius: 0.625rem;
+
+  --surface-ground: #f4f4f7;
+  --surface-sidebar: #ffffff;
+  --surface-card: #ffffff;
+  --surface-subcard: #f8fafc;
+  --surface-border: #e4e4e7;
+  --surface-border-subtle: #f1f5f9;
+  --surface-text-primary: #09090b;
+  --surface-text-secondary: #71717a;
+  --surface-hover: #f1f5f9;
+}
+
+.dark {
+  /* Dark mode palette: FitSync athletic stealth neon */
   --background: #08080a;
   --foreground: #f2f2f5;
   --card: #111115;
@@ -19,7 +51,16 @@
   --ring: #c8ff47;
   --destructive: #ef4444;
   --success: #22c55e;
-  --radius: 0.625rem;
+
+  --surface-ground: #08080a;
+  --surface-sidebar: #0a0a0c;
+  --surface-card: #111114;
+  --surface-subcard: #16161a;
+  --surface-border: #1e1e24;
+  --surface-border-subtle: #222228;
+  --surface-text-primary: #ffffff;
+  --surface-text-secondary: #a1a1aa;
+  --surface-hover: #18181e;
 }
 
 * {
@@ -32,6 +73,81 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Light Theme Component Transformations */
+html:not(.dark) body {
+  background-color: #f4f4f7;
+  color: #09090b;
+}
+
+html:not(.dark) .bg-\[\#08080A\],
+html:not(.dark) .bg-\[\#0A0A0C\],
+html:not(.dark) .bg-\[\#08080a\],
+html:not(.dark) .bg-\[\#0a0a0c\] {
+  background-color: #f4f4f7 !important;
+}
+
+html:not(.dark) aside,
+html:not(.dark) .bg-\[\#0A0A0C\] {
+  background-color: #ffffff !important;
+  border-color: #e4e4e7 !important;
+}
+
+html:not(.dark) header,
+html:not(.dark) header.bg-\[\#08080A\]\/90 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e4e4e7 !important;
+}
+
+html:not(.dark) .bg-\[\#111114\],
+html:not(.dark) .bg-\[\#111115\],
+html:not(.dark) .bg-\[\#0E0E12\]\/60 {
+  background-color: #ffffff !important;
+  border-color: #e4e4e7 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .bg-\[\#16161A\],
+html:not(.dark) .bg-\[\#18181E\],
+html:not(.dark) .bg-\[\#181820\],
+html:not(.dark) .bg-\[\#1C1C22\],
+html:not(.dark) .bg-\[\#1A1A1F\] {
+  background-color: #f4f4f5 !important;
+}
+
+html:not(.dark) .border-\[\#1E1E24\],
+html:not(.dark) .border-\[\#222228\],
+html:not(.dark) .border-\[\#1C1C24\],
+html:not(.dark) .border-\[\#1A1A20\],
+html:not(.dark) .border-\[\#27272A\],
+html:not(.dark) .border-\[\#181820\] {
+  border-color: #e4e4e7 !important;
+}
+
+html:not(.dark) .text-white,
+html:not(.dark) .text-\[\#F2F2F5\],
+html:not(.dark) .text-\[\#D4D4D8\] {
+  color: #09090b !important;
+}
+
+html:not(.dark) .text-\[\#A1A1AA\],
+html:not(.dark) .text-\[\#71717A\] {
+  color: #52525b !important;
+}
+
+html:not(.dark) input,
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #f4f4f5 !important;
+  color: #09090b !important;
+  border-color: #e4e4e7 !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #a1a1aa !important;
 }
 
 /* Custom scrollbars matching reference */

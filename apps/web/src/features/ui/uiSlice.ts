@@ -76,8 +76,10 @@ export const uiSlice = createSlice({
         localStorage.setItem("fitsync-theme", action.payload);
         if (action.payload === "dark") {
           document.documentElement.classList.add("dark");
+          document.documentElement.classList.remove("light");
         } else {
           document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
         }
       }
     },
@@ -88,8 +90,10 @@ export const uiSlice = createSlice({
         localStorage.setItem("fitsync-theme", nextTheme);
         if (nextTheme === "dark") {
           document.documentElement.classList.add("dark");
+          document.documentElement.classList.remove("light");
         } else {
           document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
         }
       }
     },
