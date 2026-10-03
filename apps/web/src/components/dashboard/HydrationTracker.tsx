@@ -18,13 +18,13 @@ export const HydrationTracker: React.FC = () => {
   );
 
   return (
-    <Card className="border border-[#222228] bg-[#111115] p-5">
+    <Card className="border border-border bg-card p-5">
       <CardHeader className="p-0 pb-3 flex flex-row items-center justify-between">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#71717A]">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
             Hydration
           </span>
-          <CardTitle className="font-display text-lg font-black uppercase text-white mt-0.5">
+          <CardTitle className="font-display text-lg font-black uppercase text-foreground mt-0.5">
             Water Intake
           </CardTitle>
         </div>
@@ -37,13 +37,13 @@ export const HydrationTracker: React.FC = () => {
         {/* Value and percentage */}
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline gap-1">
-            <span className="font-display text-3xl font-black text-white">
+            <span className="font-display text-3xl font-black text-foreground">
               {(hydration.current / 1000).toFixed(2)}
             </span>
-            <span className="text-xs font-mono font-semibold text-[#A1A1AA]">
+            <span className="text-xs font-mono font-semibold text-muted-foreground">
               L
             </span>
-            <span className="text-[11px] font-mono text-[#71717A] ml-1">
+            <span className="text-[11px] font-mono text-muted-foreground ml-1">
               / {(hydration.target / 1000).toFixed(1)} L Target
             </span>
           </div>
@@ -53,7 +53,7 @@ export const HydrationTracker: React.FC = () => {
         </div>
 
         {/* Progress bar */}
-        <Progress value={percentage} className="h-2 bg-[#1A1A1F]" />
+        <Progress value={percentage} className="h-2 bg-muted" />
 
         {/* Quick Log Buttons */}
         <div className="flex items-center gap-2 pt-1">
@@ -61,7 +61,7 @@ export const HydrationTracker: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => dispatch(addWater(250))}
-            className="flex-1 gap-1 border-[#222228] bg-[#14141A] text-xs font-mono font-bold text-white hover:border-cyan-500/40 hover:text-cyan-400 transition-colors"
+            className="flex-1 gap-1 border-border bg-muted text-xs font-mono font-bold text-foreground hover:border-cyan-500/40 hover:text-cyan-400 transition-colors"
           >
             <Plus className="h-3 w-3" /> 250ml
           </Button>
@@ -69,7 +69,7 @@ export const HydrationTracker: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => dispatch(addWater(500))}
-            className="flex-1 gap-1 border-[#222228] bg-[#14141A] text-xs font-mono font-bold text-white hover:border-cyan-500/40 hover:text-cyan-400 transition-colors"
+            className="flex-1 gap-1 border-border bg-muted text-xs font-mono font-bold text-foreground hover:border-cyan-500/40 hover:text-cyan-400 transition-colors"
           >
             <Plus className="h-3 w-3" /> 500ml
           </Button>

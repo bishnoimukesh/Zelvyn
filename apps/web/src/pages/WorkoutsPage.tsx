@@ -80,10 +80,10 @@ export function WorkoutsPage() {
             variant="outline"
             onClick={() => dispatch(fetchWorkouts())}
             disabled={loading}
-            className="gap-1.5 text-xs font-semibold border-[#222228] hover:bg-[#18181D]"
+            className="gap-1.5 text-xs font-semibold border-border hover:bg-muted"
             title="Refresh workouts from backend"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#10B981]" : "text-[#71717A]"}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-emerald-500" : "text-muted-foreground"}`} />
             {loading ? "Syncing..." : "Sync DB"}
           </Button>
 
@@ -96,21 +96,21 @@ export function WorkoutsPage() {
       }
     >
       {/* Live Data Connectivity Status Banner */}
-      <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111116] border border-[#222228] mb-1">
+      <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-card border border-border mb-1">
         <div className="flex items-center gap-2">
           <div className="relative flex h-2 w-2">
             <span
               className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                isLiveSynced ? "bg-[#10B981]" : "bg-amber-400"
+                isLiveSynced ? "bg-emerald-500" : "bg-amber-400"
               }`}
             />
             <span
               className={`relative inline-flex rounded-full h-2 w-2 ${
-                isLiveSynced ? "bg-[#10B981]" : "bg-amber-500"
+                isLiveSynced ? "bg-emerald-500" : "bg-amber-500"
               }`}
             />
           </div>
-          <span className="text-xs font-medium text-[#A1A1AA]">
+          <span className="text-xs font-medium text-muted-foreground">
             {isLiveSynced
               ? "Live REST API Connected • Real-time DB Synced"
               : "Connecting to FitSync REST API..."}
@@ -119,7 +119,7 @@ export function WorkoutsPage() {
         <div className="flex items-center gap-2">
           <Badge
             variant="outline"
-            className="text-[10px] font-mono border-[#27272A] text-[#10B981] bg-[#10B981]/10 gap-1 py-0.5"
+            className="text-[10px] font-mono border-emerald-500/30 text-emerald-500 bg-emerald-500/10 gap-1 py-0.5"
           >
             <Database className="h-3 w-3" />
             {isLiveSynced ? "Backend Synced" : "Buffering"}
@@ -154,11 +154,11 @@ export function WorkoutsPage() {
 
       <div className="pt-2">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-xs text-[#71717A]">
+          <p className="text-xs text-muted-foreground">
             Showing {filteredWorkouts.length} of {workouts.length} available workouts
           </p>
           {isLiveSynced && (
-            <span className="text-[11px] text-[#10B981] flex items-center gap-1 font-medium">
+            <span className="text-[11px] text-emerald-500 flex items-center gap-1 font-medium">
               <CheckCircle2 className="h-3 w-3" /> Up to date
             </span>
           )}
@@ -170,20 +170,20 @@ export function WorkoutsPage() {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="rounded-2xl border border-[#222228] bg-[#111116] p-4 h-[320px] animate-pulse flex flex-col justify-between"
+                className="rounded-2xl border border-border bg-card p-4 h-[320px] animate-pulse flex flex-col justify-between"
               >
-                <div className="w-full h-44 bg-[#18181D] rounded-xl" />
+                <div className="w-full h-44 bg-muted rounded-xl" />
                 <div className="space-y-2 mt-3">
-                  <div className="h-4 bg-[#18181D] rounded w-3/4" />
-                  <div className="h-3 bg-[#18181D] rounded w-1/2" />
+                  <div className="h-4 bg-muted rounded w-3/4" />
+                  <div className="h-3 bg-muted rounded w-1/2" />
                 </div>
               </div>
             ))}
           </div>
         ) : filteredWorkouts.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-[#222228] p-12 text-center">
-            <p className="text-sm font-bold text-white">No workouts match your filter criteria</p>
-            <p className="text-xs text-[#71717A] mt-1">Try resetting filters to explore all routines.</p>
+          <div className="rounded-xl border border-dashed border-border p-12 text-center">
+            <p className="text-sm font-bold text-foreground">No workouts match your filter criteria</p>
+            <p className="text-xs text-muted-foreground mt-1">Try resetting filters to explore all routines.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

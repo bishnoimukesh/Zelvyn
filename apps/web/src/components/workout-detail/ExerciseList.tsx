@@ -20,7 +20,7 @@ export function ExerciseList({
 }: ExerciseListProps) {
   if (!exercises || exercises.length === 0) {
     return (
-      <div className="p-8 text-center text-[#71717A] text-sm bg-[#121216] rounded-2xl border border-[#222228]">
+      <div className="p-8 text-center text-muted-foreground text-sm bg-card rounded-2xl border border-border">
         No exercises registered for this workout routine.
       </div>
     );
@@ -43,31 +43,31 @@ export function ExerciseList({
             className={cn(
               "group relative flex items-center gap-3.5 p-3 sm:p-4 rounded-2xl border transition-all duration-200 cursor-pointer text-left",
               isActive
-                ? "bg-[#181C14] border-[#C8FF47] shadow-[0_0_20px_rgba(200,255,71,0.15)] ring-1 ring-[#C8FF47]/40"
+                ? "bg-primary/10 border-primary shadow-[0_0_20px_rgba(200,255,71,0.15)] ring-1 ring-primary/40"
                 : allCompleted
-                ? "bg-[#141814] border-emerald-500/30 hover:border-emerald-500/60"
-                : "bg-[#121216] border-[#222228] hover:border-[#33333E] hover:bg-[#16161C]"
+                ? "bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/60"
+                : "bg-card border-border hover:border-primary/50 hover:bg-muted"
             )}
           >
             {/* Number / Status indicator */}
             <div className="flex-shrink-0 flex items-center justify-center">
               {allCompleted ? (
-                <div className="h-9 w-9 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-emerald-500/20 text-emerald-500 border border-emerald-500/40 flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5 fill-emerald-500/20" />
                 </div>
               ) : isActive ? (
-                <div className="h-9 w-9 rounded-xl bg-[#C8FF47] text-black font-black text-xs font-mono flex items-center justify-center shadow-[0_0_12px_rgba(200,255,71,0.4)]">
+                <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground font-black text-xs font-mono flex items-center justify-center shadow-[0_0_12px_rgba(200,255,71,0.4)]">
                   {String(idx + 1).padStart(2, "0")}
                 </div>
               ) : (
-                <div className="h-9 w-9 rounded-xl bg-[#1A1A22] text-[#71717A] group-hover:text-white font-mono text-xs font-bold border border-[#2A2A36] flex items-center justify-center">
+                <div className="h-9 w-9 rounded-xl bg-muted text-muted-foreground group-hover:text-foreground font-mono text-xs font-bold border border-border flex items-center justify-center">
                   {String(idx + 1).padStart(2, "0")}
                 </div>
               )}
             </div>
 
             {/* Thumbnail */}
-            <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-xl overflow-hidden bg-[#1A1A22] border border-[#222228] flex-shrink-0">
+            <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-xl overflow-hidden bg-muted border border-border flex-shrink-0">
               <img
                 src={exercise.thumbnail}
                 alt={exercise.name}
@@ -75,7 +75,7 @@ export function ExerciseList({
                 loading="lazy"
               />
               {isActive && (
-                <div className="absolute inset-0 bg-[#C8FF47]/10 border-2 border-[#C8FF47] rounded-xl" />
+                <div className="absolute inset-0 bg-primary/10 border-2 border-primary rounded-xl" />
               )}
             </div>
 
@@ -85,33 +85,33 @@ export function ExerciseList({
                 <span
                   className={cn(
                     "font-display text-sm sm:text-base font-bold truncate tracking-wide",
-                    isActive ? "text-[#C8FF47]" : "text-white"
+                    isActive ? "text-primary" : "text-foreground"
                   )}
                 >
                   {exercise.name}
                 </span>
                 {isActive && (
-                  <Badge className="bg-[#C8FF47] text-black text-[10px] font-black uppercase px-2 py-0.5 tracking-wider">
+                  <Badge className="bg-primary text-primary-foreground text-[10px] font-black uppercase px-2 py-0.5 tracking-wider">
                     Current
                   </Badge>
                 )}
               </div>
 
-              <div className="flex items-center gap-2 text-xs text-[#A1A1AA] flex-wrap">
-                <span className="inline-flex items-center gap-1 font-medium text-[#C8FF47]">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                <span className="inline-flex items-center gap-1 font-medium text-primary">
                   <Dumbbell className="h-3 w-3" />
                   {exercise.targetMuscle}
                 </span>
-                <span className="text-[#3F3F46]">·</span>
-                <span className="text-[#71717A]">{exercise.equipment}</span>
+                <span>·</span>
+                <span className="text-muted-foreground">{exercise.equipment}</span>
               </div>
 
-              <div className="flex items-center gap-3 mt-1.5 text-[11px] font-mono font-medium text-[#71717A]">
-                <span className="text-white font-semibold">
+              <div className="flex items-center gap-3 mt-1.5 text-[11px] font-mono font-medium text-muted-foreground">
+                <span className="text-foreground font-semibold">
                   {exercise.sets} sets × {exercise.reps}
                 </span>
-                <span className="inline-flex items-center gap-1 text-[#A1A1AA]">
-                  <Timer className="h-3 w-3 text-[#C8FF47]" />
+                <span className="inline-flex items-center gap-1 text-muted-foreground">
+                  <Timer className="h-3 w-3 text-primary" />
                   {exercise.restSeconds}s rest
                 </span>
               </div>
@@ -124,10 +124,10 @@ export function ExerciseList({
                   className={cn(
                     "text-xs font-bold px-2.5 py-1 rounded-lg border",
                     allCompleted
-                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                      ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/30"
                       : completedSetsCount > 0
-                      ? "bg-[#C8FF47]/10 text-[#C8FF47] border-[#C8FF47]/30"
-                      : "bg-[#1A1A22] text-[#71717A] border-[#2A2A36]"
+                      ? "bg-primary/10 text-primary border-primary/30"
+                      : "bg-muted text-muted-foreground border-border"
                   )}
                 >
                   {completedSetsCount}/{exercise.sets}

@@ -49,8 +49,8 @@ export function RestTimer() {
       className={cn(
         "sticky bottom-20 sm:bottom-6 z-40 mx-auto w-full max-w-md p-4 rounded-2xl border backdrop-blur-xl transition-all duration-300 shadow-2xl",
         isLow
-          ? "bg-[#1E1212]/95 border-red-500/50 shadow-[0_0_30px_rgba(239,68,68,0.25)] animate-pulse"
-          : "bg-[#121216]/95 border-[#C8FF47]/40 shadow-[0_0_30px_rgba(200,255,71,0.2)]"
+          ? "bg-destructive/15 border-destructive/50 shadow-[0_0_30px_rgba(239,68,68,0.25)] animate-pulse"
+          : "bg-card/95 border-primary/40 shadow-[0_0_30px_rgba(200,255,71,0.2)]"
       )}
     >
       <div className="flex items-center justify-between gap-4">
@@ -60,8 +60,8 @@ export function RestTimer() {
             className={cn(
               "h-11 w-11 rounded-xl flex items-center justify-center transition-colors",
               isLow
-                ? "bg-red-500/20 text-red-400"
-                : "bg-[#C8FF47]/20 text-[#C8FF47]"
+                ? "bg-destructive/20 text-destructive"
+                : "bg-primary/20 text-primary"
             )}
           >
             {isLow ? (
@@ -73,11 +73,11 @@ export function RestTimer() {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#71717A] font-bold">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground font-bold">
                 Rest Interval
               </span>
               {isLow && (
-                <span className="text-[10px] font-bold text-red-400 uppercase">
+                <span className="text-[10px] font-bold text-destructive uppercase">
                   Ready!
                 </span>
               )}
@@ -86,7 +86,7 @@ export function RestTimer() {
               id="rest-timer-display"
               className={cn(
                 "font-mono text-2xl font-black tracking-wider leading-none mt-0.5",
-                isLow ? "text-red-400" : "text-[#C8FF47]"
+                isLow ? "text-destructive" : "text-primary"
               )}
             >
               {formattedTime}
@@ -101,7 +101,7 @@ export function RestTimer() {
             size="sm"
             variant="outline"
             onClick={() => dispatch(adjustRestTimer(-15))}
-            className="h-8 w-8 p-0 rounded-lg border-[#2A2A36] bg-[#181820] text-[#A1A1AA] hover:text-white hover:border-[#3F3F4E]"
+            className="h-8 w-8 p-0 rounded-lg border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
             title="Subtract 15 seconds"
           >
             <Minus className="h-3.5 w-3.5" />
@@ -112,7 +112,7 @@ export function RestTimer() {
             size="sm"
             variant="outline"
             onClick={() => dispatch(adjustRestTimer(15))}
-            className="h-8 w-8 p-0 rounded-lg border-[#2A2A36] bg-[#181820] text-[#A1A1AA] hover:text-white hover:border-[#3F3F4E]"
+            className="h-8 w-8 p-0 rounded-lg border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
             title="Add 15 seconds"
           >
             <Plus className="h-3.5 w-3.5" />
@@ -122,7 +122,7 @@ export function RestTimer() {
             id="rest-skip-button"
             size="sm"
             onClick={() => dispatch(stopRestTimer())}
-            className="h-8 px-3 rounded-lg bg-[#22222C] hover:bg-[#2C2C38] text-white text-xs font-semibold border border-[#333342] flex items-center gap-1"
+            className="h-8 px-3 rounded-lg bg-muted hover:bg-muted/80 text-foreground text-xs font-semibold border border-border flex items-center gap-1"
           >
             <FastForward className="h-3.5 w-3.5" /> Skip
           </Button>
@@ -130,11 +130,11 @@ export function RestTimer() {
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full bg-[#1F1F28] h-1.5 rounded-full mt-3 overflow-hidden">
+      <div className="w-full bg-muted h-1.5 rounded-full mt-3 overflow-hidden">
         <div
           className={cn(
             "h-full transition-all duration-300 rounded-full",
-            isLow ? "bg-red-500" : "bg-[#C8FF47]"
+            isLow ? "bg-destructive" : "bg-primary"
           )}
           style={{ width: `${progressPercent}%` }}
         />

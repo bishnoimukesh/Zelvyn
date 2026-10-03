@@ -11,27 +11,27 @@ export const TodayWorkoutCard: React.FC = () => {
   const workout = useAppSelector((state) => state.dashboard.todayWorkout);
 
   return (
-    <Card className="relative overflow-hidden border border-[#222228] bg-[#111115] p-0 group">
+    <Card className="relative overflow-hidden border border-border bg-card p-0 group">
       {/* Background Graphic & Gradient Overlay */}
-      <div className="relative h-44 sm:h-52 w-full overflow-hidden bg-[#1A1A1F]">
+      <div className="relative h-44 sm:h-52 w-full overflow-hidden bg-muted">
         <img
           src={workout.thumbnail}
           alt={workout.title}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111115] via-[#111115]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <span className="rounded-md bg-[#C8FF47] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#08080A]">
+            <span className="rounded-md bg-primary px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-primary-foreground">
               Today's Session
             </span>
             <Badge variant="secondary" className="text-[10px]">
               {workout.difficulty}
             </Badge>
           </div>
-          <span className="rounded-full bg-[#08080A]/80 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#A1A1AA] backdrop-blur-md">
+          <span className="rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-mono font-bold text-muted-foreground backdrop-blur-md">
             {workout.category}
           </span>
         </div>
@@ -40,20 +40,20 @@ export const TodayWorkoutCard: React.FC = () => {
       {/* Content */}
       <div className="p-5 pt-1 space-y-4">
         <div>
-          <h3 className="font-display text-2xl sm:text-3xl font-black uppercase text-white group-hover:text-[#C8FF47] transition-colors">
+          <h3 className="font-display text-2xl sm:text-3xl font-black uppercase text-foreground group-hover:text-primary transition-colors">
             {workout.title}
           </h3>
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-xs font-mono text-[#A1A1AA]">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-xs font-mono text-muted-foreground">
             <span className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5 text-[#C8FF47]" />
+              <Clock className="h-3.5 w-3.5 text-primary" />
               {workout.duration} mins
             </span>
             <span className="flex items-center gap-1">
-              <Flame className="h-3.5 w-3.5 text-[#C8FF47]" />
+              <Flame className="h-3.5 w-3.5 text-primary" />
               {workout.calories} kcal
             </span>
             <span className="flex items-center gap-1">
-              <Dumbbell className="h-3.5 w-3.5 text-[#C8FF47]" />
+              <Dumbbell className="h-3.5 w-3.5 text-primary" />
               {workout.exercisesCount} Exercises
             </span>
           </div>

@@ -80,16 +80,16 @@ export const WorkoutFilters: React.FC = () => {
   ].filter(Boolean).length;
 
   return (
-    <div className="space-y-4 rounded-xl border border-[#222228] bg-[#111115] p-4 sm:p-5">
+    <div className="space-y-4 rounded-xl border border-border bg-card p-4 sm:p-5">
       {/* Search Bar & Reset Trigger */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#71717A]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={filters.searchQuery}
             onChange={(e) => dispatch(setSearchQuery(e.target.value))}
             placeholder="Search routines by title, muscle, or movement..."
-            className="pl-9 bg-[#14141A] border-[#222228] text-xs focus:border-[#C8FF47]"
+            className="pl-9 bg-muted border-border text-xs focus:border-primary"
           />
         </div>
 
@@ -98,7 +98,7 @@ export const WorkoutFilters: React.FC = () => {
             size="sm"
             variant="ghost"
             onClick={() => dispatch(resetFilters())}
-            className="gap-1.5 text-xs text-[#A1A1AA] hover:text-[#C8FF47] shrink-0"
+            className="gap-1.5 text-xs text-muted-foreground hover:text-primary shrink-0"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             <span>Reset Filters ({activeCount})</span>
@@ -115,8 +115,8 @@ export const WorkoutFilters: React.FC = () => {
             onClick={() => dispatch(setCategoryFilter(cat.id))}
             className={`shrink-0 rounded-lg px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
               filters.category === cat.id
-                ? "bg-[#C8FF47] text-[#08080A] shadow-[0_0_10px_rgba(200,255,71,0.3)]"
-                : "bg-[#14141A] text-[#A1A1AA] border border-[#222228] hover:border-[#3F3F46] hover:text-white"
+                ? "bg-primary text-primary-foreground shadow-[0_0_10px_rgba(200,255,71,0.3)]"
+                : "bg-muted text-muted-foreground border border-border hover:border-border hover:text-foreground"
             }`}
           >
             {cat.label}
@@ -125,19 +125,19 @@ export const WorkoutFilters: React.FC = () => {
       </div>
 
       {/* Dropdown Filters Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1 border-t border-[#222228]">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1 border-t border-border">
         {/* Goal */}
         <div>
-          <label className="text-[10px] font-mono font-bold uppercase text-[#71717A]">
+          <label className="text-[10px] font-mono font-bold uppercase text-muted-foreground">
             Training Goal
           </label>
           <select
             value={filters.goal}
             onChange={(e) => dispatch(setGoalFilter(e.target.value))}
-            className="mt-1 w-full rounded-lg border border-[#222228] bg-[#14141A] px-2.5 py-1.5 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             {GOALS.map((g) => (
-              <option key={g.id} value={g.id} className="bg-[#111115]">
+              <option key={g.id} value={g.id} className="bg-card text-foreground">
                 {g.label}
               </option>
             ))}
@@ -146,16 +146,16 @@ export const WorkoutFilters: React.FC = () => {
 
         {/* Equipment */}
         <div>
-          <label className="text-[10px] font-mono font-bold uppercase text-[#71717A]">
+          <label className="text-[10px] font-mono font-bold uppercase text-muted-foreground">
             Equipment
           </label>
           <select
             value={filters.equipment}
             onChange={(e) => dispatch(setEquipmentFilter(e.target.value))}
-            className="mt-1 w-full rounded-lg border border-[#222228] bg-[#14141A] px-2.5 py-1.5 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             {EQUIPMENTS.map((eq) => (
-              <option key={eq.id} value={eq.id} className="bg-[#111115]">
+              <option key={eq.id} value={eq.id} className="bg-card text-foreground">
                 {eq.label}
               </option>
             ))}
@@ -164,16 +164,16 @@ export const WorkoutFilters: React.FC = () => {
 
         {/* Body Part */}
         <div>
-          <label className="text-[10px] font-mono font-bold uppercase text-[#71717A]">
+          <label className="text-[10px] font-mono font-bold uppercase text-muted-foreground">
             Target Muscle
           </label>
           <select
             value={filters.bodyPart}
             onChange={(e) => dispatch(setBodyPartFilter(e.target.value))}
-            className="mt-1 w-full rounded-lg border border-[#222228] bg-[#14141A] px-2.5 py-1.5 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             {BODY_PARTS.map((bp) => (
-              <option key={bp.id} value={bp.id} className="bg-[#111115]">
+              <option key={bp.id} value={bp.id} className="bg-card text-foreground">
                 {bp.label}
               </option>
             ))}
@@ -182,16 +182,16 @@ export const WorkoutFilters: React.FC = () => {
 
         {/* Duration */}
         <div>
-          <label className="text-[10px] font-mono font-bold uppercase text-[#71717A]">
+          <label className="text-[10px] font-mono font-bold uppercase text-muted-foreground">
             Duration
           </label>
           <select
             value={filters.duration}
             onChange={(e) => dispatch(setDurationFilter(e.target.value))}
-            className="mt-1 w-full rounded-lg border border-[#222228] bg-[#14141A] px-2.5 py-1.5 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             {DURATIONS.map((dur) => (
-              <option key={dur.id} value={dur.id} className="bg-[#111115]">
+              <option key={dur.id} value={dur.id} className="bg-card text-foreground">
                 {dur.label}
               </option>
             ))}
@@ -200,16 +200,16 @@ export const WorkoutFilters: React.FC = () => {
 
         {/* Difficulty */}
         <div>
-          <label className="text-[10px] font-mono font-bold uppercase text-[#71717A]">
+          <label className="text-[10px] font-mono font-bold uppercase text-muted-foreground">
             Experience Level
           </label>
           <select
             value={filters.difficulty}
             onChange={(e) => dispatch(setDifficultyFilter(e.target.value))}
-            className="mt-1 w-full rounded-lg border border-[#222228] bg-[#14141A] px-2.5 py-1.5 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             {DIFFICULTIES.map((dif) => (
-              <option key={dif.id} value={dif.id} className="bg-[#111115]">
+              <option key={dif.id} value={dif.id} className="bg-card text-foreground">
                 {dif.label}
               </option>
             ))}

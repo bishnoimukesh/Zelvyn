@@ -51,22 +51,22 @@ export function CalendarPage() {
           variant="outline"
           onClick={() => dispatch(fetchPlanner("demo-user-1"))}
           disabled={loading}
-          className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+          className="gap-1.5 text-xs border-border bg-card text-muted-foreground hover:text-foreground"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-primary" : ""}`} />
           Sync
         </Button>
       }
     >
       {/* THIS WEEK STRIP */}
-      <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 space-y-3 shadow-lg">
+      <div className="rounded-2xl border border-border bg-card p-5 space-y-3 shadow-sm">
         <div className="flex items-center justify-between">
-          <div className="text-xs font-black uppercase text-white tracking-wider">
+          <div className="text-xs font-black uppercase text-foreground tracking-wider">
             This Week's Microcycle
           </div>
           <Link
             to="/planner"
-            className="text-xs font-mono font-bold text-[#C8FF47] hover:underline flex items-center gap-1"
+            className="text-xs font-mono font-bold text-primary hover:underline flex items-center gap-1"
           >
             Open 7-Day Planner <ExternalLink className="h-3 w-3" />
           </Link>
@@ -81,31 +81,30 @@ export function CalendarPage() {
               ? workout.title
               : "No Workout";
 
-            const statusColor = item.isRestDay
-              ? "#00F0FF"
-              : item.completed
-              ? "#C8FF47"
-              : "#FF9F0A";
-
             return (
               <div
                 key={item.day}
                 className={`rounded-xl border p-3 flex flex-col items-center justify-center text-center transition-all ${
                   item.day === "Sunday"
-                    ? "bg-[#182012] border-[#C8FF47]/40 ring-1 ring-[#C8FF47]/30"
-                    : "bg-[#16161A] border-[#222228]"
+                    ? "bg-primary/10 border-primary/40 ring-1 ring-primary/30"
+                    : "bg-muted border-border"
                 }`}
               >
-                <div className="text-[11px] uppercase font-bold text-[#A1A1AA]">
+                <div className="text-[11px] uppercase font-bold text-muted-foreground">
                   {item.shortDay}
                 </div>
 
                 <div className="mt-2 flex items-center gap-1.5 w-full justify-center">
                   <span
-                    className="h-2 w-2 rounded-full shrink-0"
-                    style={{ backgroundColor: statusColor }}
+                    className={`h-2 w-2 rounded-full shrink-0 ${
+                      item.isRestDay
+                        ? "bg-cyan-500"
+                        : item.completed
+                        ? "bg-primary"
+                        : "bg-amber-500"
+                    }`}
                   />
-                  <span className="text-xs font-bold text-white truncate max-w-[90px]">
+                  <span className="text-xs font-bold text-foreground truncate max-w-[90px]">
                     {title}
                   </span>
                 </div>
@@ -118,30 +117,30 @@ export function CalendarPage() {
       {/* 2-Column Calendar & Day Inspector */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Month Calendar Grid (2 cols) */}
-        <div className="lg:col-span-2 rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 space-y-4 shadow-lg">
+        <div className="lg:col-span-2 rounded-2xl border border-border bg-card p-5 space-y-4 shadow-sm">
           {/* Calendar Header */}
           <div className="flex items-center justify-between">
             <button
               type="button"
-              className="p-1.5 rounded-lg text-[#71717A] hover:bg-[#1A1A22] hover:text-white"
+              className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
-            <h3 className="font-display text-sm font-black uppercase text-white tracking-widest">
+            <h3 className="font-display text-sm font-black uppercase text-foreground tracking-widest">
               September 2026
             </h3>
 
             <button
               type="button"
-              className="p-1.5 rounded-lg text-[#71717A] hover:bg-[#1A1A22] hover:text-white"
+              className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
 
           {/* Weekday headers */}
-          <div className="grid grid-cols-7 gap-2 text-center text-[11px] font-bold text-[#71717A] py-1">
+          <div className="grid grid-cols-7 gap-2 text-center text-[11px] font-bold text-muted-foreground py-1">
             <span>Mo</span>
             <span>Tu</span>
             <span>We</span>
@@ -159,13 +158,13 @@ export function CalendarPage() {
                 ? workouts.find((w) => w.id === cell.workoutId)
                 : null;
 
-              const dotColor = cell.isRestDay
-                ? "#00F0FF"
+              const dotClass = cell.isRestDay
+                ? "bg-cyan-500"
                 : cell.completed
-                ? "#C8FF47"
+                ? "bg-primary"
                 : cellWorkout
-                ? "#FF453A"
-                : undefined;
+                ? "bg-rose-500"
+                : "";
 
               return (
                 <button
@@ -176,8 +175,8 @@ export function CalendarPage() {
                     !cell.isCurrentMonth ? "opacity-30" : ""
                   } ${
                     isSelected
-                      ? "bg-[#C8FF47] text-black font-black shadow-[0_0_15px_rgba(200,255,71,0.3)]"
-                      : "bg-[#16161A]/80 hover:bg-[#1C1C24] text-white border border-[#222228]"
+                      ? "bg-primary text-primary-foreground font-black shadow-[0_0_15px_rgba(200,255,71,0.3)]"
+                      : "bg-muted/70 hover:bg-muted text-foreground border border-border"
                   }`}
                 >
                   <span
@@ -188,14 +187,11 @@ export function CalendarPage() {
                     {cell.dayNumber}
                   </span>
 
-                  {dotColor && (
+                  {dotClass && (
                     <span
                       className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
-                        isSelected ? "bg-black" : ""
+                        isSelected ? "bg-primary-foreground" : dotClass
                       }`}
-                      style={{
-                        backgroundColor: isSelected ? undefined : dotColor,
-                      }}
                     />
                   )}
                 </button>
@@ -205,14 +201,14 @@ export function CalendarPage() {
         </div>
 
         {/* Selected Day Inspector Panel */}
-        <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 flex flex-col justify-between shadow-lg">
+        <div className="rounded-2xl border border-border bg-card p-6 flex flex-col justify-between shadow-sm">
           <div>
-            <div className="flex items-center justify-between border-b border-[#1E1E24] pb-3">
-              <span className="text-xs uppercase font-black tracking-widest text-[#71717A]">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <span className="text-xs uppercase font-black tracking-widest text-muted-foreground">
                 {selectedDay?.dayName} • {selectedDay?.dateString}
               </span>
               {selectedDay?.completed && (
-                <span className="text-[10px] font-mono text-[#C8FF47] flex items-center gap-1 font-bold">
+                <span className="text-[10px] font-mono text-primary flex items-center gap-1 font-bold">
                   <CheckCircle2 className="h-3 w-3" /> Completed
                 </span>
               )}
@@ -221,23 +217,23 @@ export function CalendarPage() {
             {selectedDay?.isRestDay || !selectedWorkout ? (
               <div className="py-10 text-center space-y-3">
                 <div className="text-4xl">😴</div>
-                <h4 className="font-display text-lg font-black text-white">
+                <h4 className="font-display text-lg font-black text-foreground">
                   Rest & Recovery
                 </h4>
-                <p className="text-xs text-[#A1A1AA] leading-relaxed max-w-xs mx-auto">
+                <p className="text-xs text-muted-foreground leading-relaxed max-w-xs mx-auto">
                   {selectedDay?.notes ||
                     "Recovery is critical for hypertrophy and nervous system regeneration. Prioritize hydration and 8+ hours of deep sleep."}
                 </p>
 
                 <div className="pt-4 flex items-center justify-center gap-2">
-                  <span className="rounded-md bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/20 px-2.5 py-1 text-[11px] font-semibold flex items-center gap-1.5">
+                  <span className="rounded-md bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 px-2.5 py-1 text-[11px] font-semibold flex items-center gap-1.5">
                     <Coffee className="h-3.5 w-3.5" /> Sleep & Active Recovery
                   </span>
                 </div>
 
                 <div className="pt-2">
                   <Link to="/planner">
-                    <Button variant="outline" size="sm" className="text-xs border-[#222228] text-white">
+                    <Button variant="outline" size="sm" className="text-xs border-border text-foreground">
                       Assign Workout in Planner
                     </Button>
                   </Link>
@@ -249,48 +245,48 @@ export function CalendarPage() {
                   <img
                     src={selectedWorkout.thumbnail}
                     alt={selectedWorkout.title}
-                    className="h-12 w-14 rounded-xl object-cover shrink-0 border border-[#222228]"
+                    className="h-12 w-14 rounded-xl object-cover shrink-0 border border-border"
                   />
                   <div>
-                    <h4 className="font-display text-base font-black text-white">
+                    <h4 className="font-display text-base font-black text-foreground">
                       {selectedWorkout.title}
                     </h4>
-                    <span className="text-[11px] text-[#A1A1AA] flex items-center gap-2 mt-0.5">
+                    <span className="text-[11px] text-muted-foreground flex items-center gap-2 mt-0.5">
                       <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-[#C8FF47]" /> {selectedWorkout.duration} mins
+                        <Clock className="h-3 w-3 text-primary" /> {selectedWorkout.duration} mins
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Flame className="h-3 w-3 text-[#C8FF47]" /> {selectedWorkout.calories} kcal
+                        <Flame className="h-3 w-3 text-primary" /> {selectedWorkout.calories} kcal
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#222228] bg-[#16161A] p-3 text-xs text-[#A1A1AA] space-y-2">
-                  <div className="flex justify-between text-white font-semibold">
+                <div className="rounded-xl border border-border bg-muted p-3 text-xs text-muted-foreground space-y-2">
+                  <div className="flex justify-between text-foreground font-semibold">
                     <span>Status</span>
-                    <span className="text-[#C8FF47] flex items-center gap-1">
+                    <span className="text-primary flex items-center gap-1">
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       {selectedDay.completed ? "Session Completed" : "Scheduled"}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Category</span>
-                    <span className="text-white capitalize">{selectedWorkout.category}</span>
+                    <span className="text-foreground capitalize">{selectedWorkout.category}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Target Goal</span>
-                    <span className="text-white capitalize">{selectedWorkout.targetGoal || "Hypertrophy"}</span>
+                    <span className="text-foreground capitalize">{selectedWorkout.targetGoal || "Hypertrophy"}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Difficulty</span>
-                    <span className="text-white capitalize">{selectedWorkout.difficulty}</span>
+                    <span className="text-foreground capitalize">{selectedWorkout.difficulty}</span>
                   </div>
                 </div>
 
                 <Link to={`/workouts/${selectedWorkout.id}`} className="block pt-2">
-                  <Button className="w-full gap-2 font-bold bg-[#C8FF47] text-black hover:bg-[#b5eb38]">
+                  <Button className="w-full gap-2 font-bold bg-primary text-primary-foreground hover:opacity-95">
                     <Dumbbell className="h-4 w-4" /> Start Workout
                     <ExternalLink className="h-3.5 w-3.5 ml-auto" />
                   </Button>
@@ -299,7 +295,7 @@ export function CalendarPage() {
             )}
           </div>
 
-          <div className="border-t border-[#1E1E24] pt-3 text-[11px] text-[#71717A] text-center">
+          <div className="border-t border-border pt-3 text-[11px] text-muted-foreground text-center">
             Click any day to inspect routine details
           </div>
         </div>

@@ -18,7 +18,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-[#C8FF47]/25 bg-[#C8FF47]/10 font-bold text-[#C8FF47] transition-all hover:bg-[#C8FF47]/20 hover:border-[#C8FF47]/40 shadow-[0_0_12px_rgba(200,255,71,0.15)]",
+        "inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/10 font-bold text-primary transition-all hover:bg-primary/20 hover:border-primary/40 shadow-[0_0_12px_rgba(200,255,71,0.15)]",
         size === "sm" && "px-2 py-0.5 text-[11px]",
         size === "md" && "px-3 py-1 text-xs",
         size === "lg" && "px-4 py-1.5 text-sm",

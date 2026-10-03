@@ -49,28 +49,28 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
   return (
     <Card
       id="coach-chat-card"
-      className="flex flex-col h-[650px] border-[#222228] bg-[#121216] relative overflow-hidden"
+      className="flex flex-col h-[650px] border-border bg-card relative overflow-hidden shadow-sm"
     >
       {/* Chat Header */}
-      <div className="p-4 bg-[#14141A] border-b border-[#222228] flex items-center justify-between">
+      <div className="p-4 bg-muted/50 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="h-10 w-10 rounded-2xl bg-[#1C2214] border border-[#C8FF47]/40 text-[#C8FF47] flex items-center justify-center shadow-[0_0_15px_rgba(200,255,71,0.2)]">
+            <div className="h-10 w-10 rounded-2xl bg-primary/10 border border-primary/40 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(200,255,71,0.2)]">
               <Bot className="h-5 w-5" />
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#C8FF47] border-2 border-[#121216]" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-primary border-2 border-card" />
           </div>
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display text-sm font-bold text-white uppercase tracking-wide">
+              <span className="font-display text-sm font-bold text-foreground uppercase tracking-wide">
                 FitSync Athletic AI
               </span>
-              <Badge className="bg-[#C8FF47]/10 text-[#C8FF47] border-[#C8FF47]/20 text-[10px] font-mono uppercase">
+              <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-mono uppercase">
                 Active Telemetry
               </Badge>
             </div>
-            <span className="text-[11px] text-[#71717A] block font-mono">
+            <span className="text-[11px] text-muted-foreground block font-mono">
               Biometrics synced: 69.9 kg · 7-Day Streak · 88% Readiness
             </span>
           </div>
@@ -80,7 +80,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
           variant="ghost"
           size="sm"
           onClick={() => dispatch(clearCoachHistoryAsync("demo-user-1"))}
-          className="h-8 px-2.5 text-[#71717A] hover:text-red-400 hover:bg-red-500/10 text-xs font-mono"
+          className="h-8 px-2.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 text-xs font-mono"
           title="Reset conversation"
         >
           <Trash2 className="h-3.5 w-3.5 mr-1" /> Reset
@@ -100,7 +100,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
             }`}
           >
             {m.sender === "assistant" && (
-              <div className="h-8 w-8 rounded-xl bg-[#181C14] border border-[#C8FF47]/40 text-[#C8FF47] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+              <div className="h-8 w-8 rounded-xl bg-primary/10 border border-primary/40 text-primary flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
                 <Sparkles className="h-4 w-4" />
               </div>
             )}
@@ -109,8 +109,8 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
               <div
                 className={`p-4 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                   m.sender === "user"
-                    ? "bg-[#C8FF47] text-black font-semibold rounded-tr-none shadow-[0_0_15px_rgba(200,255,71,0.2)] ml-auto"
-                    : "bg-[#181820] text-[#E4E4E7] border border-[#262632] rounded-tl-none whitespace-pre-line"
+                    ? "bg-primary text-primary-foreground font-semibold rounded-tr-none shadow-[0_0_15px_rgba(200,255,71,0.2)] ml-auto"
+                    : "bg-muted text-foreground border border-border rounded-tl-none whitespace-pre-line"
                 }`}
               >
                 {m.text}
@@ -129,7 +129,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
                       key={pIdx}
                       type="button"
                       onClick={() => handlePromptClick(pText)}
-                      className="text-[11px] px-2.5 py-1 rounded-lg bg-[#15171C] border border-[#2A2E3C] text-[#A1A1AA] hover:text-[#C8FF47] hover:border-[#C8FF47]/40 hover:bg-[#1A2016] transition-colors"
+                      className="text-[11px] px-2.5 py-1 rounded-lg bg-card border border-border text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-muted transition-colors"
                     >
                       • {pText}
                     </button>
@@ -139,7 +139,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
             </div>
 
             {m.sender === "user" && (
-              <div className="h-8 w-8 rounded-xl bg-[#22222C] text-white flex items-center justify-center flex-shrink-0 mt-0.5 border border-[#333342]">
+              <div className="h-8 w-8 rounded-xl bg-muted text-foreground flex items-center justify-center flex-shrink-0 mt-0.5 border border-border">
                 <User className="h-4 w-4" />
               </div>
             )}
@@ -149,16 +149,16 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
         {/* Typing indicator */}
         {isTyping && (
           <div className="flex gap-3 justify-start items-center">
-            <div className="h-8 w-8 rounded-xl bg-[#181C14] border border-[#C8FF47]/40 text-[#C8FF47] flex items-center justify-center flex-shrink-0">
+            <div className="h-8 w-8 rounded-xl bg-primary/10 border border-primary/40 text-primary flex items-center justify-center flex-shrink-0">
               <Sparkles className="h-4 w-4 animate-spin-slow" />
             </div>
-            <div className="p-3.5 rounded-2xl bg-[#181820] border border-[#262632] rounded-tl-none flex items-center gap-1.5 text-xs text-[#A1A1AA] font-mono">
-              <span className="text-[#C8FF47] font-bold">FitSync AI</span> is
+            <div className="p-3.5 rounded-2xl bg-muted border border-border rounded-tl-none flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
+              <span className="text-primary font-bold">FitSync AI</span> is
               analyzing telemetry
               <span className="flex gap-1 ml-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#C8FF47] animate-bounce" />
-                <span className="h-1.5 w-1.5 rounded-full bg-[#C8FF47] animate-bounce delay-150" />
-                <span className="h-1.5 w-1.5 rounded-full bg-[#C8FF47] animate-bounce delay-300" />
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" />
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce delay-150" />
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce delay-300" />
               </span>
             </div>
           </div>
@@ -173,7 +173,7 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
           e.preventDefault();
           handleSendMessage();
         }}
-        className="p-3 sm:p-4 bg-[#14141A] border-t border-[#222228] flex items-center gap-2"
+        className="p-3 sm:p-4 bg-muted/40 border-t border-border flex items-center gap-2"
       >
         <Input
           id="coach-chat-input"
@@ -182,14 +182,14 @@ export function CoachChatInterface({ onSelectPrompt }: CoachChatInterfaceProps) 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isTyping}
-          className="flex-1 bg-[#181820] border-[#2A2A36] text-white text-xs sm:text-sm placeholder:text-[#52525B] focus:border-[#C8FF47] rounded-xl py-5"
+          className="flex-1 bg-card border-border text-foreground text-xs sm:text-sm placeholder:text-muted-foreground focus:border-primary rounded-xl py-5"
         />
 
         <Button
           id="coach-send-btn"
           type="submit"
           disabled={isTyping || !input.trim()}
-          className="bg-[#C8FF47] text-black font-black uppercase text-xs hover:bg-[#b5f030] shadow-[0_0_15px_rgba(200,255,71,0.25)] rounded-xl py-5 px-4 flex items-center gap-1.5 flex-shrink-0"
+          className="bg-primary text-primary-foreground font-black uppercase text-xs hover:opacity-95 shadow-[0_0_15px_rgba(200,255,71,0.25)] rounded-xl py-5 px-4 flex items-center gap-1.5 flex-shrink-0"
         >
           <Send className="h-4 w-4" />
         </Button>

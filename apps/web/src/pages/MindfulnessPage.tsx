@@ -133,22 +133,22 @@ export function MindfulnessPage() {
       badge="Mind & Recovery"
     >
       {/* Quick Start Hero Card */}
-      <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#C8FF47] bg-[#C8FF47]/10 px-2 py-0.5 rounded border border-[#C8FF47]/20">
+          <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">
             Quick Start
           </span>
-          <h3 className="font-display text-2xl font-black uppercase text-white tracking-wide mt-2">
+          <h3 className="font-display text-2xl font-black uppercase text-foreground tracking-wide mt-2">
             Box Breathing
           </h3>
-          <p className="text-xs text-[#A1A1AA] mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             4-4-4-4 · 5 minutes · Calm &amp; Focus
           </p>
         </div>
 
         <Button
           onClick={() => handleStartSession(SESSIONS[0])}
-          className="gap-2 font-bold bg-[#C8FF47] text-black hover:bg-[#b5eb38] px-6 text-xs shadow-[0_0_15px_rgba(200,255,71,0.25)] shrink-0 self-start sm:self-center"
+          className="gap-2 font-bold bg-primary text-primary-foreground hover:bg-primary/90 px-6 text-xs shadow-sm shrink-0 self-start sm:self-center"
         >
           <Play className="h-4 w-4 fill-current" /> Start
         </Button>
@@ -164,8 +164,8 @@ export function MindfulnessPage() {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                 selectedCategory === cat
-                  ? "bg-[#C8FF47] text-black shadow-[0_0_12px_rgba(200,255,71,0.25)]"
-                  : "bg-[#141418] text-[#A1A1AA] hover:text-white hover:bg-[#1A1A22] border border-[#222228]"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted border border-border"
               }`}
             >
               {cat}
@@ -182,7 +182,7 @@ export function MindfulnessPage() {
           return (
             <div
               key={session.id}
-              className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 flex flex-col justify-between space-y-4 hover:border-[#2E2E38] transition-all shadow-md"
+              className="rounded-2xl border border-border bg-card p-5 flex flex-col justify-between space-y-4 hover:border-primary/40 transition-all shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between">
@@ -197,20 +197,20 @@ export function MindfulnessPage() {
                     <Icon className="h-5 w-5" />
                   </div>
 
-                  <span className="text-xs font-mono text-[#71717A]">
+                  <span className="text-xs font-mono text-muted-foreground">
                     {session.duration}
                   </span>
                 </div>
 
-                <h4 className="font-display text-base font-black text-white mt-3">
+                <h4 className="font-display text-base font-black text-foreground mt-3">
                   {session.title}
                 </h4>
 
-                <span className="text-[11px] font-semibold text-[#A1A1AA] uppercase tracking-wider block mt-0.5">
+                <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mt-0.5">
                   {session.category}
                 </span>
 
-                <p className="text-xs text-[#71717A] mt-2 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   {session.description}
                 </p>
               </div>
@@ -218,7 +218,7 @@ export function MindfulnessPage() {
               <button
                 type="button"
                 onClick={() => handleStartSession(session)}
-                className="flex items-center gap-2 text-xs font-bold text-[#C8FF47] hover:underline pt-2"
+                className="flex items-center gap-2 text-xs font-bold text-primary hover:underline pt-2"
               >
                 <Play className="h-3.5 w-3.5 fill-current" />
                 <span>Play</span>
@@ -231,26 +231,26 @@ export function MindfulnessPage() {
       {/* Active Breathing / Meditation Modal Player */}
       {activeSession && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 text-center space-y-6 shadow-2xl">
+          <div className="relative w-full max-w-md rounded-2xl border border-border bg-card p-6 text-center space-y-6 shadow-2xl">
             <button
               type="button"
               onClick={() => {
                 setActiveSession(null);
                 setIsPacing(false);
               }}
-              className="absolute top-4 right-4 p-1.5 rounded-lg text-[#71717A] hover:bg-[#1E1E24] hover:text-white"
+              className="absolute top-4 right-4 p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
 
             <div>
-              <span className="text-xs uppercase font-bold text-[#C8FF47] tracking-widest">
+              <span className="text-xs uppercase font-bold text-primary tracking-widest">
                 {activeSession.category}
               </span>
-              <h3 className="font-display text-2xl font-black text-white mt-1">
+              <h3 className="font-display text-2xl font-black text-foreground mt-1">
                 {activeSession.title}
               </h3>
-              <p className="text-xs text-[#A1A1AA] mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Follow the visual pulse and breathe naturally
               </p>
             </div>
@@ -258,19 +258,19 @@ export function MindfulnessPage() {
             {/* Breathing Circle Pacer */}
             <div className="py-6 flex flex-col items-center justify-center">
               <div
-                className={`relative flex h-48 w-48 items-center justify-center rounded-full border-2 border-[#C8FF47] transition-all duration-1000 ${
+                className={`relative flex h-48 w-48 items-center justify-center rounded-full border-2 border-primary transition-all duration-1000 ${
                   phase === "Inhale"
-                    ? "scale-110 bg-[#C8FF47]/20 shadow-[0_0_40px_rgba(200,255,71,0.4)]"
+                    ? "scale-110 bg-primary/20 shadow-lg"
                     : phase === "Hold"
-                    ? "scale-105 bg-[#00F0FF]/15 border-[#00F0FF] shadow-[0_0_30px_rgba(0,240,255,0.3)]"
-                    : "scale-90 bg-[#C8FF47]/5 shadow-none"
+                    ? "scale-105 bg-cyan-500/15 border-cyan-500 shadow-md"
+                    : "scale-90 bg-primary/5 shadow-none"
                 }`}
               >
                 <div className="flex flex-col items-center">
-                  <span className="font-display text-2xl font-black uppercase text-white tracking-widest">
+                  <span className="font-display text-2xl font-black uppercase text-foreground tracking-widest">
                     {phase}
                   </span>
-                  <span className="font-mono text-3xl font-black text-[#C8FF47] mt-1">
+                  <span className="font-mono text-3xl font-black text-primary mt-1">
                     {countdown}s
                   </span>
                 </div>
@@ -283,7 +283,7 @@ export function MindfulnessPage() {
                 variant="outline"
                 size="icon"
                 onClick={() => setIsPacing(!isPacing)}
-                className="h-12 w-12 rounded-full border-[#222228] bg-[#16161A] text-white hover:bg-[#1C1C24]"
+                className="h-12 w-12 rounded-full border-border bg-card text-foreground hover:bg-muted"
               >
                 {isPacing ? (
                   <Pause className="h-5 w-5" />
@@ -293,8 +293,8 @@ export function MindfulnessPage() {
               </Button>
             </div>
 
-            <div className="text-[11px] text-[#71717A] flex items-center justify-center gap-1.5">
-              <Volume2 className="h-3.5 w-3.5 text-[#C8FF47]" />
+            <div className="text-[11px] text-muted-foreground flex items-center justify-center gap-1.5">
+              <Volume2 className="h-3.5 w-3.5 text-primary" />
               <span>Ambient audio soothing track active</span>
             </div>
           </div>

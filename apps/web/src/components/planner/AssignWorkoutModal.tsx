@@ -35,14 +35,14 @@ export const AssignWorkoutModal: React.FC = () => {
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-xl rounded-2xl border border-[#222228] bg-[#0E0E12] p-5 sm:p-6 shadow-2xl z-50 max-h-[85vh] flex flex-col">
+      <div className="relative w-full max-w-xl rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-2xl z-50 max-h-[85vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#222228] pb-3">
+        <div className="flex items-center justify-between border-b border-border pb-3">
           <div>
-            <h3 className="font-display text-xl font-black uppercase tracking-wide text-white">
+            <h3 className="font-display text-xl font-black uppercase tracking-wide text-foreground">
               Assign Routine • {assignModal.targetDay}
             </h3>
-            <p className="text-xs text-[#71717A]">
+            <p className="text-xs text-muted-foreground">
               Select a routine to schedule for {assignModal.targetDay}
             </p>
           </div>
@@ -50,7 +50,7 @@ export const AssignWorkoutModal: React.FC = () => {
             type="button"
             onClick={() => dispatch(closeAssignModal())}
             aria-label="Close modal"
-            className="rounded-lg border border-[#222228] p-1 text-[#A1A1AA] hover:border-[#C8FF47]/40 hover:text-white transition-colors"
+            className="rounded-lg border border-border p-1 text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
@@ -58,12 +58,12 @@ export const AssignWorkoutModal: React.FC = () => {
 
         {/* Search */}
         <div className="relative my-3">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#71717A]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search workouts to schedule..."
-            className="pl-8 bg-[#14141A] border-[#222228] text-xs h-9"
+            className="pl-8 bg-muted border-border text-xs h-9"
           />
         </div>
 
@@ -87,7 +87,7 @@ export const AssignWorkoutModal: React.FC = () => {
                 );
                 dispatch(saveScheduleAsync({ schedule: updated }));
               }}
-              className="flex items-center gap-3 rounded-xl border border-[#222228] bg-[#14141A] p-3 transition-all hover:border-[#C8FF47]/50 hover:bg-[#1A1A1F] cursor-pointer group"
+              className="flex items-center gap-3 rounded-xl border border-border bg-muted/60 p-3 transition-all hover:border-primary/50 hover:bg-muted cursor-pointer group"
             >
               <img
                 src={workout.thumbnail}
@@ -100,19 +100,19 @@ export const AssignWorkoutModal: React.FC = () => {
                   <Badge variant="default" className="uppercase text-[9px]">
                     {workout.category}
                   </Badge>
-                  <span className="text-[10px] font-mono text-[#71717A] capitalize">
+                  <span className="text-[10px] font-mono text-muted-foreground capitalize">
                     {workout.difficulty}
                   </span>
                 </div>
-                <h4 className="font-display text-sm font-bold uppercase text-white group-hover:text-[#C8FF47] transition-colors truncate mt-0.5">
+                <h4 className="font-display text-sm font-bold uppercase text-foreground group-hover:text-primary transition-colors truncate mt-0.5">
                   {workout.title}
                 </h4>
-                <div className="flex items-center gap-3 text-[10px] font-mono text-[#A1A1AA] mt-0.5">
+                <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground mt-0.5">
                   <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3 text-[#C8FF47]" /> {workout.duration}m
+                    <Clock className="h-3 w-3 text-primary" /> {workout.duration}m
                   </span>
                   <span className="flex items-center gap-1">
-                    <Flame className="h-3 w-3 text-[#C8FF47]" /> {workout.calories} kcal
+                    <Flame className="h-3 w-3 text-primary" /> {workout.calories} kcal
                   </span>
                 </div>
               </div>

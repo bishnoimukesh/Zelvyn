@@ -54,9 +54,9 @@ export function VideosPage() {
           variant="outline"
           onClick={() => dispatch(fetchVideos({ userId: "demo-user-1" }))}
           disabled={loading}
-          className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+          className="gap-1.5 text-xs border-border bg-card text-muted-foreground hover:text-foreground"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-primary" : ""}`} />
           Sync Videos
         </Button>
       }
@@ -76,18 +76,18 @@ export function VideosPage() {
         {/* Video Grid Section */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display text-base font-bold uppercase tracking-wider text-white">
+            <h3 className="font-display text-base font-bold uppercase tracking-wider text-foreground">
               Available Sessions ({filteredVideos.length})
             </h3>
             {searchQuery && (
-              <span className="text-xs font-mono text-[#71717A]">
+              <span className="text-xs font-mono text-muted-foreground">
                 Filtered by "{searchQuery}"
               </span>
             )}
           </div>
 
           {filteredVideos.length === 0 ? (
-            <div className="p-12 text-center text-[#71717A] text-sm bg-[#121216] rounded-3xl border border-[#222228] font-mono">
+            <div className="p-12 text-center text-muted-foreground text-sm bg-card rounded-3xl border border-border font-mono">
               No workout sessions found matching your filters. Try adjusting your
               search query or category.
             </div>

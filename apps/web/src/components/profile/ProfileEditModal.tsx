@@ -89,14 +89,14 @@ export const ProfileEditModal: React.FC = () => {
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-lg rounded-2xl border border-[#222228] bg-[#0E0E12] p-6 shadow-2xl z-50 max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-2xl z-50 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#222228] pb-4">
+        <div className="flex items-center justify-between border-b border-border pb-4">
           <div>
-            <h3 className="font-display text-xl font-black uppercase tracking-wide text-white">
+            <h3 className="font-display text-xl font-black uppercase tracking-wide text-foreground">
               Edit Athlete Profile
             </h3>
-            <p className="text-xs text-[#71717A]">
+            <p className="text-xs text-muted-foreground">
               Update your biometrics and athletic training preferences
             </p>
           </div>
@@ -104,7 +104,7 @@ export const ProfileEditModal: React.FC = () => {
             type="button"
             onClick={() => dispatch(closeEditProfileModal())}
             aria-label="Close edit modal"
-            className="rounded-lg border border-[#222228] p-1 text-[#A1A1AA] hover:border-[#C8FF47]/40 hover:text-white transition-colors"
+            className="rounded-lg border border-border p-1 text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
@@ -114,7 +114,7 @@ export const ProfileEditModal: React.FC = () => {
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           {/* Full Name */}
           <div>
-            <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+            <label className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
               Athlete Name
             </label>
             <Input
@@ -128,7 +128,7 @@ export const ProfileEditModal: React.FC = () => {
           {/* Biometrics Grid: Height, Weight, Target Weight, Age */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-[#A1A1AA]">
+              <label className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
                 Height (cm)
               </label>
               <Input
@@ -145,7 +145,7 @@ export const ProfileEditModal: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-[#A1A1AA]">
+              <label className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
                 Weight (kg)
               </label>
               <Input
@@ -163,7 +163,7 @@ export const ProfileEditModal: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-[#A1A1AA]">
+              <label className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
                 Target (kg)
               </label>
               <Input
@@ -181,7 +181,7 @@ export const ProfileEditModal: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-[#A1A1AA]">
+              <label className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
                 Age
               </label>
               <Input
@@ -200,7 +200,7 @@ export const ProfileEditModal: React.FC = () => {
 
           {/* Fitness Experience Level */}
           <div>
-            <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+            <label className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
               Athletic Experience Level
             </label>
             <div className="grid grid-cols-3 gap-2 mt-1">
@@ -211,8 +211,8 @@ export const ProfileEditModal: React.FC = () => {
                   onClick={() => setFormData({ ...formData, fitnessLevel: lvl.value })}
                   className={`rounded-lg border p-2.5 text-xs font-bold uppercase tracking-wide transition-all ${
                     formData.fitnessLevel === lvl.value
-                      ? "border-[#C8FF47] bg-[#C8FF47]/10 text-[#C8FF47] shadow-[0_0_10px_rgba(200,255,71,0.15)]"
-                      : "border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+                      ? "border-primary bg-primary/10 text-primary shadow-[0_0_10px_rgba(200,255,71,0.15)]"
+                      : "border-border bg-muted text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {lvl.label}
@@ -223,7 +223,7 @@ export const ProfileEditModal: React.FC = () => {
 
           {/* Primary Fitness Goal */}
           <div>
-            <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+            <label className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
               Primary Training Goal
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
@@ -234,8 +234,8 @@ export const ProfileEditModal: React.FC = () => {
                   onClick={() => setFormData({ ...formData, goal: g })}
                   className={`rounded-lg border p-2.5 text-left text-xs font-semibold transition-all ${
                     formData.goal === g
-                      ? "border-[#C8FF47] bg-[#C8FF47]/10 text-[#C8FF47]"
-                      : "border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-muted text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {g}
@@ -246,7 +246,7 @@ export const ProfileEditModal: React.FC = () => {
 
           {/* Activity Level */}
           <div>
-            <label className="text-xs font-mono font-bold uppercase tracking-wider text-[#A1A1AA]">
+            <label className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
               Daily Activity & Training Frequency
             </label>
             <select
@@ -257,10 +257,10 @@ export const ProfileEditModal: React.FC = () => {
                   activityLevel: e.target.value as typeof formData.activityLevel,
                 })
               }
-              className="mt-1 w-full rounded-lg border border-[#222228] bg-[#111115] px-3 py-2 text-xs text-white focus:border-[#C8FF47] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-border bg-muted px-3 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
             >
               {ACTIVITY_LEVELS.map((act) => (
-                <option key={act.value} value={act.value} className="bg-[#111115] text-white">
+                <option key={act.value} value={act.value} className="bg-card text-foreground">
                   {act.label}
                 </option>
               ))}
@@ -268,7 +268,7 @@ export const ProfileEditModal: React.FC = () => {
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-2 pt-4 border-t border-[#222228]">
+          <div className="flex items-center justify-end gap-2 pt-4 border-t border-border">
             <Button
               type="button"
               variant="outline"
@@ -279,7 +279,7 @@ export const ProfileEditModal: React.FC = () => {
             <Button type="submit" className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]">
               {savedSuccess ? (
                 <>
-                  <Check className="h-4 w-4 text-[#08080A]" /> Saved!
+                  <Check className="h-4 w-4 text-primary-foreground" /> Saved!
                 </>
               ) : (
                 <>

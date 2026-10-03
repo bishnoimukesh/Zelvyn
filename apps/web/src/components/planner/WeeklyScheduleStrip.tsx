@@ -64,28 +64,28 @@ export const WeeklyScheduleStrip: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Volume Summary Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-[#222228] bg-[#111115] p-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-border bg-card p-4">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#71717A]">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
             Weekly Split Target
           </span>
-          <h3 className="font-display text-xl font-black uppercase text-white mt-0.5">
+          <h3 className="font-display text-xl font-black uppercase text-foreground mt-0.5">
             7-Day Microcycle Schedule
           </h3>
         </div>
 
         <div className="flex items-center gap-4 text-xs font-mono">
           <div className="flex items-center gap-1.5">
-            <Calendar className="h-4 w-4 text-[#C8FF47]" />
-            <span className="text-white font-bold">{activeDaysCount} Days Active</span>
+            <Calendar className="h-4 w-4 text-primary" />
+            <span className="text-foreground font-bold">{activeDaysCount} Days Active</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Clock className="h-4 w-4 text-[#C8FF47]" />
-            <span className="text-white font-bold">{totalWeeklyMinutes} mins</span>
+            <Clock className="h-4 w-4 text-primary" />
+            <span className="text-foreground font-bold">{totalWeeklyMinutes} mins</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Flame className="h-4 w-4 text-[#C8FF47]" />
-            <span className="text-white font-bold">{totalWeeklyCalories.toLocaleString()} kcal</span>
+            <Flame className="h-4 w-4 text-primary" />
+            <span className="text-foreground font-bold">{totalWeeklyCalories.toLocaleString()} kcal</span>
           </div>
         </div>
       </div>
@@ -100,14 +100,14 @@ export const WeeklyScheduleStrip: React.FC = () => {
               key={day.day}
               className={`p-3.5 flex flex-col justify-between border transition-all ${
                 day.isRestDay
-                  ? "border-[#222228] bg-[#0E0E12] opacity-80"
-                  : "border-[#222228] bg-[#111115] hover:border-[#C8FF47]/40 shadow-[0_0_12px_rgba(200,255,71,0.05)]"
+                  ? "border-border bg-muted/40 opacity-80"
+                  : "border-border bg-card hover:border-primary/40 shadow-sm"
               }`}
             >
               {/* Day Header */}
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="font-display text-sm font-black uppercase text-white">
+                  <span className="font-display text-sm font-black uppercase text-foreground">
                     {day.day}
                   </span>
                   <button
@@ -116,8 +116,8 @@ export const WeeklyScheduleStrip: React.FC = () => {
                     aria-label={`Toggle completion for ${day.day}`}
                     className={`h-5 w-5 rounded flex items-center justify-center transition-colors ${
                       day.completed
-                        ? "text-[#C8FF47]"
-                        : "text-[#3F3F46] hover:text-[#71717A]"
+                        ? "text-primary"
+                        : "text-muted-foreground/40 hover:text-muted-foreground"
                     }`}
                   >
                     <CheckCircle2 className="h-4 w-4" />
@@ -127,11 +127,11 @@ export const WeeklyScheduleStrip: React.FC = () => {
                 {/* Day Status Tag */}
                 <div className="mt-1">
                   {day.isRestDay ? (
-                    <span className="inline-flex items-center gap-1 rounded bg-[#1F1F26] px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-amber-400">
+                    <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-amber-500">
                       <Coffee className="h-2.5 w-2.5" /> Rest & Recovery
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded bg-[#C8FF47]/10 px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-[#C8FF47]">
+                    <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase text-primary">
                       Training Session
                     </span>
                   )}
@@ -140,22 +140,22 @@ export const WeeklyScheduleStrip: React.FC = () => {
                 {/* Assigned Workout Info */}
                 <div className="mt-2.5 min-h-[60px]">
                   {day.isRestDay ? (
-                    <p className="text-[11px] text-[#71717A] leading-relaxed">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed">
                       {day.notes || "Active mobility, light walks, and glycogen rest."}
                     </p>
                   ) : workout ? (
                     <div>
-                      <p className="font-display text-xs font-black uppercase text-white line-clamp-2">
+                      <p className="font-display text-xs font-black uppercase text-foreground line-clamp-2">
                         {workout.title}
                       </p>
-                      <div className="flex items-center gap-2 mt-1 text-[10px] font-mono text-[#A1A1AA]">
+                      <div className="flex items-center gap-2 mt-1 text-[10px] font-mono text-muted-foreground">
                         <span>{workout.duration}m</span>
                         <span>•</span>
                         <span>{workout.calories} kcal</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-2 text-center text-[10px] text-[#71717A]">
+                    <div className="flex flex-col items-center justify-center py-2 text-center text-[10px] text-muted-foreground">
                       <span>No workout set</span>
                     </div>
                   )}
@@ -163,12 +163,12 @@ export const WeeklyScheduleStrip: React.FC = () => {
               </div>
 
               {/* Actions Footer */}
-              <div className="pt-2 border-t border-[#222228] mt-2 flex items-center justify-between gap-1">
+              <div className="pt-2 border-t border-border mt-2 flex items-center justify-between gap-1">
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={() => dispatch(openAssignModal(day.day))}
-                  className="h-6 px-1.5 text-[10px] font-mono text-[#A1A1AA] hover:text-[#C8FF47] gap-1"
+                  className="h-6 px-1.5 text-[10px] font-mono text-muted-foreground hover:text-primary gap-1"
                 >
                   {workout ? (
                     <>
@@ -185,7 +185,7 @@ export const WeeklyScheduleStrip: React.FC = () => {
                   size="sm"
                   variant="ghost"
                   onClick={() => handleToggleRestDay(day.day)}
-                  className="h-6 px-1.5 text-[10px] font-mono text-[#71717A] hover:text-white"
+                  className="h-6 px-1.5 text-[10px] font-mono text-muted-foreground hover:text-foreground"
                 >
                   {day.isRestDay ? "Train" : "Rest"}
                 </Button>

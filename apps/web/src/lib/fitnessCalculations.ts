@@ -27,20 +27,20 @@ export interface MetabolicProfile {
 
 export function calculateBMI(weightKg: number, heightCm: number): BMISummary {
   if (!weightKg || !heightCm || heightCm <= 0) {
-    return { bmi: 22.5, category: "Optimal", badgeColor: "text-[#C8FF47]" };
+    return { bmi: 22.5, category: "Optimal", badgeColor: "text-primary" };
   }
   const heightM = heightCm / 100;
   const bmi = Number((weightKg / (heightM * heightM)).toFixed(1));
 
   let category: BMISummary["category"] = "Optimal";
-  let badgeColor = "text-[#C8FF47]";
+  let badgeColor = "text-primary";
 
   if (bmi < 18.5) {
     category = "Underweight";
     badgeColor = "text-amber-400";
   } else if (bmi <= 24.9) {
     category = "Optimal";
-    badgeColor = "text-[#C8FF47]";
+    badgeColor = "text-primary";
   } else if (bmi <= 29.9) {
     category = "Overweight";
     badgeColor = "text-orange-400";

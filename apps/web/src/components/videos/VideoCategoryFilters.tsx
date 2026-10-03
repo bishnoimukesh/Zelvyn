@@ -32,20 +32,20 @@ export function VideoCategoryFilters() {
     <div className="space-y-3" id="video-filters-container">
       {/* Search Bar */}
       <div className="relative w-full">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#71717A]" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           id="video-search-input"
           type="text"
           placeholder="Search guided routines, coaches, or equipment (e.g. HIIT, Kettlebell, Marcus)..."
           value={searchQuery}
           onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-          className="pl-10 pr-4 py-2.5 bg-[#121216] border-[#222228] text-white text-xs placeholder:text-[#52525B] focus:border-[#C8FF47] rounded-2xl"
+          className="pl-10 pr-4 py-2.5 bg-card border-border text-foreground text-xs placeholder:text-muted-foreground focus:border-primary rounded-2xl"
         />
       </div>
 
       {/* Category Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-        <SlidersHorizontal className="h-4 w-4 text-[#71717A] mr-1 flex-shrink-0" />
+        <SlidersHorizontal className="h-4 w-4 text-muted-foreground mr-1 flex-shrink-0" />
         {categories.map((cat) => {
           const isSelected = selectedCategory === cat.key;
           const count = getCount(cat.key);
@@ -59,8 +59,8 @@ export function VideoCategoryFilters() {
               className={cn(
                 "flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap border",
                 isSelected
-                  ? "bg-[#C8FF47] text-black border-[#C8FF47] shadow-[0_0_15px_rgba(200,255,71,0.25)]"
-                  : "bg-[#121216] text-[#A1A1AA] border-[#222228] hover:border-[#33333E] hover:text-white"
+                  ? "bg-primary text-primary-foreground border-primary shadow-[0_0_15px_rgba(200,255,71,0.25)]"
+                  : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
               )}
             >
               <span>{cat.label}</span>
@@ -68,8 +68,8 @@ export function VideoCategoryFilters() {
                 className={cn(
                   "text-[10px] px-1.5 py-0.2 rounded-md font-bold",
                   isSelected
-                    ? "bg-black/15 text-black"
-                    : "bg-[#1C1C24] text-[#71717A]"
+                    ? "bg-black/15 text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
                 )}
               >
                 {count}

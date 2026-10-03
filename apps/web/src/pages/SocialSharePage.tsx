@@ -100,7 +100,7 @@ export function SocialSharePage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left Column: Select Milestone */}
         <div className="space-y-4">
-          <h4 className="text-xs font-black uppercase tracking-wider text-white">
+          <h4 className="text-xs font-black uppercase tracking-wider text-foreground">
             Select Milestone
           </h4>
 
@@ -116,8 +116,8 @@ export function SocialSharePage() {
                   onClick={() => setSelectedMilestoneId(m.id)}
                   className={`w-full flex items-center gap-4 p-4 rounded-2xl border text-left transition-all ${
                     isSelected
-                      ? "bg-[#182012] border-[#C8FF47] shadow-[0_0_15px_rgba(200,255,71,0.15)] ring-1 ring-[#C8FF47]"
-                      : "bg-[#111114] border-[#1E1E24] hover:border-[#33333E] hover:bg-[#16161C]"
+                      ? "bg-primary/10 border-primary shadow-sm ring-1 ring-primary"
+                      : "bg-card border-border hover:border-primary/40 hover:bg-muted/50"
                   }`}
                 >
                   <div
@@ -132,10 +132,10 @@ export function SocialSharePage() {
                   </div>
 
                   <div>
-                    <span className="text-[11px] uppercase font-bold text-[#71717A] tracking-wider block">
+                    <span className="text-[11px] uppercase font-bold text-muted-foreground tracking-wider block">
                       {m.label}
                     </span>
-                    <span className="font-display text-lg font-black text-white mt-0.5 block">
+                    <span className="font-display text-lg font-black text-foreground mt-0.5 block">
                       {m.value}
                     </span>
                   </div>
@@ -147,51 +147,51 @@ export function SocialSharePage() {
 
         {/* Right Column: Live Card Preview & Share Buttons */}
         <div className="space-y-4">
-          <h4 className="text-xs font-black uppercase tracking-wider text-white">
+          <h4 className="text-xs font-black uppercase tracking-wider text-foreground">
             Preview
           </h4>
 
           {/* Social Graphic Card */}
-          <div className="relative rounded-3xl border border-[#2A2A35] bg-gradient-to-br from-[#16161D] via-[#101014] to-[#0A0A0D] p-8 text-center space-y-6 shadow-2xl overflow-hidden">
+          <div className="relative rounded-3xl border border-border bg-card p-8 text-center space-y-6 shadow-xl overflow-hidden">
             {/* Background glowing watermark */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#C8FF47]/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
 
             {/* FitSync Header */}
             <div className="flex items-center justify-center gap-2">
-              <div className="h-6 w-6 rounded-md bg-[#C8FF47] flex items-center justify-center text-black font-black">
+              <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-black">
                 <Zap className="h-3.5 w-3.5 fill-current" />
               </div>
-              <span className="font-display text-xs font-black uppercase tracking-widest text-white">
-                FITSYNC <span className="text-[#C8FF47]">AI</span>
+              <span className="font-display text-xs font-black uppercase tracking-widest text-foreground">
+                FITSYNC <span className="text-primary">AI</span>
               </span>
             </div>
 
             {/* Icon In Glow */}
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-[#1A2214] border border-[#C8FF47]/30 text-[#C8FF47] shadow-[0_0_30px_rgba(200,255,71,0.2)] mx-auto">
+            <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 border border-primary/30 text-primary shadow-sm mx-auto">
               <Icon className="h-10 w-10" />
             </div>
 
             {/* Value & Label */}
             <div>
-              <span className="text-xs uppercase font-black tracking-widest text-[#A1A1AA] block">
+              <span className="text-xs uppercase font-black tracking-widest text-muted-foreground block">
                 {activeMilestone.label}
               </span>
-              <h3 className="font-display text-4xl sm:text-5xl font-black text-white tracking-wide mt-1">
+              <h3 className="font-display text-4xl sm:text-5xl font-black text-foreground tracking-wide mt-1">
                 {activeMilestone.value}
               </h3>
-              <p className="text-xs text-[#A1A1AA] italic mt-3 max-w-xs mx-auto">
+              <p className="text-xs text-muted-foreground italic mt-3 max-w-xs mx-auto">
                 &ldquo;{activeMilestone.quote}&rdquo;
               </p>
             </div>
 
             {/* User Footer */}
-            <div className="pt-4 border-t border-[#22222A] flex items-center justify-center gap-2.5">
+            <div className="pt-4 border-t border-border flex items-center justify-center gap-2.5">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
                 alt="Alex Rivera"
-                className="h-8 w-8 rounded-full object-cover ring-2 ring-[#C8FF47]/40"
+                className="h-8 w-8 rounded-full object-cover ring-2 ring-primary/40"
               />
-              <span className="text-xs font-bold text-white">Alex Rivera</span>
+              <span className="text-xs font-bold text-foreground">Alex Rivera</span>
             </div>
           </div>
 
@@ -199,7 +199,7 @@ export function SocialSharePage() {
           <div className="flex items-center gap-3 pt-2">
             <Button
               onClick={handleShare}
-              className="flex-1 gap-2 font-bold bg-[#C8FF47] text-black hover:bg-[#b5eb38] text-xs py-2.5 shadow-[0_0_15px_rgba(200,255,71,0.25)]"
+              className="flex-1 gap-2 font-bold bg-primary text-primary-foreground hover:bg-primary/90 text-xs py-2.5 shadow-sm"
             >
               <Share2 className="h-4 w-4" /> Share
             </Button>
@@ -207,21 +207,21 @@ export function SocialSharePage() {
             <Button
               variant="outline"
               onClick={handleSave}
-              className="gap-2 text-xs font-semibold bg-[#16161A] border-[#222228] text-white hover:border-[#C8FF47] py-2.5"
+              className="gap-2 text-xs font-semibold bg-card border-border text-foreground hover:border-primary py-2.5"
             >
               {copied ? (
                 <>
-                  <Check className="h-4 w-4 text-[#C8FF47]" /> Copied!
+                  <Check className="h-4 w-4 text-primary" /> Copied!
                 </>
               ) : (
                 <>
-                  <Download className="h-4 w-4 text-[#C8FF47]" /> Save
+                  <Download className="h-4 w-4 text-primary" /> Save
                 </>
               )}
             </Button>
           </div>
 
-          <p className="text-[11px] text-[#71717A] text-center">
+          <p className="text-[11px] text-muted-foreground text-center">
             Uses Web Share API when available
           </p>
         </div>

@@ -89,9 +89,9 @@ export function PlannerPage() {
             variant="outline"
             onClick={() => dispatch(fetchPlanner("demo-user-1"))}
             disabled={loading}
-            className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+            className="gap-1.5 text-xs border-border bg-card text-muted-foreground hover:text-foreground"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-primary" : ""}`} />
             Sync
           </Button>
           <Button
@@ -115,13 +115,13 @@ export function PlannerPage() {
       )}
 
       {/* Filter Toolbar */}
-      <div className="pt-4 border-t border-[#222228]">
+      <div className="pt-4 border-t border-border">
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <h3 className="font-display text-xl sm:text-2xl font-black uppercase text-white">
+            <h3 className="font-display text-xl sm:text-2xl font-black uppercase text-foreground">
               Targeted Routine Library
             </h3>
-            <p className="text-xs text-[#71717A]">
+            <p className="text-xs text-muted-foreground">
               Showing {filteredWorkouts.length} of {workouts.length} routines
             </p>
           </div>
@@ -132,9 +132,9 @@ export function PlannerPage() {
 
       {/* Filtered Workouts Grid */}
       {filteredWorkouts.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-[#222228] p-12 text-center">
-          <p className="text-sm font-bold text-white">No workouts match the selected filters</p>
-          <p className="text-xs text-[#71717A] mt-1">
+        <div className="rounded-xl border border-dashed border-border p-12 text-center">
+          <p className="text-sm font-bold text-foreground">No workouts match the selected filters</p>
+          <p className="text-xs text-muted-foreground mt-1">
             Try resetting your filters or adjusting your search query.
           </p>
         </div>

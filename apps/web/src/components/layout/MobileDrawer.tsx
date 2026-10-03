@@ -90,50 +90,50 @@ export const MobileDrawer: React.FC = () => {
       />
 
       {/* Slide-out Drawer Panel */}
-      <div className="fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-[#0A0A0C] border-r border-[#1E1E24] p-4 flex flex-col justify-between shadow-2xl z-50">
+      <div className="fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-card border-r border-border p-4 flex flex-col justify-between shadow-2xl z-50">
         <div>
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-[#1E1E24]">
+          <div className="flex items-center justify-between pb-4 border-b border-border">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-[#C8FF47] flex items-center justify-center text-black font-black">
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-black">
                 <Zap className="h-4 w-4 fill-current" />
               </div>
-              <span className="font-display text-lg font-black text-white">
-                FITSYNC <span className="text-[#C8FF47]">AI</span>
+              <span className="font-display text-lg font-black text-foreground">
+                FITSYNC <span className="text-primary">AI</span>
               </span>
             </div>
 
             <button
               type="button"
               onClick={() => dispatch(setMobileDrawerOpen(false))}
-              className="p-1.5 rounded-lg text-[#71717A] hover:bg-[#16161A] hover:text-white"
+              className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* User Card */}
-          <div className="py-3 border-b border-[#1E1E24]">
+          <div className="py-3 border-b border-border">
             <div className="flex items-center gap-2.5">
               <img
                 src={user?.avatarUrl}
                 alt={user?.name}
-                className="h-9 w-9 rounded-full object-cover ring-2 ring-[#C8FF47]/40"
+                className="h-9 w-9 rounded-full object-cover ring-2 ring-primary/40"
               />
               <div>
-                <div className="text-xs font-bold text-white">{user?.name || "Alex Rivera"}</div>
-                <div className="text-[11px] text-[#A1A1AA]">
-                  Lv.{level} · {streakCount} 🔥
+                <div className="text-xs font-bold text-foreground">{user?.name || "Alex Rivera"}</div>
+                <div className="text-[11px] text-muted-foreground">
+                  Lv.{level} · <span className="text-amber-500 font-semibold">{streakCount} 🔥</span>
                 </div>
               </div>
             </div>
             <div className="mt-2">
-              <div className="flex justify-between text-[10px] text-[#71717A] font-mono mb-1">
+              <div className="flex justify-between text-[10px] text-muted-foreground font-mono mb-1">
                 <span>{currentXp} XP</span>
                 <span>{nextLevelXp} XP</span>
               </div>
-              <div className="h-1.5 w-full bg-[#18181E] rounded-full overflow-hidden">
-                <div className="h-full bg-[#C8FF47] rounded-full" style={{ width: `${xpPercent}%` }} />
+              <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                <div className="h-full bg-primary rounded-full" style={{ width: `${xpPercent}%` }} />
               </div>
             </div>
           </div>
@@ -153,14 +153,14 @@ export const MobileDrawer: React.FC = () => {
                   className={cn(
                     "flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all",
                     isActive
-                      ? "bg-[#182012] text-[#C8FF47]"
-                      : "text-[#A1A1AA] hover:bg-[#141418] hover:text-white"
+                      ? "bg-primary/15 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-4 w-4 shrink-0",
-                      isActive ? "text-[#C8FF47]" : "text-[#71717A]"
+                      isActive ? "text-primary" : "text-muted-foreground"
                     )}
                   />
                   <span>{item.label}</span>
@@ -171,13 +171,13 @@ export const MobileDrawer: React.FC = () => {
         </div>
 
         {/* Sign Out */}
-        <div className="pt-3 border-t border-[#1E1E24]">
+        <div className="pt-3 border-t border-border">
           <button
             type="button"
             onClick={() => {
               window.location.href = "/";
             }}
-            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold text-[#A1A1AA] hover:text-[#FF453A]"
+            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-destructive hover:bg-destructive/10"
           >
             <LogOut className="h-4 w-4 shrink-0" />
             <span>Sign Out</span>

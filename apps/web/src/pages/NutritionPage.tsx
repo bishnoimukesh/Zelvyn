@@ -88,15 +88,15 @@ export function NutritionPage() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "Breakfast":
-        return "bg-[#FF8438]/15 text-[#FF8438] border-[#FF8438]/30";
+        return "bg-amber-500/15 text-amber-500 border-amber-500/30";
       case "Lunch":
-        return "bg-[#C8FF47]/15 text-[#C8FF47] border-[#C8FF47]/30";
+        return "bg-primary/15 text-primary border-primary/30";
       case "Dinner":
-        return "bg-[#A78BFA]/15 text-[#A78BFA] border-[#A78BFA]/30";
+        return "bg-purple-500/15 text-purple-500 border-purple-500/30";
       case "Snack":
-        return "bg-[#00F0FF]/15 text-[#00F0FF] border-[#00F0FF]/30";
+        return "bg-cyan-500/15 text-cyan-500 border-cyan-500/30";
       default:
-        return "bg-[#27272A] text-white border-[#3F3F46]";
+        return "bg-muted text-foreground border-border";
     }
   };
 
@@ -112,16 +112,16 @@ export function NutritionPage() {
             variant="outline"
             onClick={() => dispatch(fetchNutrition("demo-user-1"))}
             disabled={loading}
-            className="gap-1.5 text-xs border-[#222228] bg-[#14141A] text-[#A1A1AA] hover:text-white"
+            className="gap-1.5 text-xs border-border bg-card text-muted-foreground hover:text-foreground"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-[#C8FF47]" : ""}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-primary" : ""}`} />
             Sync
           </Button>
           <Button
             size="sm"
             onClick={handleGenerateMeal}
             disabled={isGenerating}
-            className="gap-1.5 font-bold shadow-[0_0_12px_rgba(200,255,71,0.25)]"
+            className="gap-1.5 font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
           >
             <Sparkles className="h-4 w-4" /> AI Smart Meal
           </Button>
@@ -131,7 +131,7 @@ export function NutritionPage() {
       {/* Top Section: Calories Donut & Macros Bars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Calories Today Card */}
-        <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 flex items-center gap-6 shadow-lg">
+        <div className="rounded-2xl border border-border bg-card p-5 flex items-center gap-6 shadow-sm">
           {/* Circular Donut Ring */}
           <div className="relative flex h-32 w-32 shrink-0 items-center justify-center">
             <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
@@ -139,7 +139,7 @@ export function NutritionPage() {
                 cx="50"
                 cy="50"
                 r="40"
-                className="stroke-[#1C1C22]"
+                className="stroke-muted"
                 strokeWidth="10"
                 fill="transparent"
               />
@@ -147,7 +147,7 @@ export function NutritionPage() {
                 cx="50"
                 cy="50"
                 r="40"
-                className="stroke-[#C8FF47] transition-all duration-700 ease-out"
+                className="stroke-primary transition-all duration-700 ease-out"
                 strokeWidth="10"
                 strokeDasharray={251.2}
                 strokeDashoffset={251.2 * (1 - caloriePercent / 100)}
@@ -156,49 +156,49 @@ export function NutritionPage() {
               />
             </svg>
             <div className="absolute flex flex-col items-center justify-center text-center">
-              <span className="font-display text-2xl font-black text-white leading-none">
+              <span className="font-display text-2xl font-black text-foreground leading-none">
                 {consumedCalories}
               </span>
-              <span className="text-[10px] uppercase font-bold text-[#71717A] mt-0.5">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground mt-0.5">
                 kcal
               </span>
             </div>
           </div>
 
           <div className="flex flex-col justify-center min-w-0">
-            <span className="text-xs uppercase font-bold text-[#71717A]">
+            <span className="text-xs uppercase font-bold text-muted-foreground">
               Calories Today
             </span>
-            <div className="font-display text-3xl font-black text-white mt-0.5">
+            <div className="font-display text-3xl font-black text-foreground mt-0.5">
               {consumedCalories}
             </div>
-            <div className="text-xs text-[#A1A1AA] mt-0.5">
+            <div className="text-xs text-muted-foreground mt-0.5">
               of {targetCalories} target
             </div>
-            <div className="text-sm font-bold text-[#C8FF47] mt-1.5 flex items-center gap-1">
+            <div className="text-sm font-bold text-primary mt-1.5 flex items-center gap-1">
               <span>{remainingCalories} remaining</span>
             </div>
           </div>
         </div>
 
         {/* Macros Breakdown Card */}
-        <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 space-y-3.5 shadow-lg flex flex-col justify-center">
-          <div className="flex items-center justify-between text-xs font-black uppercase text-white tracking-wider">
+        <div className="rounded-2xl border border-border bg-card p-5 space-y-3.5 shadow-sm flex flex-col justify-center">
+          <div className="flex items-center justify-between text-xs font-black uppercase text-foreground tracking-wider">
             <span>Macros</span>
-            <span className="text-[#71717A] font-normal">Daily Targets</span>
+            <span className="text-muted-foreground font-normal">Daily Targets</span>
           </div>
 
           {/* Protein */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-white font-medium">Protein</span>
-              <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{consumedProtein}g</strong> / {targetProtein}g
+              <span className="text-foreground font-medium">Protein</span>
+              <span className="text-muted-foreground font-mono text-[11px]">
+                <strong className="text-foreground">{consumedProtein}g</strong> / {targetProtein}g
               </span>
             </div>
-            <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#C8FF47] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(200,255,71,0.5)]"
+                className="h-full bg-primary rounded-full transition-all duration-500 shadow-sm"
                 style={{
                   width: `${Math.min(100, (consumedProtein / targetProtein) * 100)}%`,
                 }}
@@ -209,14 +209,14 @@ export function NutritionPage() {
           {/* Carbs */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-white font-medium">Carbs</span>
-              <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{consumedCarbs}g</strong> / {targetCarbs}g
+              <span className="text-foreground font-medium">Carbs</span>
+              <span className="text-muted-foreground font-mono text-[11px]">
+                <strong className="text-foreground">{consumedCarbs}g</strong> / {targetCarbs}g
               </span>
             </div>
-            <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#FF8438] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(255,132,56,0.5)]"
+                className="h-full bg-amber-500 rounded-full transition-all duration-500 shadow-sm"
                 style={{
                   width: `${Math.min(100, (consumedCarbs / targetCarbs) * 100)}%`,
                 }}
@@ -227,14 +227,14 @@ export function NutritionPage() {
           {/* Fat */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-white font-medium">Fat</span>
-              <span className="text-[#A1A1AA] font-mono text-[11px]">
-                <strong className="text-white">{consumedFat}g</strong> / {targetFat}g
+              <span className="text-foreground font-medium">Fat</span>
+              <span className="text-muted-foreground font-mono text-[11px]">
+                <strong className="text-foreground">{consumedFat}g</strong> / {targetFat}g
               </span>
             </div>
-            <div className="h-2 w-full bg-[#1C1C22] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#A78BFA] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(167,139,250,0.5)]"
+                className="h-full bg-purple-500 rounded-full transition-all duration-500 shadow-sm"
                 style={{
                   width: `${Math.min(100, (consumedFat / targetFat) * 100)}%`,
                 }}
@@ -245,16 +245,16 @@ export function NutritionPage() {
       </div>
 
       {/* AI Recommendation Banner */}
-      <div className="rounded-2xl border border-[#C8FF47]/20 bg-[#161B12] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-2xl border border-primary/20 bg-primary/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="h-9 w-9 rounded-xl bg-[#C8FF47]/15 flex items-center justify-center text-[#C8FF47] shrink-0 border border-[#C8FF47]/30 mt-0.5">
+          <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center text-primary shrink-0 border border-primary/30 mt-0.5">
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#C8FF47]">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-primary">
               AI Sports Science Recommendation
             </h4>
-            <p className="text-xs text-[#D4D4D8] mt-0.5 leading-relaxed">
+            <p className="text-xs text-foreground/90 mt-0.5 leading-relaxed">
               You&apos;re currently tracking toward {targetProtein}g daily protein. Hitting this leucine threshold optimizes Muscle Protein Synthesis (MPS) and spares muscle tissue during high-volume sessions.
             </p>
           </div>
@@ -264,7 +264,7 @@ export function NutritionPage() {
           size="sm"
           onClick={handleGenerateMeal}
           disabled={isGenerating}
-          className="gap-2 font-bold text-xs bg-[#C8FF47] text-black hover:bg-[#b5eb38] shrink-0 self-start sm:self-center"
+          className="gap-2 font-bold text-xs bg-primary text-primary-foreground hover:bg-primary/90 shrink-0 self-start sm:self-center"
         >
           {isGenerating ? (
             <>Generating...</>
@@ -285,8 +285,8 @@ export function NutritionPage() {
             onClick={() => setSelectedFilter(tab)}
             className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
               selectedFilter === tab
-                ? "bg-[#C8FF47] text-black shadow-[0_0_12px_rgba(200,255,71,0.25)]"
-                : "bg-[#141418] text-[#A1A1AA] hover:text-white hover:bg-[#1A1A22] border border-[#222228]"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted border border-border"
             }`}
           >
             {tab}
@@ -302,7 +302,7 @@ export function NutritionPage() {
           return (
             <div
               key={meal.id}
-              className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 flex flex-col justify-between space-y-4 hover:border-[#2E2E38] transition-all shadow-md"
+              className="rounded-2xl border border-border bg-card p-5 flex flex-col justify-between space-y-4 hover:border-primary/40 transition-all shadow-sm"
             >
               <div>
                 {/* Header: Category Badge + Calories */}
@@ -316,29 +316,29 @@ export function NutritionPage() {
                   </span>
 
                   <div className="text-right">
-                    <span className="font-display text-lg font-black text-[#C8FF47]">
+                    <span className="font-display text-lg font-black text-primary">
                       {meal.calories}
                     </span>{" "}
-                    <span className="text-[10px] text-[#71717A] uppercase font-bold">
+                    <span className="text-[10px] text-muted-foreground uppercase font-bold">
                       kcal
                     </span>
                   </div>
                 </div>
 
-                <h4 className="font-display text-base font-black text-white mt-2">
+                <h4 className="font-display text-base font-black text-foreground mt-2">
                   {meal.title}
                 </h4>
 
                 {/* Macro breakdown */}
                 <div className="flex items-center gap-3 mt-2 text-xs font-mono">
-                  <span className="text-[#C8FF47] font-semibold">
-                    {meal.protein}g <span className="text-[10px] text-[#71717A]">Protein</span>
+                  <span className="text-primary font-semibold">
+                    {meal.protein}g <span className="text-[10px] text-muted-foreground">Protein</span>
                   </span>
-                  <span className="text-[#FF8438] font-semibold">
-                    {meal.carbs}g <span className="text-[10px] text-[#71717A]">Carbs</span>
+                  <span className="text-amber-500 font-semibold">
+                    {meal.carbs}g <span className="text-[10px] text-muted-foreground">Carbs</span>
                   </span>
-                  <span className="text-[#A78BFA] font-semibold">
-                    {meal.fat}g <span className="text-[10px] text-[#71717A]">Fat</span>
+                  <span className="text-purple-500 font-semibold">
+                    {meal.fat}g <span className="text-[10px] text-muted-foreground">Fat</span>
                   </span>
                 </div>
 
@@ -347,7 +347,7 @@ export function NutritionPage() {
                   {meal.ingredients.map((ing, i) => (
                     <span
                       key={i}
-                      className="rounded-md bg-[#16161C] border border-[#222228] px-2 py-0.5 text-[10px] text-[#A1A1AA]"
+                      className="rounded-md bg-muted border border-border px-2 py-0.5 text-[10px] text-muted-foreground"
                     >
                       {ing}
                     </span>
@@ -361,8 +361,8 @@ export function NutritionPage() {
                 onClick={() => handleToggleMeal(meal)}
                 className={`w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold border transition-all ${
                   isAdded
-                    ? "bg-[#C8FF47]/10 text-[#C8FF47] border-[#C8FF47]/30"
-                    : "bg-[#16161A] text-white border-[#222228] hover:border-[#C8FF47] hover:text-[#C8FF47]"
+                    ? "bg-primary/10 text-primary border-primary/30"
+                    : "bg-card text-foreground border-border hover:border-primary hover:text-primary"
                 }`}
               >
                 {isAdded ? (

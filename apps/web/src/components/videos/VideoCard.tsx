@@ -25,10 +25,10 @@ export function VideoCard({ video, onPlay }: VideoCardProps) {
     <Card
       id={`video-card-${video.id}`}
       onClick={() => onPlay(video)}
-      className="group overflow-hidden border-[#222228] bg-[#121216] hover:border-[#C8FF47]/40 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+      className="group overflow-hidden border-border bg-card hover:border-primary/40 transition-all duration-300 cursor-pointer flex flex-col justify-between"
     >
       {/* Thumbnail Container */}
-      <div className="relative aspect-video w-full overflow-hidden bg-[#181820]">
+      <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <img
           src={video.thumbnail}
           alt={video.title}
@@ -54,8 +54,8 @@ export function VideoCard({ video, onPlay }: VideoCardProps) {
             className={cn(
               "h-7 w-7 rounded-full backdrop-blur-md flex items-center justify-center transition-all",
               isBookmarked
-                ? "bg-[#C8FF47] text-black shadow-[0_0_10px_rgba(200,255,71,0.5)]"
-                : "bg-black/60 text-white hover:bg-black/80 hover:text-[#C8FF47]"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-background/80 text-foreground hover:bg-background hover:text-primary"
             )}
             title={isBookmarked ? "Remove Bookmark" : "Save to Bookmarks"}
           >
@@ -65,14 +65,14 @@ export function VideoCard({ video, onPlay }: VideoCardProps) {
 
         {/* Duration Pill in bottom right */}
         <div className="absolute bottom-2.5 right-2.5 z-10">
-          <span className="bg-black/80 backdrop-blur-md px-2 py-0.5 rounded-md text-[11px] font-mono font-bold text-white flex items-center gap-1 border border-white/10">
-            <Clock className="h-3 w-3 text-[#C8FF47]" /> {video.duration}:00
+          <span className="bg-background/80 backdrop-blur-md px-2 py-0.5 rounded-md text-[11px] font-mono font-bold text-foreground flex items-center gap-1 border border-border">
+            <Clock className="h-3 w-3 text-primary" /> {video.duration}:00
           </span>
         </div>
 
         {/* Hover Play Button Overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <div className="h-12 w-12 rounded-full bg-[#C8FF47] text-black flex items-center justify-center shadow-[0_0_20px_rgba(200,255,71,0.6)] transform scale-90 group-hover:scale-100 transition-transform">
+        <div className="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="h-12 w-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
             <Play className="h-5 w-5 fill-current ml-0.5" />
           </div>
         </div>
@@ -86,31 +86,31 @@ export function VideoCard({ video, onPlay }: VideoCardProps) {
             <img
               src={video.trainer.avatar}
               alt={video.trainer.name}
-              className="h-6 w-6 rounded-full object-cover border border-[#2A2A36]"
+              className="h-6 w-6 rounded-full object-cover border border-border"
             />
-            <span className="text-xs text-[#A1A1AA] font-semibold truncate">
+            <span className="text-xs text-muted-foreground font-semibold truncate">
               {video.trainer.name}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="font-display text-base font-bold text-white group-hover:text-[#C8FF47] transition-colors line-clamp-1 leading-snug">
+          <h3 className="font-display text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1 leading-snug">
             {video.title}
           </h3>
         </div>
 
         {/* Stats Row */}
-        <div className="pt-2 border-t border-[#222228] flex items-center justify-between text-xs font-mono text-[#71717A]">
+        <div className="pt-2 border-t border-border flex items-center justify-between text-xs font-mono text-muted-foreground">
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1 text-[#A1A1AA]">
-              <Flame className="h-3 w-3 text-[#C8FF47]" /> {video.calories} kcal
+            <span className="flex items-center gap-1 text-foreground">
+              <Flame className="h-3 w-3 text-primary" /> {video.calories} kcal
             </span>
             <span className="hidden sm:inline-flex items-center gap-1">
-              <Dumbbell className="h-3 w-3 text-[#71717A]" /> {video.equipment}
+              <Dumbbell className="h-3 w-3 text-muted-foreground" /> {video.equipment}
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-white">
+          <div className="flex items-center gap-1 text-foreground">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
             <span className="font-bold">{video.rating}</span>
           </div>

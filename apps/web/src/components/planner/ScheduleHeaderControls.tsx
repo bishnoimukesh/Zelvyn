@@ -15,16 +15,16 @@ export function ScheduleHeaderControls() {
   );
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#222228]">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
       {/* View Switcher Tabs */}
-      <div className="flex items-center gap-1.5 p-1 bg-[#16161A] border border-[#222228] rounded-xl self-start">
+      <div className="flex items-center gap-1.5 p-1 bg-muted/60 border border-border rounded-xl self-start">
         <button
           type="button"
           onClick={() => dispatch(setActiveView("week"))}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
             activeView === "week"
-              ? "bg-[#C8FF47] text-black shadow-[0_0_12px_rgba(200,255,71,0.3)]"
-              : "text-[#A1A1AA] hover:text-white hover:bg-[#1E1E24]"
+              ? "bg-primary text-primary-foreground shadow-[0_0_12px_rgba(200,255,71,0.3)]"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
           }`}
         >
           <CalendarDays className="h-3.5 w-3.5" />
@@ -36,8 +36,8 @@ export function ScheduleHeaderControls() {
           onClick={() => dispatch(setActiveView("month"))}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
             activeView === "month"
-              ? "bg-[#C8FF47] text-black shadow-[0_0_12px_rgba(200,255,71,0.3)]"
-              : "text-[#A1A1AA] hover:text-white hover:bg-[#1E1E24]"
+              ? "bg-primary text-primary-foreground shadow-[0_0_12px_rgba(200,255,71,0.3)]"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
           }`}
         >
           <Calendar className="h-3.5 w-3.5" />
@@ -51,9 +51,9 @@ export function ScheduleHeaderControls() {
           variant="outline"
           size="sm"
           onClick={() => dispatch(toggleTemplateModal(true))}
-          className="gap-2 text-xs font-semibold bg-[#16161A] border-[#222228] hover:border-[#C8FF47]/40 text-white"
+          className="gap-2 text-xs font-semibold bg-card border-border hover:border-primary/40 text-foreground"
         >
-          <Layers className="h-3.5 w-3.5 text-[#C8FF47]" />
+          <Layers className="h-3.5 w-3.5 text-primary" />
           <span>Split Presets</span>
         </Button>
 
@@ -61,12 +61,12 @@ export function ScheduleHeaderControls() {
           variant="outline"
           size="sm"
           onClick={() => dispatch(toggleReminderModal(true))}
-          className="gap-2 text-xs font-semibold bg-[#16161A] border-[#222228] hover:border-[#C8FF47]/40 text-white relative"
+          className="gap-2 text-xs font-semibold bg-card border-border hover:border-primary/40 text-foreground relative"
         >
-          <Bell className="h-3.5 w-3.5 text-[#00F0FF]" />
+          <Bell className="h-3.5 w-3.5 text-cyan-500" />
           <span>Reminders & Sync</span>
           {reminderSettings.enabled && (
-            <span className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#00F0FF]/15 text-[#00F0FF] border border-[#00F0FF]/30 ml-1">
+            <span className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-500 border border-cyan-500/30 ml-1">
               {reminderSettings.time}
             </span>
           )}

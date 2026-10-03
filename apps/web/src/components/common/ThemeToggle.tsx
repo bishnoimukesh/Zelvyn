@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className, showLabel =
       onClick={() => dispatch(toggleTheme())}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       className={cn(
-        "relative flex items-center gap-2 rounded-lg border border-[#222228] bg-[#111115] p-2 text-[#A1A1AA] transition-all hover:border-[#C8FF47]/40 hover:text-[#C8FF47] focus:outline-none focus:ring-1 focus:ring-[#C8FF47]",
+        "relative flex items-center gap-2 rounded-lg border border-border bg-card p-2 text-muted-foreground transition-all hover:border-primary/40 hover:text-primary focus:outline-none focus:ring-1 focus:ring-primary",
         showLabel && "px-3 py-2 w-full justify-start",
         className
       )}
@@ -28,13 +28,13 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className, showLabel =
         <Sun
           className={cn(
             "absolute inset-0 h-4 w-4 transition-all duration-300",
-            theme === "dark" ? "scale-0 opacity-0 rotate-90" : "scale-100 opacity-100 rotate-0 text-amber-400"
+            theme === "dark" ? "scale-0 opacity-0 rotate-90" : "scale-100 opacity-100 rotate-0 text-amber-500"
           )}
         />
         <Moon
           className={cn(
             "absolute inset-0 h-4 w-4 transition-all duration-300",
-            theme === "dark" ? "scale-100 opacity-100 rotate-0 text-[#C8FF47]" : "scale-0 opacity-0 -rotate-90"
+            theme === "dark" ? "scale-100 opacity-100 rotate-0 text-primary" : "scale-0 opacity-0 -rotate-90"
           )}
         />
       </div>

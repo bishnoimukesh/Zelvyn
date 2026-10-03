@@ -13,10 +13,10 @@ interface WorkoutCardProps {
 
 export const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onSchedule }) => {
   return (
-    <Card className="overflow-hidden border border-[#222228] bg-[#111115] flex flex-col justify-between hover:border-[#C8FF47]/40 hover:shadow-[0_0_15px_rgba(200,255,71,0.08)] transition-all group">
+    <Card className="overflow-hidden border border-border bg-card flex flex-col justify-between hover:border-primary/40 hover:shadow-[0_0_15px_rgba(200,255,71,0.08)] transition-all group">
       <div>
         {/* Thumbnail & Badges */}
-        <div className="relative aspect-video w-full overflow-hidden bg-[#1A1A1F]">
+        <div className="relative aspect-video w-full overflow-hidden bg-muted">
           <img
             src={workout.thumbnail}
             alt={workout.title}
@@ -32,7 +32,7 @@ export const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onSchedule })
               </Badge>
             </div>
             {workout.bodyPart && (
-              <span className="rounded-full bg-[#08080A]/80 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-[#C8FF47] backdrop-blur-md">
+              <span className="rounded-full bg-background/80 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider text-primary backdrop-blur-md">
                 {workout.bodyPart.replace("_", " ")}
               </span>
             )}
@@ -41,26 +41,26 @@ export const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onSchedule })
 
         {/* Content */}
         <CardHeader className="p-4 pb-2">
-          <CardTitle className="font-display text-lg font-black uppercase text-white group-hover:text-[#C8FF47] transition-colors line-clamp-1">
+          <CardTitle className="font-display text-lg font-black uppercase text-foreground group-hover:text-primary transition-colors line-clamp-1">
             {workout.title}
           </CardTitle>
 
           {workout.description && (
-            <p className="text-xs text-[#71717A] line-clamp-2 mt-1 leading-relaxed">
+            <p className="text-xs text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
               {workout.description}
             </p>
           )}
 
-          <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#A1A1AA] pt-2">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5 text-[#C8FF47]" /> {workout.duration}m
+              <Clock className="h-3.5 w-3.5 text-primary" /> {workout.duration}m
             </span>
             <span className="flex items-center gap-1">
-              <Flame className="h-3.5 w-3.5 text-[#C8FF47]" /> {workout.calories} kcal
+              <Flame className="h-3.5 w-3.5 text-primary" /> {workout.calories} kcal
             </span>
             {workout.equipment && (
               <span className="flex items-center gap-1 capitalize">
-                <Dumbbell className="h-3.5 w-3.5 text-[#71717A]" /> {workout.equipment}
+                <Dumbbell className="h-3.5 w-3.5 text-muted-foreground" /> {workout.equipment}
               </span>
             )}
           </div>
@@ -75,7 +75,7 @@ export const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onSchedule })
               size="sm"
               variant="outline"
               onClick={() => onSchedule(workout.id)}
-              className="flex-1 gap-1.5 text-xs font-bold border-[#222228] bg-[#14141A] hover:border-[#C8FF47]/40 hover:text-[#C8FF47]"
+              className="flex-1 gap-1.5 text-xs font-bold border-border bg-muted hover:border-primary/40 hover:text-primary"
             >
               <CalendarPlus className="h-3.5 w-3.5" />
               <span>Schedule</span>

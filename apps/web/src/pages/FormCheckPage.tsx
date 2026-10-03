@@ -99,15 +99,15 @@ export function FormCheckPage() {
       description="AI-powered real-time exercise form analysis via webcam"
       badge="AI Vision"
       action={
-        <span className="rounded-md bg-[#FF8438]/15 text-[#FF8438] border border-[#FF8438]/30 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">
+        <span className="rounded-md bg-amber-500/15 text-amber-500 border border-amber-500/30 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">
           Experimental
         </span>
       }
     >
       {/* Warning Disclaimer Banner */}
-      <div className="rounded-2xl border border-[#FF8438]/25 bg-[#FF8438]/10 p-4 flex items-start gap-3">
-        <AlertTriangle className="h-5 w-5 text-[#FF8438] shrink-0 mt-0.5" />
-        <p className="text-xs text-[#F2F2F5] leading-relaxed">
+      <div className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 flex items-start gap-3">
+        <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
+        <p className="text-xs text-foreground leading-relaxed">
           This is an experimental feature using AI pose estimation. It provides
           general form guidance only — not medical or professional coaching
           advice. Always train safely and consult a qualified trainer for
@@ -118,7 +118,7 @@ export function FormCheckPage() {
       {/* Main Grid: Camera Arena + Controls Column */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Camera Arena */}
-        <div className="lg:col-span-2 rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 flex flex-col items-center justify-center min-h-[360px] relative overflow-hidden shadow-xl">
+        <div className="lg:col-span-2 rounded-2xl border border-border bg-card p-6 flex flex-col items-center justify-center min-h-[360px] relative overflow-hidden shadow-xl">
           {isCameraActive ? (
             <div className="relative w-full h-full min-h-[340px] flex items-center justify-center rounded-xl bg-black overflow-hidden">
               <video
@@ -132,8 +132,8 @@ export function FormCheckPage() {
               {/* Skeletal Pose Simulation Overlay */}
               <div className="absolute inset-0 pointer-events-none flex flex-col justify-between p-4">
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5 rounded-md bg-black/60 px-2.5 py-1 text-xs font-bold text-[#C8FF47] backdrop-blur-sm border border-[#C8FF47]/30">
-                    <span className="h-2 w-2 rounded-full bg-[#C8FF47] animate-ping" />
+                  <span className="flex items-center gap-1.5 rounded-md bg-black/60 px-2.5 py-1 text-xs font-bold text-primary backdrop-blur-sm border border-primary/30">
+                    <span className="h-2 w-2 rounded-full bg-primary animate-ping" />
                     Live Pose Tracking
                   </span>
 
@@ -144,10 +144,10 @@ export function FormCheckPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="rounded-md bg-black/60 px-3 py-1.5 backdrop-blur-sm">
-                    <span className="text-[10px] text-[#A1A1AA] uppercase block font-bold">
+                    <span className="text-[10px] text-white/70 uppercase block font-bold">
                       Reps Completed
                     </span>
-                    <span className="font-display text-2xl font-black text-[#C8FF47]">
+                    <span className="font-display text-2xl font-black text-primary">
                       {repCount}
                     </span>
                   </div>
@@ -155,7 +155,7 @@ export function FormCheckPage() {
                   <Button
                     size="sm"
                     onClick={() => setRepCount((prev) => prev + 1)}
-                    className="pointer-events-auto gap-1 text-xs font-bold bg-[#C8FF47] text-black hover:bg-[#b5eb38]"
+                    className="pointer-events-auto gap-1 text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     + Count Rep
                   </Button>
@@ -164,15 +164,15 @@ export function FormCheckPage() {
             </div>
           ) : (
             <div className="text-center space-y-4 max-w-sm py-8">
-              <div className="h-16 w-16 rounded-2xl bg-[#16161C] border border-[#222228] flex items-center justify-center mx-auto text-[#71717A]">
+              <div className="h-16 w-16 rounded-2xl bg-muted border border-border flex items-center justify-center mx-auto text-muted-foreground">
                 <Camera className="h-8 w-8" />
               </div>
 
               <div>
-                <h4 className="font-display text-lg font-black text-white">
+                <h4 className="font-display text-lg font-black text-foreground">
                   Camera Off
                 </h4>
-                <p className="text-xs text-[#A1A1AA] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   Enable your webcam to start real-time form analysis. Your video
                   is processed locally and never stored.
                 </p>
@@ -180,7 +180,7 @@ export function FormCheckPage() {
 
               <Button
                 onClick={handleToggleCamera}
-                className="gap-2 font-bold bg-[#C8FF47] text-black hover:bg-[#b5eb38] px-6 text-xs shadow-[0_0_15px_rgba(200,255,71,0.25)]"
+                className="gap-2 font-bold bg-primary text-primary-foreground hover:bg-primary/90 px-6 text-xs shadow-sm"
               >
                 <Camera className="h-4 w-4" /> Start Form Check
               </Button>
@@ -193,7 +193,7 @@ export function FormCheckPage() {
                 variant="outline"
                 size="sm"
                 onClick={handleToggleCamera}
-                className="text-xs text-[#FF453A] border-[#FF453A]/30 bg-[#FF453A]/10 hover:bg-[#FF453A]/20"
+                className="text-xs text-destructive border-destructive/30 bg-destructive/10 hover:bg-destructive/20"
               >
                 Stop Camera
               </Button>
@@ -201,7 +201,7 @@ export function FormCheckPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setRepCount(0)}
-                className="gap-1 text-xs text-[#A1A1AA] border-[#222228] bg-[#16161A] hover:text-white"
+                className="gap-1 text-xs text-muted-foreground border-border bg-card hover:text-foreground"
               >
                 <RefreshCw className="h-3 w-3" /> Reset Reps
               </Button>
@@ -212,8 +212,8 @@ export function FormCheckPage() {
         {/* Controls Column: Select Exercise & Checklist */}
         <div className="space-y-4">
           {/* Select Exercise */}
-          <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 space-y-3 shadow-lg">
-            <h4 className="text-xs font-black uppercase tracking-wider text-white">
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-3 shadow-sm">
+            <h4 className="text-xs font-black uppercase tracking-wider text-foreground">
               Select Exercise
             </h4>
 
@@ -228,14 +228,14 @@ export function FormCheckPage() {
                     onClick={() => setSelectedExerciseId(ex.id)}
                     className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold border transition-all text-left ${
                       isSelected
-                        ? "bg-[#182012] text-[#C8FF47] border-[#C8FF47]/40 ring-1 ring-[#C8FF47]/30"
-                        : "bg-[#16161A] text-white border-[#222228] hover:border-[#383842]"
+                        ? "bg-primary/10 text-primary border-primary/40 ring-1 ring-primary/30"
+                        : "bg-card text-foreground border-border hover:border-primary/40"
                     }`}
                   >
                     <span>{ex.name}</span>
                     <Scan
                       className={`h-4 w-4 ${
-                        isSelected ? "text-[#C8FF47]" : "text-[#71717A]"
+                        isSelected ? "text-primary" : "text-muted-foreground"
                       }`}
                     />
                   </button>
@@ -245,8 +245,8 @@ export function FormCheckPage() {
           </div>
 
           {/* Form Checklist */}
-          <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 space-y-3 shadow-lg">
-            <h4 className="text-xs font-black uppercase tracking-wider text-white">
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-3 shadow-sm">
+            <h4 className="text-xs font-black uppercase tracking-wider text-foreground">
               Form Checklist
             </h4>
 
@@ -254,9 +254,9 @@ export function FormCheckPage() {
               {activeExercise.checklist.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-2.5 text-xs text-[#E4E4E7]"
+                  className="flex items-start gap-2.5 text-xs text-foreground"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-[#C8FF47] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                   <span className="leading-tight">{item}</span>
                 </div>
               ))}

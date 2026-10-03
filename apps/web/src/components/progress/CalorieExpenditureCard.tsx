@@ -25,7 +25,7 @@ export function CalorieExpenditureCard() {
   const onTargetRate = Math.round((daysOnTarget / data.length) * 100);
 
   return (
-    <Card className="p-4 sm:p-6 border-[#222228] bg-[#121216]" id="calorie-expenditure-card">
+    <Card className="p-4 sm:p-6 border-border bg-card" id="calorie-expenditure-card">
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
@@ -33,31 +33,31 @@ export function CalorieExpenditureCard() {
             <div className="h-7 w-7 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center">
               <Flame className="h-4 w-4" />
             </div>
-            <span className="font-display text-sm font-bold uppercase tracking-wider text-white">
+            <span className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
               Metabolic Expenditure & Calories
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <span className="font-display text-3xl font-black text-white">
+            <span className="font-display text-3xl font-black text-foreground">
               {totalCalories.toLocaleString()}
-              <span className="text-sm font-normal text-[#71717A] ml-1">kcal / wk</span>
+              <span className="text-sm font-normal text-muted-foreground ml-1">kcal / wk</span>
             </span>
-            <span className="text-xs font-mono text-[#C8FF47] bg-[#C8FF47]/10 px-2 py-0.5 rounded border border-[#C8FF47]/20 font-bold">
+            <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 font-bold">
               {onTargetRate}% On Target
             </span>
           </div>
         </div>
 
         {/* Quick Targets */}
-        <div className="flex items-center gap-2 bg-[#181820] p-2 rounded-xl border border-[#2A2A36] text-xs font-mono">
+        <div className="flex items-center gap-2 bg-muted/60 p-2 rounded-xl border border-border text-xs font-mono">
           <div>
-            <span className="text-[#71717A] text-[10px] uppercase block">Daily Target</span>
-            <span className="text-[#C8FF47] font-bold">{calorieTracker.dailyTarget} kcal</span>
+            <span className="text-muted-foreground text-[10px] uppercase block">Daily Target</span>
+            <span className="text-primary font-bold">{calorieTracker.dailyTarget} kcal</span>
           </div>
-          <div className="w-px h-6 bg-[#2A2A36]" />
+          <div className="w-px h-6 bg-border" />
           <div>
-            <span className="text-[#71717A] text-[10px] uppercase block">Daily Avg</span>
-            <span className="text-white font-bold">{averageDaily} kcal</span>
+            <span className="text-muted-foreground text-[10px] uppercase block">Daily Avg</span>
+            <span className="text-foreground font-bold">{averageDaily} kcal</span>
           </div>
         </div>
       </div>
@@ -69,28 +69,28 @@ export function CalorieExpenditureCard() {
             data={data}
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#222228" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
             <XAxis
               dataKey="day"
-              stroke="#52525B"
-              tick={{ fontSize: 11, fill: "#71717A" }}
+              stroke="var(--border)"
+              tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              stroke="#52525B"
-              tick={{ fontSize: 11, fill: "#71717A" }}
+              stroke="var(--border)"
+              tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(v) => `${v}`}
             />
             <ReferenceLine
               y={calorieTracker.dailyTarget}
-              stroke="#71717A"
+              stroke="var(--muted-foreground)"
               strokeDasharray="4 4"
               label={{
                 value: `Target ${calorieTracker.dailyTarget}kcal`,
-                fill: "#71717A",
+                fill: "var(--muted-foreground)",
                 fontSize: 10,
                 position: "insideTopRight",
               }}
@@ -101,16 +101,16 @@ export function CalorieExpenditureCard() {
                   const item = payload[0].payload;
                   const isMet = item.calories >= calorieTracker.dailyTarget;
                   return (
-                    <div className="bg-[#111116] border border-[#2A2A36] p-3 rounded-xl shadow-xl font-mono text-xs">
-                      <div className="text-[#71717A] text-[10px] uppercase font-bold">
+                    <div className="bg-card border border-border p-3 rounded-xl shadow-xl font-mono text-xs">
+                      <div className="text-muted-foreground text-[10px] uppercase font-bold">
                         {item.day} · {item.date}
                       </div>
-                      <div className="text-white text-base font-black mt-0.5">
+                      <div className="text-foreground text-base font-black mt-0.5">
                         {item.calories} kcal
                       </div>
                       <div
                         className={`text-[10px] font-bold mt-1 ${
-                          isMet ? "text-[#C8FF47]" : "text-amber-400"
+                          isMet ? "text-primary" : "text-amber-400"
                         }`}
                       >
                         {isMet
@@ -127,7 +127,7 @@ export function CalorieExpenditureCard() {
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={entry.calories >= calorieTracker.dailyTarget ? "#C8FF47" : "#3D5215"}
+                  fill={entry.calories >= calorieTracker.dailyTarget ? "var(--primary)" : "var(--border)"}
                 />
               ))}
             </Bar>
@@ -136,13 +136,13 @@ export function CalorieExpenditureCard() {
       </div>
 
       {/* Summary Footer */}
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#222228] text-xs font-mono text-[#71717A]">
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border text-xs font-mono text-muted-foreground">
         <span className="flex items-center gap-1.5">
-          <Zap className="h-3.5 w-3.5 text-[#C8FF47]" />
+          <Zap className="h-3.5 w-3.5 text-primary" />
           Active Burn Target: {calorieTracker.dailyTarget} kcal
         </span>
-        <span className="flex items-center gap-1.5 text-white font-semibold">
-          <Target className="h-3.5 w-3.5 text-[#C8FF47]" />
+        <span className="flex items-center gap-1.5 text-foreground font-semibold">
+          <Target className="h-3.5 w-3.5 text-primary" />
           {daysOnTarget} of 7 Days On Goal
         </span>
       </div>

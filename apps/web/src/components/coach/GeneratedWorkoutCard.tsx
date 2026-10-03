@@ -45,63 +45,63 @@ export function GeneratedWorkoutCard({ workout }: GeneratedWorkoutCardProps) {
   };
 
   return (
-    <Card className="mt-3 p-4 rounded-2xl bg-[#141814] border border-[#C8FF47]/40 shadow-[0_0_25px_rgba(200,255,71,0.15)] relative overflow-hidden text-left" id="generated-workout-card">
+    <Card className="mt-3 p-4 rounded-2xl bg-card border border-primary/40 shadow-[0_0_25px_rgba(200,255,71,0.15)] relative overflow-hidden text-left" id="generated-workout-card">
       {/* Glow accent */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#C8FF47]/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
 
       {/* Header */}
       <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
         <div className="flex items-center gap-1.5">
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C8FF47] text-black shadow-sm">
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary text-primary-foreground shadow-sm">
             <Sparkles className="h-3 w-3 fill-current" /> AI Generated Routine
           </span>
           <Badge variant="secondary" className="text-[10px] font-mono uppercase py-0">
             {workout.category}
           </Badge>
-          <Badge variant="outline" className="text-[10px] font-mono uppercase text-[#C8FF47] border-[#C8FF47]/30 py-0">
+          <Badge variant="outline" className="text-[10px] font-mono uppercase text-primary border-primary/30 py-0">
             {workout.difficulty}
           </Badge>
         </div>
 
-        <div className="flex items-center gap-3 text-xs font-mono text-[#A1A1AA]">
+        <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground">
           <span className="flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5 text-[#C8FF47]" /> {workout.duration}m
+            <Clock className="h-3.5 w-3.5 text-primary" /> {workout.duration}m
           </span>
           <span className="flex items-center gap-1">
-            <Flame className="h-3.5 w-3.5 text-[#C8FF47]" /> {workout.calories} kcal
+            <Flame className="h-3.5 w-3.5 text-primary" /> {workout.calories} kcal
           </span>
         </div>
       </div>
 
-      <h3 className="font-display text-base sm:text-lg font-bold uppercase text-white tracking-wide mb-1">
+      <h3 className="font-display text-base sm:text-lg font-bold uppercase text-foreground tracking-wide mb-1">
         {workout.title}
       </h3>
-      <p className="text-xs text-[#A1A1AA] leading-relaxed mb-3">
+      <p className="text-xs text-muted-foreground leading-relaxed mb-3">
         {workout.description}
       </p>
 
       {/* Exercises mini roster */}
       {workout.exercises && workout.exercises.length > 0 && (
-        <div className="space-y-1.5 mb-4 pt-2 border-t border-[#222228]">
-          <span className="text-[10px] font-mono uppercase font-bold text-[#71717A] block mb-1">
+        <div className="space-y-1.5 mb-4 pt-2 border-t border-border">
+          <span className="text-[10px] font-mono uppercase font-bold text-muted-foreground block mb-1">
             Prescribed Movements ({workout.exercises.length})
           </span>
           {workout.exercises.map((ex, idx) => (
             <div
               key={ex.id || idx}
-              className="flex items-center justify-between gap-2 p-2 rounded-xl bg-[#1A1E14] border border-[#2A3622] text-xs font-mono"
+              className="flex items-center justify-between gap-2 p-2 rounded-xl bg-muted/60 border border-border text-xs font-mono"
             >
               <div className="flex items-center gap-2 min-w-0">
-                <span className="h-5 w-5 rounded bg-[#C8FF47]/20 text-[#C8FF47] font-bold text-[10px] flex items-center justify-center flex-shrink-0">
+                <span className="h-5 w-5 rounded bg-primary/20 text-primary font-bold text-[10px] flex items-center justify-center flex-shrink-0">
                   {idx + 1}
                 </span>
-                <span className="text-white font-semibold truncate">{ex.name}</span>
-                <span className="text-[10px] text-[#71717A] hidden sm:inline truncate">
+                <span className="text-foreground font-semibold truncate">{ex.name}</span>
+                <span className="text-[10px] text-muted-foreground hidden sm:inline truncate">
                   ({ex.targetMuscle})
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 text-[11px] text-[#C8FF47] font-bold flex-shrink-0">
+              <div className="flex items-center gap-2 text-[11px] text-primary font-bold flex-shrink-0">
                 <span>{ex.sets} sets × {ex.reps}</span>
               </div>
             </div>
@@ -115,7 +115,7 @@ export function GeneratedWorkoutCard({ workout }: GeneratedWorkoutCardProps) {
           id="train-now-ai-btn"
           size="sm"
           onClick={handleTrainNow}
-          className="bg-[#C8FF47] text-black font-black uppercase text-xs hover:bg-[#b5f030] shadow-[0_0_15px_rgba(200,255,71,0.25)] flex items-center gap-1.5"
+          className="bg-primary text-primary-foreground font-black uppercase text-xs hover:opacity-95 shadow-[0_0_15px_rgba(200,255,71,0.25)] flex items-center gap-1.5"
         >
           <Play className="h-3.5 w-3.5 fill-current" /> Train Now
         </Button>
@@ -126,15 +126,15 @@ export function GeneratedWorkoutCard({ workout }: GeneratedWorkoutCardProps) {
           variant="outline"
           onClick={handleAddToPlanner}
           disabled={added}
-          className="border-[#2A3622] bg-[#1A1E14] text-white hover:bg-[#232B1C] text-xs flex items-center gap-1.5"
+          className="border-border bg-card text-foreground hover:bg-muted text-xs flex items-center gap-1.5"
         >
           {added ? (
             <>
-              <Check className="h-3.5 w-3.5 text-[#C8FF47]" /> Added to Tuesday Plan!
+              <Check className="h-3.5 w-3.5 text-primary" /> Added to Tuesday Plan!
             </>
           ) : (
             <>
-              <CalendarPlus className="h-3.5 w-3.5 text-[#C8FF47]" /> Add to Weekly Planner
+              <CalendarPlus className="h-3.5 w-3.5 text-primary" /> Add to Weekly Planner
             </>
           )}
         </Button>

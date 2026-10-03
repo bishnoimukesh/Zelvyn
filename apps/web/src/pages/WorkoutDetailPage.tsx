@@ -162,7 +162,7 @@ export function WorkoutDetailPage() {
       <div className="flex items-center justify-between">
         <Link
           to={ROUTES.WORKOUTS}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#71717A] hover:text-[#C8FF47] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Workouts
         </Link>
@@ -172,7 +172,7 @@ export function WorkoutDetailPage() {
             variant="ghost"
             size="sm"
             onClick={handleCancelSession}
-            className="text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 h-7"
+            className="text-xs text-destructive hover:text-destructive hover:bg-destructive/10 h-7"
           >
             <StopCircle className="h-3.5 w-3.5 mr-1" /> End Session
           </Button>
@@ -185,25 +185,25 @@ export function WorkoutDetailPage() {
       {isCurrentWorkoutActive ? (
         <div className="space-y-6" id="active-session-view">
           {/* Live Session Top Control Bar */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#121216] border border-[#222228] relative overflow-hidden">
+          <div className="p-4 sm:p-5 rounded-2xl bg-card border border-border relative overflow-hidden shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-[#C8FF47]/20 border border-[#C8FF47]/40 text-[#C8FF47] flex items-center justify-center font-mono font-bold">
+                <div className="h-10 w-10 rounded-xl bg-primary/20 border border-primary/40 text-primary flex items-center justify-center font-mono font-bold">
                   <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C8FF47] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C8FF47]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
                   </span>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#C8FF47] font-black">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-primary font-black">
                       Active Training Session
                     </span>
                     <Badge variant="secondary" className="text-[10px] py-0 px-1.5 font-mono">
                       {workout.category}
                     </Badge>
                   </div>
-                  <h2 className="font-display text-lg font-bold text-white uppercase tracking-wide">
+                  <h2 className="font-display text-lg font-bold text-foreground uppercase tracking-wide">
                     {workout.title}
                   </h2>
                 </div>
@@ -211,23 +211,23 @@ export function WorkoutDetailPage() {
 
               {/* Session Counters */}
               <div className="flex items-center gap-4 font-mono text-xs">
-                <div className="bg-[#181820] px-3 py-1.5 rounded-xl border border-[#2A2A36]">
-                  <span className="text-[#71717A] text-[10px] uppercase block">Elapsed</span>
-                  <span className="font-bold text-white text-sm" id="session-elapsed-timer">
+                <div className="bg-muted px-3 py-1.5 rounded-xl border border-border">
+                  <span className="text-muted-foreground text-[10px] uppercase block">Elapsed</span>
+                  <span className="font-bold text-foreground text-sm" id="session-elapsed-timer">
                     {formattedElapsed}
                   </span>
                 </div>
 
-                <div className="bg-[#181820] px-3 py-1.5 rounded-xl border border-[#2A2A36]">
-                  <span className="text-[#71717A] text-[10px] uppercase block">Volume Lifted</span>
-                  <span className="font-bold text-[#C8FF47] text-sm" id="session-volume-display">
+                <div className="bg-muted px-3 py-1.5 rounded-xl border border-border">
+                  <span className="text-muted-foreground text-[10px] uppercase block">Volume Lifted</span>
+                  <span className="font-bold text-primary text-sm" id="session-volume-display">
                     {session.totalVolumeKg.toLocaleString()} kg
                   </span>
                 </div>
 
-                <div className="bg-[#181820] px-3 py-1.5 rounded-xl border border-[#2A2A36]">
-                  <span className="text-[#71717A] text-[10px] uppercase block">Progress</span>
-                  <span className="font-bold text-emerald-400 text-sm">
+                <div className="bg-muted px-3 py-1.5 rounded-xl border border-border">
+                  <span className="text-muted-foreground text-[10px] uppercase block">Progress</span>
+                  <span className="font-bold text-emerald-500 text-sm">
                     {overallProgressPercent}%
                   </span>
                 </div>
@@ -235,9 +235,9 @@ export function WorkoutDetailPage() {
             </div>
 
             {/* Overall Progress Line */}
-            <div className="w-full bg-[#1F1F28] h-1.5 rounded-full mt-4 overflow-hidden">
+            <div className="w-full bg-muted h-1.5 rounded-full mt-4 overflow-hidden">
               <div
-                className="h-full bg-[#C8FF47] transition-all duration-300 rounded-full"
+                className="h-full bg-primary transition-all duration-300 rounded-full"
                 style={{ width: `${overallProgressPercent}%` }}
               />
             </div>
@@ -282,18 +282,18 @@ export function WorkoutDetailPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowRoster(!showRoster)}
-                className="border-[#2A2A36] bg-[#121216] text-white hover:bg-[#1A1A22] text-xs flex items-center gap-1.5"
+                className="border-border bg-card text-foreground hover:bg-muted text-xs flex items-center gap-1.5"
               >
-                <Layers className="h-3.5 w-3.5 text-[#C8FF47]" />
+                <Layers className="h-3.5 w-3.5 text-primary" />
                 {showRoster ? "Hide Exercise Roster" : "View All Exercises in Routine"}
               </Button>
-              <span className="text-xs text-[#71717A] font-mono">
+              <span className="text-xs text-muted-foreground font-mono">
                 {completedSetsCount}/{totalSetsCount} Total Sets Completed
               </span>
             </div>
 
             {showRoster && (
-              <div className="p-4 rounded-2xl bg-[#121216] border border-[#222228] animate-in fade-in duration-200">
+              <div className="p-4 rounded-2xl bg-card border border-border animate-in fade-in duration-200">
                 <ExerciseList
                   exercises={exercises}
                   activeExerciseIndex={session.currentExerciseIndex}
@@ -328,34 +328,34 @@ export function WorkoutDetailPage() {
               <Badge variant="default">{workout.category}</Badge>
               <Badge variant="secondary">{workout.difficulty}</Badge>
               {workout.targetGoal && (
-                <Badge variant="outline" className="text-[#C8FF47] border-[#C8FF47]/30">
+                <Badge variant="outline" className="text-primary border-primary/30">
                   {workout.targetGoal}
                 </Badge>
               )}
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-black uppercase text-white tracking-wide">
+            <h1 className="font-display text-3xl sm:text-4xl font-black uppercase text-foreground tracking-wide">
               {workout.title}
             </h1>
-            <div className="flex items-center gap-5 text-xs font-semibold text-[#A1A1AA] mt-2 font-mono flex-wrap">
+            <div className="flex items-center gap-5 text-xs font-semibold text-muted-foreground mt-2 font-mono flex-wrap">
               <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4 text-[#C8FF47]" /> {workout.duration} mins
+                <Clock className="h-4 w-4 text-primary" /> {workout.duration} mins
               </span>
               <span className="flex items-center gap-1.5">
-                <Flame className="h-4 w-4 text-[#C8FF47]" /> {workout.calories} kcal
+                <Flame className="h-4 w-4 text-primary" /> {workout.calories} kcal
               </span>
               <span className="flex items-center gap-1.5">
-                <Dumbbell className="h-4 w-4 text-[#C8FF47]" /> {exercises.length} exercises
+                <Dumbbell className="h-4 w-4 text-primary" /> {exercises.length} exercises
               </span>
               {workout.equipment && (
-                <span className="flex items-center gap-1.5 text-[#71717A]">
-                  <ShieldCheck className="h-4 w-4 text-[#C8FF47]" /> {workout.equipment}
+                <span className="flex items-center gap-1.5 text-muted-foreground">
+                  <ShieldCheck className="h-4 w-4 text-primary" /> {workout.equipment}
                 </span>
               )}
             </div>
           </div>
 
           {/* Hero Banner with Big Play Button */}
-          <div className="relative aspect-video sm:aspect-[21/9] w-full rounded-3xl overflow-hidden bg-[#1A1A1F] border border-[#222228] group">
+          <div className="relative aspect-video sm:aspect-[21/9] w-full rounded-3xl overflow-hidden bg-muted border border-border group shadow-sm">
             <img
               src={workout.thumbnail}
               alt={workout.title}
@@ -364,7 +364,7 @@ export function WorkoutDetailPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 flex flex-col justify-end p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C8FF47] font-bold block mb-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-primary font-bold block mb-1">
                     Ready to Train?
                   </span>
                   <h3 className="font-display text-xl sm:text-2xl font-bold uppercase text-white">
@@ -376,7 +376,7 @@ export function WorkoutDetailPage() {
                   id="start-workout-hero-btn"
                   size="lg"
                   onClick={handleStartSession}
-                  className="rounded-2xl px-6 py-6 bg-[#C8FF47] text-black font-black uppercase tracking-wider text-sm shadow-[0_0_25px_rgba(200,255,71,0.4)] hover:bg-[#b5f030] hover:scale-105 transition-all flex items-center gap-2 self-start sm:self-auto"
+                  className="rounded-2xl px-6 py-6 bg-primary text-primary-foreground font-black uppercase tracking-wider text-sm shadow-[0_0_25px_rgba(200,255,71,0.4)] hover:opacity-95 hover:scale-105 transition-all flex items-center gap-2 self-start sm:self-auto"
                 >
                   <Play className="h-5 w-5 fill-current" /> Start Workout
                 </Button>
@@ -385,31 +385,31 @@ export function WorkoutDetailPage() {
           </div>
 
           {/* Workout Description Card */}
-          <Card className="p-5 sm:p-6 border-[#222228] bg-[#121216]">
-            <h3 className="font-display text-base font-bold uppercase text-white mb-2 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-[#C8FF47]" /> Workout Architecture & Focus
+          <Card className="p-5 sm:p-6 border-border bg-card">
+            <h3 className="font-display text-base font-bold uppercase text-foreground mb-2 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" /> Workout Architecture & Focus
             </h3>
-            <p className="text-xs text-[#A1A1AA] leading-relaxed">
+            <p className="text-xs text-muted-foreground leading-relaxed">
               {workout.description ||
                 "Engineered compound movements combined with accessory isolation to trigger progressive muscular overload and optimal metabolic stimulus."}
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-[#222228] text-xs font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-border text-xs font-mono">
               <div>
-                <span className="text-[#71717A] text-[10px] uppercase block">Target Muscle</span>
-                <span className="text-white font-bold capitalize">{workout.bodyPart || "Full Body"}</span>
+                <span className="text-muted-foreground text-[10px] uppercase block">Target Muscle</span>
+                <span className="text-foreground font-bold capitalize">{workout.bodyPart || "Full Body"}</span>
               </div>
               <div>
-                <span className="text-[#71717A] text-[10px] uppercase block">Equipment</span>
-                <span className="text-white font-bold capitalize">{workout.equipment || "Bodyweight"}</span>
+                <span className="text-muted-foreground text-[10px] uppercase block">Equipment</span>
+                <span className="text-foreground font-bold capitalize">{workout.equipment || "Bodyweight"}</span>
               </div>
               <div>
-                <span className="text-[#71717A] text-[10px] uppercase block">Rest Interval</span>
-                <span className="text-[#C8FF47] font-bold">45-90s</span>
+                <span className="text-muted-foreground text-[10px] uppercase block">Rest Interval</span>
+                <span className="text-primary font-bold">45-90s</span>
               </div>
               <div>
-                <span className="text-[#71717A] text-[10px] uppercase block">Pacing</span>
-                <span className="text-white font-bold">Progressive</span>
+                <span className="text-muted-foreground text-[10px] uppercase block">Pacing</span>
+                <span className="text-foreground font-bold">Progressive</span>
               </div>
             </div>
           </Card>
@@ -418,10 +418,10 @@ export function WorkoutDetailPage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="font-display text-xl font-bold uppercase text-white">
+                <h2 className="font-display text-xl font-bold uppercase text-foreground">
                   Exercise Breakdown ({exercises.length})
                 </h2>
-                <p className="text-xs text-[#71717A]">
+                <p className="text-xs text-muted-foreground">
                   Review sets, target reps, and rest intervals before lifting.
                 </p>
               </div>
@@ -429,7 +429,7 @@ export function WorkoutDetailPage() {
               <Button
                 id="start-workout-bottom-btn"
                 onClick={handleStartSession}
-                className="bg-[#C8FF47] text-black font-black uppercase text-xs hover:bg-[#b5f030] shadow-[0_0_15px_rgba(200,255,71,0.25)] flex items-center gap-1.5"
+                className="bg-primary text-primary-foreground font-black uppercase text-xs hover:opacity-95 shadow-[0_0_15px_rgba(200,255,71,0.25)] flex items-center gap-1.5"
               >
                 <Play className="h-3.5 w-3.5 fill-current" /> Start Routine
               </Button>

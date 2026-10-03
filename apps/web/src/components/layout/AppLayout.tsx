@@ -32,7 +32,7 @@ export const AppLayout: React.FC = () => {
   }, [theme]);
 
   return (
-    <div className="min-h-screen bg-[#08080A] text-[#F2F2F5] flex font-sans selection:bg-[#C8FF47] selection:text-[#08080A]">
+    <div className="min-h-screen bg-background text-foreground flex font-sans selection:bg-primary selection:text-primary-foreground transition-colors duration-200">
       {/* Desktop Sidebar (visible on md:) */}
       <DesktopSidebar />
 

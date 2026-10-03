@@ -46,12 +46,12 @@ export function DashboardPage() {
             variant="outline"
             onClick={() => dispatch(fetchDashboardStats(user?.id || "demo-user-1"))}
             disabled={loading}
-            className="gap-1.5 text-xs font-semibold border-[#222228] hover:bg-[#18181D]"
+            className="gap-1.5 text-xs font-semibold border-border hover:bg-muted"
             title="Refresh statistics from MongoDB Atlas"
           >
             <RefreshCw
               className={`h-3.5 w-3.5 ${
-                loading ? "animate-spin text-[#C8FF47]" : "text-[#71717A]"
+                loading ? "animate-spin text-primary" : "text-muted-foreground"
               }`}
             />
             {loading ? "Syncing..." : "Sync Stats"}
@@ -69,21 +69,21 @@ export function DashboardPage() {
       }
     >
       {/* Live Database Sync Indicator */}
-      <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111116] border border-[#222228] mb-4">
+      <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-card border border-border mb-4">
         <div className="flex items-center gap-2">
           <div className="relative flex h-2 w-2">
             <span
               className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                isLiveSynced ? "bg-[#10B981]" : "bg-amber-400"
+                isLiveSynced ? "bg-emerald-500" : "bg-amber-400"
               }`}
             />
             <span
               className={`relative inline-flex rounded-full h-2 w-2 ${
-                isLiveSynced ? "bg-[#10B981]" : "bg-amber-500"
+                isLiveSynced ? "bg-emerald-500" : "bg-amber-500"
               }`}
             />
           </div>
-          <span className="text-xs font-medium text-[#A1A1AA]">
+          <span className="text-xs font-medium text-muted-foreground">
             {isLiveSynced
               ? "Live Activity Metrics • MongoDB Atlas Synchronized"
               : "Connecting to Metrics Database..."}
@@ -91,7 +91,7 @@ export function DashboardPage() {
         </div>
         <Badge
           variant="outline"
-          className="text-[10px] font-mono border-[#27272A] text-[#10B981] bg-[#10B981]/10 gap-1 py-0.5"
+          className="text-[10px] font-mono border-emerald-500/30 text-emerald-500 bg-emerald-500/10 gap-1 py-0.5"
         >
           <Database className="h-3 w-3" />
           {isLiveSynced ? "MongoDB Live" : "Buffering"}
@@ -151,26 +151,26 @@ export function DashboardPage() {
           <GoalProgressWidget />
 
           {/* AI Coach Quick Tip Card */}
-          <Card className="border border-[#222228] bg-gradient-to-br from-[#111115] to-[#14141A] p-5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C8FF47]/5 rounded-full blur-2xl pointer-events-none" />
+          <Card className="border border-border bg-card p-5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
             <div className="flex items-start gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#C8FF47]/10 text-[#C8FF47] shadow-[0_0_10px_rgba(200,255,71,0.2)]">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary shadow-[0_0_10px_rgba(200,255,71,0.2)]">
                 <Bot className="h-5 w-5" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#C8FF47]">
+                  <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-primary">
                     AI Coach Adaptive Insight
                   </span>
-                  <Sparkles className="h-3 w-3 text-[#C8FF47]" />
+                  <Sparkles className="h-3 w-3 text-primary" />
                 </div>
-                <p className="text-xs text-[#A1A1AA] leading-relaxed">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   Your upper-body volume frequency is in the sweet spot. You hit your target volume on Chest & Back yesterday. Keep recovery optimal today.
                 </p>
                 <div className="mt-3">
                   <Link
                     to={ROUTES.COACH}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#C8FF47] hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
                   >
                     Open AI Training Chat <ArrowRight className="h-3.5 w-3.5" />
                   </Link>

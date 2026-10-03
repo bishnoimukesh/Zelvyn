@@ -21,18 +21,18 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="rounded-lg border border-[#222228] bg-[#111115] p-3 shadow-xl backdrop-blur-md">
-        <p className="text-xs font-mono font-bold uppercase text-white">
+      <div className="rounded-lg border border-border bg-card p-3 shadow-xl backdrop-blur-md">
+        <p className="text-xs font-mono font-bold uppercase text-foreground">
           {data.day}
         </p>
         <div className="mt-1 flex items-center gap-2 text-xs">
-          <Flame className="h-3.5 w-3.5 text-[#C8FF47]" />
-          <span className="font-display font-black text-[#C8FF47]">
+          <Flame className="h-3.5 w-3.5 text-primary" />
+          <span className="font-display font-black text-primary">
             {data.calories} kcal
           </span>
-          <span className="text-[#71717A] font-mono">• {data.duration}m active</span>
+          <span className="text-muted-foreground font-mono">• {data.duration}m active</span>
         </div>
-        <p className="mt-1 text-[10px] text-[#A1A1AA]">
+        <p className="mt-1 text-[10px] text-muted-foreground">
           {data.completed ? "✓ Workout Completed" : "Rest / Recovery"}
         </p>
       </div>
@@ -46,32 +46,32 @@ export const WeeklyActivityChart: React.FC = () => {
   const totalWeeklyCalories = weeklyData.reduce((acc, curr) => acc + curr.calories, 0);
 
   return (
-    <Card className="border border-[#222228] bg-[#111115] p-5">
+    <Card className="border border-border bg-card p-5">
       {/* Header */}
       <CardHeader className="p-0 pb-4 flex flex-row items-start justify-between">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#71717A]">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground">
             Activity Volume
           </span>
-          <CardTitle className="font-display text-xl sm:text-2xl font-black uppercase text-white mt-0.5">
+          <CardTitle className="font-display text-xl sm:text-2xl font-black uppercase text-foreground mt-0.5">
             Weekly Activity Breakdown
           </CardTitle>
-          <p className="text-xs text-[#71717A] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Total active burn:{" "}
-            <span className="font-mono font-bold text-[#C8FF47]">
+            <span className="font-mono font-bold text-primary">
               {totalWeeklyCalories.toLocaleString()} kcal
             </span>
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-3 text-[11px] font-mono text-[#71717A]">
+        <div className="flex items-center gap-3 text-[11px] font-mono text-muted-foreground">
           <div className="flex items-center gap-1">
-            <span className="h-2.5 w-2.5 rounded-sm bg-[#C8FF47]" />
+            <span className="h-2.5 w-2.5 rounded-sm bg-primary" />
             <span>Today</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="h-2.5 w-2.5 rounded-sm bg-[#222228]" />
+            <span className="h-2.5 w-2.5 rounded-sm bg-muted" />
             <span>Past / Rest</span>
           </div>
         </div>
@@ -83,29 +83,31 @@ export const WeeklyActivityChart: React.FC = () => {
           <BarChart data={weeklyData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
             <XAxis
               dataKey="day"
-              stroke="#71717A"
+              stroke="currentColor"
+              className="text-muted-foreground"
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }}
             />
             <YAxis
-              stroke="#71717A"
+              stroke="currentColor"
+              className="text-muted-foreground"
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 10, fontFamily: "JetBrains Mono" }}
               domain={[0, 800]}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255, 255, 255, 0.03)" }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(128, 128, 128, 0.08)" }} />
             <Bar dataKey="calories" radius={[6, 6, 2, 2]}>
               {weeklyData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={
                     entry.isToday
-                      ? "#C8FF47"
+                      ? "var(--primary)"
                       : entry.completed
-                      ? "#3F3F46"
-                      : "#222228"
+                      ? "var(--muted-foreground)"
+                      : "var(--border)"
                   }
                   className="transition-colors hover:opacity-80"
                 />
@@ -116,12 +118,12 @@ export const WeeklyActivityChart: React.FC = () => {
       </div>
 
       {/* Weekly summary footer badges */}
-      <div className="mt-3 flex items-center justify-between border-t border-[#222228] pt-3 text-xs font-mono text-[#A1A1AA]">
+      <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-xs font-mono text-muted-foreground">
         <div className="flex items-center gap-1.5">
-          <CheckCircle2 className="h-4 w-4 text-[#C8FF47]" />
+          <CheckCircle2 className="h-4 w-4 text-primary" />
           <span>5 of 7 Days Active</span>
         </div>
-        <span className="text-[11px] text-[#71717A]">Target: 5 days/wk</span>
+        <span className="text-[11px] text-muted-foreground">Target: 5 days/wk</span>
       </div>
     </Card>
   );

@@ -70,7 +70,7 @@ export function HealthPage() {
       description="Biometrics & wellness tracking"
       badge="Apple Health Synced"
       action={
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#C8FF47]/10 text-[#C8FF47] border border-[#C8FF47]/20 text-xs font-bold">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-bold">
           <Watch className="h-3.5 w-3.5" />
           <span>Connected</span>
         </div>
@@ -81,7 +81,7 @@ export function HealthPage() {
         {HEALTH_METRICS.map((metric) => (
           <div
             key={metric.id}
-            className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-5 flex items-center gap-5 shadow-lg"
+            className="rounded-2xl border border-border bg-card p-5 flex items-center gap-5 shadow-sm"
           >
             {/* Ring */}
             <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
@@ -90,7 +90,7 @@ export function HealthPage() {
                   cx="50"
                   cy="50"
                   r="38"
-                  className="stroke-[#1C1C22]"
+                  className="stroke-muted"
                   strokeWidth="8"
                   fill="transparent"
                 />
@@ -106,16 +106,16 @@ export function HealthPage() {
                   fill="transparent"
                 />
               </svg>
-              <span className="absolute font-display text-sm font-black text-white">
+              <span className="absolute font-display text-sm font-black text-foreground">
                 {metric.value}
               </span>
             </div>
 
             <div>
-              <div className="text-xs font-semibold text-[#71717A]">
+              <div className="text-xs font-semibold text-muted-foreground">
                 {metric.label}
               </div>
-              <div className="font-display text-lg font-black text-white mt-0.5">
+              <div className="font-display text-lg font-black text-foreground mt-0.5">
                 {metric.subValue}
               </div>
             </div>
@@ -124,17 +124,17 @@ export function HealthPage() {
       </div>
 
       {/* HEART RATE TODAY LINE CHART */}
-      <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 shadow-lg space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <h3 className="font-display text-base font-black uppercase text-white tracking-wider">
+          <h3 className="font-display text-base font-black uppercase text-foreground tracking-wider">
             Heart Rate Today
           </h3>
 
           <div className="flex items-center gap-2">
-            <span className="rounded-md bg-[#34D399]/15 text-[#34D399] border border-[#34D399]/30 px-2 py-0.5 text-xs font-bold font-mono">
+            <span className="rounded-md bg-emerald-500/15 text-emerald-500 border border-emerald-500/30 px-2 py-0.5 text-xs font-bold font-mono">
               62 resting
             </span>
-            <span className="rounded-md bg-[#FF453A]/15 text-[#FF453A] border border-[#FF453A]/30 px-2 py-0.5 text-xs font-bold font-mono">
+            <span className="rounded-md bg-rose-500/15 text-rose-500 border border-rose-500/30 px-2 py-0.5 text-xs font-bold font-mono">
               148 max
             </span>
           </div>
@@ -155,7 +155,7 @@ export function HealthPage() {
                 y1={y}
                 x2="700"
                 y2={y}
-                stroke="#1A1A22"
+                className="stroke-border"
                 strokeDasharray="4 4"
                 strokeWidth="1"
               />
@@ -164,8 +164,8 @@ export function HealthPage() {
             {/* Gradient definition */}
             <defs>
               <linearGradient id="hrGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#FF453A" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#FF453A" stopOpacity="0.0" />
+                <stop offset="0%" stopColor="#ef4444" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#ef4444" stopOpacity="0.0" />
               </linearGradient>
             </defs>
 
@@ -179,14 +179,14 @@ export function HealthPage() {
             <path
               d="M 0 100 Q 80 90, 150 92 T 250 95 T 350 110 T 450 115 T 520 70 T 580 90 T 640 120 T 700 110"
               fill="none"
-              stroke="#FF453A"
+              stroke="#ef4444"
               strokeWidth="2.5"
               strokeLinecap="round"
             />
           </svg>
 
           {/* Time Labels */}
-          <div className="flex justify-between text-[11px] font-mono text-[#71717A] mt-2 pt-2 border-t border-[#1C1C24]">
+          <div className="flex justify-between text-[11px] font-mono text-muted-foreground mt-2 pt-2 border-t border-border">
             <span>0:00</span>
             <span>4:00</span>
             <span>8:00</span>
@@ -198,45 +198,45 @@ export function HealthPage() {
       </div>
 
       {/* VO2 MAX ESTIMATE GAUGE */}
-      <div className="rounded-2xl border border-[#1E1E24] bg-[#111114] p-6 shadow-lg space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <h3 className="font-display text-base font-black uppercase text-white tracking-wider">
+          <h3 className="font-display text-base font-black uppercase text-foreground tracking-wider">
             VO2 Max Estimate
           </h3>
-          <span className="text-xs text-[#71717A]">For age 28, male</span>
+          <span className="text-xs text-muted-foreground">For age 28, male</span>
         </div>
 
         <div className="flex items-baseline gap-3">
-          <span className="font-display text-4xl font-black text-[#C8FF47]">
+          <span className="font-display text-4xl font-black text-primary">
             42
           </span>
-          <span className="text-xs text-[#71717A] font-mono">ml/kg/min</span>
-          <span className="rounded-md bg-[#C8FF47]/15 text-[#C8FF47] border border-[#C8FF47]/30 px-2 py-0.5 text-xs font-bold">
+          <span className="text-xs text-muted-foreground font-mono">ml/kg/min</span>
+          <span className="rounded-md bg-primary/15 text-primary border border-primary/30 px-2 py-0.5 text-xs font-bold">
             Good
           </span>
         </div>
 
         {/* Multi-segment Gauge */}
         <div className="space-y-1.5 pt-1">
-          <div className="grid grid-cols-4 gap-1 h-3 rounded-full overflow-hidden bg-[#181820]">
-            <div className="bg-[#EF4444]/60 rounded-l-full" title="Poor" />
-            <div className="bg-[#F59E0B]/60" title="Fair" />
+          <div className="grid grid-cols-4 gap-1 h-3 rounded-full overflow-hidden bg-muted">
+            <div className="bg-rose-500/60 rounded-l-full" title="Poor" />
+            <div className="bg-amber-500/60" title="Fair" />
             <div
-              className="bg-[#C8FF47] relative shadow-[0_0_10px_rgba(200,255,71,0.5)]"
+              className="bg-primary relative shadow-sm"
               title="Good"
             />
-            <div className="bg-[#10B981]/50 rounded-r-full" title="Excellent" />
+            <div className="bg-emerald-500/60 rounded-r-full" title="Excellent" />
           </div>
 
-          <div className="flex justify-between text-[10px] font-mono text-[#71717A]">
+          <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
             <span>Poor</span>
             <span>Fair</span>
-            <span className="text-[#C8FF47] font-bold">Good</span>
+            <span className="text-primary font-bold">Good</span>
             <span>Excellent</span>
           </div>
         </div>
 
-        <p className="text-[11px] text-[#52525B] italic">
+        <p className="text-[11px] text-muted-foreground italic">
           * This is an estimate based on activity inputs. Not a clinical measurement.
         </p>
       </div>

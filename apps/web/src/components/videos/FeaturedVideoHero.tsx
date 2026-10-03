@@ -12,7 +12,7 @@ export function FeaturedVideoHero({ video, onPlay }: FeaturedVideoHeroProps) {
   return (
     <div
       id="featured-video-hero"
-      className="relative w-full rounded-3xl overflow-hidden border border-[#222228] bg-[#121216] aspect-[16/9] sm:aspect-[21/9] group"
+      className="relative w-full rounded-3xl overflow-hidden border border-border bg-card aspect-[16/9] sm:aspect-[21/9] group"
     >
       {/* Background Media */}
       <img
@@ -26,21 +26,21 @@ export function FeaturedVideoHero({ video, onPlay }: FeaturedVideoHeroProps) {
         {/* Top Badges */}
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C8FF47] text-black font-black text-[11px] uppercase tracking-wider shadow-[0_0_15px_rgba(200,255,71,0.4)]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-primary-foreground font-black text-[11px] uppercase tracking-wider shadow-sm">
               <Sparkles className="h-3.5 w-3.5 fill-current" /> Studio Spotlight
             </span>
             <Badge variant="secondary" className="text-xs uppercase font-mono">
               {video.category}
             </Badge>
-            <Badge variant="outline" className="text-white border-[#333342] text-xs uppercase font-mono">
+            <Badge variant="outline" className="text-white border-white/20 text-xs uppercase font-mono">
               {video.difficulty}
             </Badge>
           </div>
 
-          <div className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-[#2A2A36] text-xs font-mono text-white">
+          <div className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono text-white">
             <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
             <span className="font-bold">{video.rating}</span>
-            <span className="text-[#71717A]">({video.viewsCount} views)</span>
+            <span className="text-white/60">({video.viewsCount} views)</span>
           </div>
         </div>
 
@@ -52,13 +52,13 @@ export function FeaturedVideoHero({ video, onPlay }: FeaturedVideoHeroProps) {
               <img
                 src={video.trainer.avatar}
                 alt={video.trainer.name}
-                className="h-9 w-9 rounded-full object-cover border-2 border-[#C8FF47]"
+                className="h-9 w-9 rounded-full object-cover border-2 border-primary"
               />
               <div>
                 <span className="text-xs font-bold text-white block">
                   Coach {video.trainer.name}
                 </span>
-                <span className="text-[10px] text-[#A1A1AA]">
+                <span className="text-[10px] text-white/70">
                   {video.trainer.role}
                 </span>
               </div>
@@ -69,15 +69,15 @@ export function FeaturedVideoHero({ video, onPlay }: FeaturedVideoHeroProps) {
             </h2>
 
             {/* Quick Metrics */}
-            <div className="flex items-center gap-4 text-xs font-mono text-[#A1A1AA] flex-wrap">
+            <div className="flex items-center gap-4 text-xs font-mono text-white/80 flex-wrap">
               <span className="flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5 text-[#C8FF47]" /> {video.duration} mins
+                <Clock className="h-3.5 w-3.5 text-primary" /> {video.duration} mins
               </span>
               <span className="flex items-center gap-1">
-                <Flame className="h-3.5 w-3.5 text-[#C8FF47]" /> {video.calories} kcal
+                <Flame className="h-3.5 w-3.5 text-primary" /> {video.calories} kcal
               </span>
               <span className="flex items-center gap-1">
-                <Dumbbell className="h-3.5 w-3.5 text-[#C8FF47]" /> {video.equipment}
+                <Dumbbell className="h-3.5 w-3.5 text-primary" /> {video.equipment}
               </span>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function FeaturedVideoHero({ video, onPlay }: FeaturedVideoHeroProps) {
             id="featured-play-btn"
             size="lg"
             onClick={() => onPlay(video)}
-            className="rounded-2xl px-6 py-6 bg-[#C8FF47] text-black font-black uppercase tracking-wider text-sm shadow-[0_0_25px_rgba(200,255,71,0.4)] hover:bg-[#b5f030] hover:scale-105 transition-all flex items-center gap-2 self-start sm:self-auto flex-shrink-0"
+            className="rounded-2xl px-6 py-6 bg-primary text-primary-foreground font-black uppercase tracking-wider text-sm shadow-lg hover:bg-primary/90 hover:scale-105 transition-all flex items-center gap-2 self-start sm:self-auto flex-shrink-0"
           >
             <Play className="h-5 w-5 fill-current" /> Start Guided Routine
           </Button>

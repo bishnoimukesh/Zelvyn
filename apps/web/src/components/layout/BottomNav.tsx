@@ -31,7 +31,7 @@ export const BottomNav: React.FC = () => {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#222228] bg-[#08080A]/95 backdrop-blur-md md:hidden transition-colors pb-[env(safe-area-inset-bottom,0px)]"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-md md:hidden transition-colors pb-[env(safe-area-inset-bottom,0px)]"
     >
       <div className="flex h-16 items-center justify-around px-2">
         {NAV_ITEMS.map((item) => {
@@ -47,20 +47,20 @@ export const BottomNav: React.FC = () => {
               className={cn(
                 "relative flex flex-col items-center justify-center py-1 px-3 transition-all duration-150 active:scale-90",
                 isActive
-                  ? "text-[#C8FF47]"
-                  : "text-[#71717A] hover:text-[#F2F2F5]"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {/* Active top glow indicator dot */}
               {isActive && (
-                <span className="absolute -top-1 h-1 w-6 rounded-full bg-[#C8FF47] shadow-[0_0_8px_rgba(200,255,71,0.8)]" />
+                <span className="absolute -top-1 h-1 w-6 rounded-full bg-primary shadow-[0_0_8px_rgba(200,255,71,0.8)]" />
               )}
 
               <div
                 className={cn(
                   "relative flex items-center justify-center rounded-lg p-1 transition-all",
-                  item.isSpecial && !isActive && "text-[#A1A1AA]",
-                  item.isSpecial && isActive && "bg-[#C8FF47]/10"
+                  item.isSpecial && !isActive && "text-muted-foreground",
+                  item.isSpecial && isActive && "bg-primary/10"
                 )}
               >
                 <Icon
@@ -74,7 +74,7 @@ export const BottomNav: React.FC = () => {
               <span
                 className={cn(
                   "mt-0.5 text-[10px] uppercase tracking-wider transition-colors",
-                  isActive ? "font-bold text-[#C8FF47]" : "font-semibold text-[#71717A]"
+                  isActive ? "font-bold text-primary" : "font-semibold text-muted-foreground"
                 )}
               >
                 {item.label}
