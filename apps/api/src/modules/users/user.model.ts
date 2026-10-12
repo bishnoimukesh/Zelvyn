@@ -4,6 +4,7 @@ export interface IUser extends Document {
   customId?: string;
   name: string;
   email: string;
+  password?: string;
   avatarUrl?: string;
   fitnessLevel: "beginner" | "intermediate" | "advanced";
   height?: number; // in cm
@@ -36,6 +37,10 @@ const UserSchema = new Schema<IUser>(
       unique: true,
       lowercase: true,
       trim: true,
+    },
+    password: {
+      type: String,
+      select: false,
     },
     avatarUrl: {
       type: String,
@@ -91,6 +96,7 @@ const UserSchema = new Schema<IUser>(
       virtuals: true,
       transform: (_doc, ret: Record<string, any>) => {
         ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.password;
         delete ret.__v;
         return ret;
       },
@@ -99,6 +105,7 @@ const UserSchema = new Schema<IUser>(
       virtuals: true,
       transform: (_doc, ret: Record<string, any>) => {
         ret.id = ret.customId || ret._id?.toString() || ret.id;
+        delete ret.password;
         delete ret.__v;
         return ret;
       },

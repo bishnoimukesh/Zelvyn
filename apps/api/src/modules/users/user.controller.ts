@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
+import bcryptjs from "bcryptjs";
 import { User } from "./user.model.js";
 import { isDbConnected } from "../../database/db.js";
 import { sendResponse } from "../../common/apiResponse.js";
@@ -33,10 +34,20 @@ async function ensureUserSeeded() {
   try {
     const existing = await User.findOne({
       $or: [{ customId: "demo-user-1" }, { email: "alex@fitsync.ai" }],
-    });
+    }).select("+password");
+
+    const defaultHashedPassword = await bcryptjs.hash("password123", 10);
+
     if (!existing) {
-      await User.create(defaultDemoUser);
-      console.log("[Users] Seeded initial demo user into MongoDB.");
+      await User.create({
+        ...defaultDemoUser,
+        password: defaultHashedPassword,
+      });
+      console.log("[Users] Seeded initial demo user into MongoDB with credentials.");
+    } else if (!existing.password) {
+      existing.password = defaultHashedPassword;
+      await existing.save();
+      console.log("[Users] Updated existing demo user with password.");
     }
     userSeeded = true;
   } catch (err) {

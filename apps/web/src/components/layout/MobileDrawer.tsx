@@ -18,10 +18,13 @@ import {
   User,
   Settings,
   LogOut,
+  LogIn,
   Zap,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { setMobileDrawerOpen } from "@/features/ui/uiSlice";
+import { logout } from "@/features/auth/authSlice";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 
@@ -51,9 +54,11 @@ const DRAWER_ITEMS: DrawerItem[] = [
 
 export const MobileDrawer: React.FC = () => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.ui.mobileDrawerOpen);
+  const navigate = useNavigate();
   const location = useLocation();
+  const isOpen = useAppSelector((state) => state.ui.mobileDrawerOpen);
   const user = useAppSelector((state) => state.user.profile);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { level, currentXp, nextLevelXp } = useAppSelector((state) => state.achievements);
   const streakCount = useAppSelector((state) => state.progress.streak?.current) ?? 12;
 
@@ -61,6 +66,12 @@ export const MobileDrawer: React.FC = () => {
   const xpInLevel = Math.max(0, currentXp - prevLevelBase);
   const xpNeeded = Math.max(1, nextLevelXp - prevLevelBase);
   const xpPercent = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
+
+  const handleSignOut = () => {
+    dispatch(setMobileDrawerOpen(false));
+    dispatch(logout());
+    navigate(ROUTES.LOGIN);
+  };
 
   // Close drawer on route change
   useEffect(() => {
@@ -170,18 +181,27 @@ export const MobileDrawer: React.FC = () => {
           </nav>
         </div>
 
-        {/* Sign Out */}
+        {/* Sign Out / Sign In */}
         <div className="pt-3 border-t border-border">
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href = "/";
-            }}
-            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-          >
-            <LogOut className="h-4 w-4 shrink-0" />
-            <span>Sign Out</span>
-          </button>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+            >
+              <LogOut className="h-4 w-4 shrink-0" />
+              <span>Sign Out</span>
+            </button>
+          ) : (
+            <Link
+              to={ROUTES.LOGIN}
+              onClick={() => dispatch(setMobileDrawerOpen(false))}
+              className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/10"
+            >
+              <LogIn className="h-4 w-4 shrink-0 text-primary" />
+              <span>Sign In / Register</span>
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -150,6 +150,19 @@ export const userSlice = createSlice({
         }
       }
     });
+
+    // Sync on Auth Login or Signup
+    builder.addMatcher(
+      (action) =>
+        action.type === "auth/loginAsync/fulfilled" ||
+        action.type === "auth/signupAsync/fulfilled",
+      (state, action: any) => {
+        if (action.payload?.user) {
+          state.profile = action.payload.user;
+          state.isLiveSynced = true;
+        }
+      }
+    );
   },
 });
 

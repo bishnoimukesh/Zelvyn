@@ -9,6 +9,9 @@ try {
   // Ignore if network permission is restricted
 }
 
+// Disable query buffering so operations fail fast and fallback gracefully when offline
+mongoose.set("bufferCommands", false);
+
 export const connectDB = async (): Promise<boolean> => {
   if (mongoose.connection.readyState >= 1) {
     return true;

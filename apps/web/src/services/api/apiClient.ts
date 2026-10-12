@@ -28,11 +28,17 @@ async function request<T>(
 ): Promise<T> {
   const url = `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
-  const headers: HeadersInit = {
+  const token = typeof window !== "undefined" ? localStorage.getItem("fitsync-token") : null;
+
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
     Accept: "application/json",
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
+
+  if (token && !headers["Authorization"]) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   try {
     const res = await fetch(url, {

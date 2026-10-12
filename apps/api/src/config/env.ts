@@ -7,4 +7,6 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || "development",
   mongoUri: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/fitsync",
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+  jwtSecret: process.env.JWT_SECRET || "fitsync_jwt_super_secret_key_2026",
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
 } as const;

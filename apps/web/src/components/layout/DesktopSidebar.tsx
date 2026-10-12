@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutGrid,
   Dumbbell,
@@ -17,10 +17,13 @@ import {
   User,
   Settings,
   LogOut,
+  LogIn,
   Zap,
 } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { logout } from "@/features/auth/authSlice";
 
 interface NavItem {
   label: string;
@@ -49,11 +52,13 @@ const BOTTOM_NAV_ITEMS: NavItem[] = [
   { label: "Settings", href: ROUTES.SETTINGS, icon: Settings },
 ];
 
-import { useAppSelector } from "@/app/hooks";
-
 export const DesktopSidebar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const user = useAppSelector((state) => state.user.profile);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { level, currentXp, nextLevelXp } = useAppSelector((state) => state.achievements);
   const streakCount = useAppSelector((state) => state.progress.streak?.current) ?? 12;
 
@@ -61,6 +66,11 @@ export const DesktopSidebar: React.FC = () => {
   const xpInLevel = Math.max(0, currentXp - prevLevelBase);
   const xpNeeded = Math.max(1, nextLevelXp - prevLevelBase);
   const xpPercent = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
+
+  const handleSignOut = () => {
+    dispatch(logout());
+    navigate(ROUTES.LOGIN);
+  };
 
   return (
     <aside
@@ -193,16 +203,24 @@ export const DesktopSidebar: React.FC = () => {
           );
         })}
 
-        <button
-          type="button"
-          onClick={() => {
-            window.location.href = "/";
-          }}
-          className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-all text-left"
-        >
-          <LogOut className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-destructive" />
-          <span>Sign Out</span>
-        </button>
+        {isAuthenticated ? (
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-all text-left"
+          >
+            <LogOut className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-destructive" />
+            <span>Sign Out</span>
+          </button>
+        ) : (
+          <Link
+            to={ROUTES.LOGIN}
+            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-medium text-primary hover:bg-primary/10 transition-all text-left"
+          >
+            <LogIn className="h-4 w-4 shrink-0 text-primary" />
+            <span>Sign In / Register</span>
+          </Link>
+        )}
       </div>
     </aside>
   );

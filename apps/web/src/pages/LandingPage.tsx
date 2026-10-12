@@ -17,11 +17,18 @@ export function LandingPage() {
           </span>
         </div>
 
-        <Link to={ROUTES.DASHBOARD}>
-          <Button size="sm" variant="default">
-            Launch App
-          </Button>
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link to={ROUTES.LOGIN}>
+            <Button size="sm" variant="ghost" className="font-bold text-xs">
+              Sign In
+            </Button>
+          </Link>
+          <Link to={ROUTES.SIGNUP}>
+            <Button size="sm" variant="default" className="font-bold text-xs">
+              Get Started
+            </Button>
+          </Link>
+        </div>
       </header>
 
       {/* Hero */}
@@ -41,14 +48,19 @@ export function LandingPage() {
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          <Link to={ROUTES.DASHBOARD} className="w-full sm:w-auto">
-            <Button size="lg" className="w-full sm:w-auto text-base gap-2">
-              Enter Dashboard <ArrowRight className="h-4 w-4" />
+          <Link to={ROUTES.SIGNUP} className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto text-base gap-2 font-bold shadow-lg shadow-primary/25">
+              Get Started Free <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-          <Link to={ROUTES.WORKOUTS} className="w-full sm:w-auto">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto text-base">
-              Browse Workouts
+          <Link to={ROUTES.LOGIN} className="w-full sm:w-auto">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-bold">
+              Sign In
+            </Button>
+          </Link>
+          <Link to={ROUTES.DASHBOARD} className="w-full sm:w-auto">
+            <Button variant="ghost" size="lg" className="w-full sm:w-auto text-base text-muted-foreground hover:text-foreground">
+              Explore as Guest
             </Button>
           </Link>
         </div>

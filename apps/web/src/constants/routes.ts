@@ -17,4 +17,6 @@ export const ROUTES = {
   SOCIAL: "/social",
   PROFILE: "/profile",
   SETTINGS: "/settings",
+  LOGIN: "/login",
+  SIGNUP: "/signup",
 } as const;
